@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JLPT N1 独学ノート</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Shippori+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1c1a14;
+  --paper: #f4efe4;
+  --washi: #e8e0d0;
+  --red: #9b2335;
+  --gold: #a07820;
+  --blue: #1e3a5f;
+  --muted: #7a7060;
+  --border: #cdc5b0;
+  --correct: #2e6b3e;
+  --wrong: #9b2335;
+  --shadow: 0 2px 20px rgba(28,26,20,0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', 'Noto Serif JP', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M0 40h80M40 0v80' stroke='%23cdc5b0' stroke-width='0.35' opacity='0.35'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+
+.accent-bar {
+  height: 5px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--gold) 50%, var(--blue) 100%);
+  position: fixed; top:0; left:0; right:0; z-index:200;
+}
+
+.wrap {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 60px 20px 80px;
+  position: relative; z-index: 1;
+}
+
+/* ── 헤더 ── */
+header { text-align: center; margin-bottom: 48px; animation: fadeUp 0.6s ease; }
+.header-tag {
+  display: inline-block;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 11px; letter-spacing: 5px;
+  color: var(--red); border: 1px solid var(--red);
+  padding: 3px 14px; margin-bottom: 14px;
+  text-transform: uppercase;
+}
+header h1 {
+  font-family: 'Shippori Mincho', serif;
+  font-size: clamp(26px,5vw,40px);
+  font-weight: 700; letter-spacing: 3px;
+  line-height: 1.25;
+}
+header p {
+  font-size: 12px; color: var(--muted);
+  margin-top: 8px; letter-spacing: 1px;
+}
+
+/* ── 진도 대시보드 ── */
+.dashboard {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 14px; margin-bottom: 36px;
+}
+.dash-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 2px; padding: 18px 14px; text-align: center;
+  box-shadow: var(--shadow);
+}
+.dash-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; }
+.dash-val { font-family: 'Shippori Mincho', serif; font-size: 28px; font-weight: 700; color: var(--ink); }
+.dash-unit { font-size: 11px; color: var(--muted); margin-left: 2px; }
+
+/* ── 탭 ── */
+.tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 32px; }
+.tab {
+  padding: 12px 28px; font-size: 13px; letter-spacing: 1px;
+  color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent;
+  transition: all 0.2s; margin-bottom: -2px; font-weight: 500;
+}
+.tab.active { color: var(--red); border-bottom-color: var(--red); }
+.tab:hover { color: var(--ink); }
+
+/* ── 문제 카드 ── */
+.question-area { animation: fadeUp 0.4s ease; }
+.q-meta {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px;
+}
+.q-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; letter-spacing: 2px; font-weight: 600;
+  padding: 4px 12px;
+  text-transform: uppercase;
+}
+.q-badge.grammar { background: var(--blue); color: white; }
+.q-badge.reading { background: var(--red); color: white; }
+.q-num { font-size: 12px; color: var(--muted); }
+.q-progress-bar {
+  height: 3px; background: var(--washi);
+  border-radius: 2px; margin-bottom: 24px; overflow: hidden;
+}
+.q-progress-fill {
+  height: 100%; background: var(--gold);
+  transition: width 0.4s ease; border-radius: 2px;
+}
+
+.card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 2px; padding: 32px;
+  box-shadow: var(--shadow); margin-bottom: 20px;
+}
+
+/* 독해 지문 */
+.passage {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 14.5px; line-height: 2.0;
+  color: #2a2318;
+  padding: 20px 24px;
+  background: var(--paper);
+  border-left: 3px solid var(--gold);
+  margin-bottom: 24px;
+  border-radius: 0 2px 2px 0;
+}
+.passage-label {
+  font-size: 10px; letter-spacing: 3px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 10px; font-weight: 600;
+}
+
+.q-text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 15px; line-height: 1.9;
+  margin-bottom: 24px; font-weight: 400;
+}
+.blank {
+  display: inline-block;
+  border-bottom: 2px solid var(--ink);
+  min-width: 80px; text-align: center;
+  font-weight: 600;
+}
+
+/* 선택지 */
+.choices { display: grid; gap: 10px; }
+.choice {
+  padding: 14px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 2px; cursor: pointer;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 14px; line-height: 1.7;
+  transition: all 0.18s;
+  display: flex; align-items: flex-start; gap: 14px;
+  background: white;
+}
+.choice:hover:not(.disabled) { border-color: var(--blue); background: #f0f4fa; }
+.choice.selected-correct { border-color: var(--correct); background: #edf7f0; color: var(--correct); }
+.choice.selected-wrong { border-color: var(--wrong); background: #fdf0ef; color: var(--wrong); }
+.choice.show-correct { border-color: var(--correct); background: #edf7f0; color: var(--correct); }
+.choice.disabled { cursor: default; }
+.choice-num {
+  min-width: 22px; height: 22px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+
+/* 해설 */
+.explanation {
+  border-top: 1px dashed var(--border);
+  margin-top: 24px; padding-top: 20px;
+  display: none;
+}
+.explanation.show { display: block; animation: fadeUp 0.3s ease; }
+.exp-label {
+  font-size: 10px; letter-spacing: 3px; color: var(--gold);
+  font-weight: 700; margin-bottom: 10px; text-transform: uppercase;
+}
+.exp-text {
+  font-size: 13.5px; line-height: 1.9; color: #3a3220;
+}
+.exp-grammar {
+  display: inline-block;
+  background: var(--ink); color: var(--paper);
+  padding: 2px 10px; font-size: 12px;
+  font-family: 'Noto Serif JP', serif;
+  margin-bottom: 8px; letter-spacing: 1px;
+}
+
+/* 버튼 */
+.btn-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+.btn {
+  padding: 12px 28px; font-size: 13px;
+  border: none; cursor: pointer; letter-spacing: 1px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600; transition: all 0.18s;
+}
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-primary:hover { background: #333; }
+.btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--muted); }
+.btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+.btn-red { background: var(--red); color: white; }
+.btn-red:hover { background: #7a1a27; }
+
+/* ── 결과 화면 ── */
+.result-screen {
+  text-align: center; padding: 48px 24px;
+  animation: fadeUp 0.5s ease;
+}
+.result-circle {
+  width: 120px; height: 120px;
+  border-radius: 50%; margin: 0 auto 28px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border: 3px solid var(--gold);
+  background: white;
+}
+.result-score { font-family: 'Shippori Mincho', serif; font-size: 42px; font-weight: 700; }
+.result-denom { font-size: 13px; color: var(--muted); }
+.result-title { font-family: 'Shippori Mincho', serif; font-size: 22px; margin-bottom: 12px; }
+.result-msg { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
+.result-breakdown {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; max-width: 320px; margin: 0 auto 32px;
+}
+.rb-item { background: white; border: 1px solid var(--border); padding: 16px; }
+.rb-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); }
+.rb-val { font-size: 24px; font-family: 'Shippori Mincho', serif; font-weight: 700; margin-top: 4px; }
+
+/* ── 복습 탭 ── */
+.review-list { display: grid; gap: 12px; }
+.review-item {
+  background: white; border: 1px solid var(--border);
+  padding: 20px 24px; border-radius: 2px;
+  border-left: 4px solid;
+}
+.review-item.correct { border-left-color: var(--correct); }
+.review-item.wrong { border-left-color: var(--wrong); }
+.review-q { font-family: 'Noto Serif JP', serif; font-size: 13.5px; line-height: 1.8; margin-bottom: 10px; }
+.review-ans { font-size: 12px; }
+.review-ans span { font-weight: 600; }
+.review-ans .correct-ans { color: var(--correct); }
+.review-ans .wrong-ans { color: var(--wrong); }
+
+/* 빈 상태 */
+.empty-state {
+  text-align: center; padding: 60px 20px;
+  color: var(--muted);
+}
+.empty-jp { font-family: 'Shippori Mincho', serif; font-size: 40px; opacity: 0.2; margin-bottom: 16px; }
+.empty-msg { font-size: 13px; line-height: 1.8; }
+
+/* ── 애니메이션 ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+
+/* 결과 이모지 */
+.result-emoji { font-size: 36px; margin-bottom: 8px; }
+
+/* ── 반응형 ── */
+@media(max-width:600px) {
+  .dashboard { grid-template-columns: repeat(3,1fr); }
+  .dash-val { font-size: 22px; }
+  .card { padding: 22px 18px; }
+  .passage { padding: 16px; }
+  .tabs { overflow-x: auto; }
+  .tab { padding: 10px 16px; white-space: nowrap; }
+}
+</style>
+</head>
+<body>
+<div class="accent-bar"></div>
+<div class="wrap">
+
+  <header>
+    <div class="header-tag">N1 · 独学ノート</div>
+    <h1>日本語能力試験<br><span style="color:var(--red)">N1 独学</span></h1>
+    <p>독해 · 문법 | 하루 10문제 루틴</p>
+  </header>
+
+  <!-- 대시보드 -->
+  <div class="dashboard">
+    <div class="dash-card">
+      <div class="dash-label">총 학습일</div>
+      <div class="dash-val" id="dash-days">0<span class="dash-unit">일</span></div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-label">전체 정답률</div>
+      <div class="dash-val" id="dash-rate">-<span class="dash-unit">%</span></div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-label">오늘 완료</div>
+      <div class="dash-val" id="dash-today">-</div>
+    </div>
+  </div>
+
+  <!-- 탭 -->
+  <div class="tabs">
+    <div class="tab active" data-tab="quiz" onclick="switchTab('quiz')">오늘의 학습</div>
+    <div class="tab" data-tab="review" onclick="switchTab('review')">오답 복습</div>
+    <div class="tab" data-tab="grammar-ref" onclick="switchTab('grammar-ref')">문법 사전</div>
+  </div>
+
+  <!-- 퀴즈 탭 -->
+  <div id="tab-quiz">
+    <div id="quiz-area"></div>
+  </div>
+
+  <!-- 복습 탭 -->
+  <div id="tab-review" style="display:none">
+    <div id="review-area"></div>
+  </div>
+
+  <!-- 문법 사전 탭 -->
+  <div id="tab-grammar-ref" style="display:none">
+    <div id="grammar-ref-area"></div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// 문제 데이터베이스 (N1 기준)
+// ═══════════════════════════════════════════
+const QUESTION_BANK = {
+  grammar: [
+    {
+      id: 'g01',
+      text: '彼女は仕事の忙しさ（　　）、友人との約束を何度もキャンセルしてしまった。',
+      choices: ['をよそに', 'にもかかわらず', 'のあまり', 'もさることながら'],
+      answer: 0,
+      grammar_point: '〜をよそに',
+      explanation: '「〜をよそに」は「〜を無視して・〜に関係なく」という意味。周囲の状況や他者の気持ちを気にせず行動するときに使う。\n例：周囲の反対をよそに、彼は計画を進めた。\n\n「のあまり」は感情が強すぎて何かが起こる場合に使う（感情の文脈で使用）。'
+    },
+    {
+      id: 'g02',
+      text: '長年の研究の末、ついに新薬の開発に成功した。これ（　　）医学の進歩と言えるだろう。',
+      choices: ['にほかならない', 'をもってして', 'であれば', 'にすぎない'],
+      answer: 0,
+      grammar_point: '〜にほかならない',
+      explanation: '「〜にほかならない」は「まさに〜だ・〜以外の何でもない」という意味で、強い断定を表す。\n例：彼の成功は努力にほかならない。\n\n「にすぎない」は「ただ〜だけだ」という控えめな表現で、意味が逆になる。'
+    },
+    {
+      id: 'g03',
+      text: '規則（　　）、例外を認めることはできない。',
+      choices: ['上は', 'である以上', 'とあれば', 'からには'],
+      answer: 1,
+      grammar_point: '〜である以上',
+      explanation: '「〜である以上（は）」は「〜という条件・立場である限り、当然〜すべき/〜だ」という意味。責任・義務を表す。\n例：社会人である以上、責任感を持って行動すべきだ。\n\n「からには」も似ているが、主に「〜した以上は」と動作の後に使うことが多い。'
+    },
+    {
+      id: 'g04',
+      text: '新製品の発売（　　）、全社員が準備に追われている。',
+      choices: ['をめぐって', 'に際して', 'をもとに', 'に反して'],
+      answer: 1,
+      grammar_point: '〜に際して',
+      explanation: '「〜に際して」は「〜という重要な場面・機会にあたって」という意味。改まった場面やフォーマルな文脈で使う。\n例：入学に際して、保護者へのご挨拶を申し上げます。\n\n「をめぐって」は「〜を話題・争点として」という意味で文脈が異なる。'
+    },
+    {
+      id: 'g05',
+      text: '部長の反対（　　）、プロジェクトを強行することはできない。',
+      choices: ['をもってしても', 'いかんによらず', 'をおいて', 'があっては'],
+      answer: 3,
+      grammar_point: '〜があっては',
+      explanation: '「〜があっては（ならない）」は「〜という事態は許されない」という意味。不都合な条件を述べる。\n例：ミスがあってはならない場面だ。\n\n「いかんによらず」は「〜がどうであれ関係なく」という意味で文脈が逆になる。'
+    },
+    {
+      id: 'g06',
+      text: '彼はどんな困難（　　）、決して諦めなかった。',
+      choices: ['にあっても', 'をものともせず', 'もさることながら', 'をよそに'],
+      answer: 1,
+      grammar_point: '〜をものともせず',
+      explanation: '「〜をものともせず」は「困難・障害を物ともしない・意に介さず行動する」という意味。強い意志や克服を強調する。\n例：激しい風雨をものともせず、選手たちはプレーし続けた。'
+    },
+    {
+      id: 'g07',
+      text: '彼女の演奏は技術（　　）、感情表現も素晴らしかった。',
+      choices: ['のみならず', 'もさることながら', 'はともかく', 'にもかかわらず'],
+      answer: 1,
+      grammar_point: '〜もさることながら',
+      explanation: '「〜もさることながら」は「〜も確かにそうだが、それ以上に〜」という意味。前の事柄を認めつつ、後の事柄をより強調する。\n例：価格もさることながら、品質の高さが評判だ。'
+    },
+    {
+      id: 'g08',
+      text: 'この地域の文化（　　）の料理は、観光客に大変人気がある。',
+      choices: ['ならでは', 'をもって', 'をよそに', 'だけあって'],
+      answer: 0,
+      grammar_point: '〜ならでは（の）',
+      explanation: '「〜ならでは（の）」は「〜にしかできない・〜だからこそできる」という意味。唯一性・独自性を強調する。\n例：プロならではの技術。ここならではの景色。'
+    },
+    {
+      id: 'g09',
+      text: '事故の原因（　　）、対策を講じる必要がある。',
+      choices: ['いかんにかかわらず', 'いかんによっては', 'いかんで', 'いかんによらず'],
+      answer: 2,
+      grammar_point: '〜いかんで',
+      explanation: '「〜いかんで」は「〜の状況・内容次第で（結果が変わる）」という意味。\n\n比較: \n・いかんで＝〜次第で（結果が変わる）\n・いかんによらず＝〜に関係なく（結果は変わらない）\n・いかんによっては＝場合によっては'
+    },
+    {
+      id: 'g10',
+      text: '彼はチームのエース（　　）、プレッシャーに押しつぶされてしまった。',
+      choices: ['ともなると', 'ともあろう者が', 'とはいえ', 'とあれば'],
+      answer: 1,
+      grammar_point: '〜ともあろう者が',
+      explanation: '「〜ともあろう者が」は「〜ほどの立場・レベルの人が（あるまじき行動をした）」という意味。非難・驚きを表す。\n例：医者ともあろう者が、そんな不注意なことをするとは。'
+    },
+    {
+      id: 'g11',
+      text: '不正を見て（　　）。これは市民としての義務だ。',
+      choices: ['おくわけにはいかない', '知らずにはいられない', '黙っていられないわけがない', '見逃さずにはおかない'],
+      answer: 3,
+      grammar_point: '〜ずにはおかない',
+      explanation: '「〜ずにはおかない」は「必ず〜する・〜せずにいられない」という意味。強い決意や感情が自然に起こることを示す。\n例：このドラマは見る人を感動させずにはおかない。'
+    },
+    {
+      id: 'g12',
+      text: '会議の日程（　　）、参加できない方もいるかもしれません。',
+      choices: ['にかんして', 'いかんによっては', 'をめぐっては', 'をよそに'],
+      answer: 1,
+      grammar_point: '〜いかんによっては',
+      explanation: '「〜いかんによっては」は「〜の内容・状況によっては（ある結果になる場合もある）」という意味。条件付きの可能性を述べる。\n例：天候いかんによっては、中止になるかもしれない。'
+    },
+    {
+      id: 'g13',
+      text: '10年（　　）の研究がようやく実を結んだ。',
+      choices: ['にわたる', 'をかけた', 'にかけた', 'をわたる'],
+      answer: 0,
+      grammar_point: '〜にわたる',
+      explanation: '「〜にわたる」は「（期間・範囲）に及ぶ」という意味。広い範囲や長い期間を示す。\n例：全国にわたる調査。3時間にわたる会議。\n\n「をかけた」は「時間・お金を費やした」という意味で、後に名詞を修飾する形で使う（3年をかけた旅）。'
+    },
+    {
+      id: 'g14',
+      text: '彼の言葉は多くの人の心（　　）。',
+      choices: ['を動かしてやまない', 'を動かさずにはおかない', 'を動かさずにいない', 'を動かすほかない'],
+      answer: 1,
+      grammar_point: '〜ずにはおかない',
+      explanation: '「〜ずにはおかない」は「〜せずにいられない・必ず〜する」という必然的な影響を表す。\n例：その映像は見る者を涙させずにはおかなかった。'
+    },
+    {
+      id: 'g15',
+      text: '努力（　　）合格できるとは限らない。しかし、努力なしでは絶対に無理だ。',
+      choices: ['したが最後', 'したからには', 'しさえすれば', 'したとあっては'],
+      answer: 2,
+      grammar_point: '〜しさえすれば',
+      explanation: '「〜しさえすれば」は「〜だけすれば（それで十分）」という意味。条件を絞り込む。\n例：ここに来さえすれば、あとは何もしなくていい。\n\n「したからには」は「〜した以上は責任を持て」という意味で文脈が異なる。'
+    },
+    {
+      id: 'g16',
+      text: '先生（　　）の教え方は、学生にとってわかりやすいと好評だ。',
+      choices: ['ならでは', 'だからこそ', 'とあれば', 'にして'],
+      answer: 0,
+      grammar_point: '〜ならでは（の）',
+      explanation: '「〜ならでは（の）」は「〜にしかできない独自の」という意味。名詞に接続して修飾語を作る。\n例：職人ならではの技。日本ならではの文化。'
+    },
+    {
+      id: 'g17',
+      text: '今回の事件は、社内の体制の問題（　　）、外部からの不正アクセスにも原因があった。',
+      choices: ['もさることながら', 'のみならず', 'はおろか', 'をよそに'],
+      answer: 0,
+      grammar_point: '〜もさることながら',
+      explanation: '「〜もさることながら」は「〜も確かだが、さらに〜も」という意味で、複数の原因・要素を列挙する際に使う。\nフォーマルな文章でよく使われる表現。'
+    },
+    {
+      id: 'g18',
+      text: 'この問題を解決できる人がいるとしたら、彼（　　）いない。',
+      choices: ['をおいて', 'ほかに', 'のみに', 'だけが'],
+      answer: 0,
+      grammar_point: '〜をおいて',
+      explanation: '「〜をおいて（ほかに）ない」は「〜以外にない・〜しかいない」という意味。唯一性を強調する。\n例：この役を演じられるのは彼女をおいていない。'
+    },
+    {
+      id: 'g19',
+      text: '彼女は失業（　　）、住む家まで失ってしまった。',
+      choices: ['もさることながら', 'はおろか', 'だけでなく', 'にもまして'],
+      answer: 1,
+      grammar_point: '〜はおろか',
+      explanation: '「〜はおろか」は「〜はもちろん（それ以上のことも）」という意味。程度の低いものを例に挙げ、さらに高いレベルまで及ぶことを示す。\n例：漢字はおろか、ひらがなも書けない。'
+    },
+    {
+      id: 'g20',
+      text: 'プロジェクトが失敗に終わったのは、準備不足（　　）だった。',
+      choices: ['にほかならない', 'をもとに', 'をきっかけに', 'にかわって'],
+      answer: 0,
+      grammar_point: '〜にほかならない',
+      explanation: '「〜にほかならない」は「まさに〜だ」という強い断定・強調表現。\n例：この結果は皆さんの努力にほかならない。\n\nフォーマルな文章・スピーチでよく使われる。'
+    }
+  ],
+
+  reading: [
+    {
+      id: 'r01',
+      passage: `　現代社会において、「効率化」という言葉はあらゆる場面で使われる。企業は業務の効率化を求め、個人は時間の効率化を追い求める。しかし、過度な効率化の追求は、思わぬ弊害をもたらすことがある。\n　心理学者のポール・レーマンは、常に効率を意識することで、人間は「目的」と「手段」を混同しやすくなると指摘している。例えば、会議を短くすることが目的化してしまい、本来の目的であるアイデアの共有や問題解決がおろそかになるケースがある。\n　また、効率化によって「余白」がなくなると、創造性が低下するという研究結果もある。無駄に見える雑談や散歩が、実はイノベーションの源泉になっていることは少なくない。`,
+      question: '筆者が最も言いたいことは何か。',
+      choices: [
+        '効率化は現代社会において最も重要な課題である。',
+        '効率化を追求しすぎると本来の目的を見失う恐れがある。',
+        '会議を短くすることが生産性向上の鍵である。',
+        '無駄な時間をなくすことで創造性が高まる。'
+      ],
+      answer: 1,
+      explanation: '第2段落で「目的と手段の混同」、第3段落で「余白がなくなると創造性が低下する」という2つの弊害を挙げ、過度な効率化への警鐘を鳴らしている。筆者の主張は選択肢2が最も正確に表している。\n\n選択肢4は本文と逆の内容（無駄がイノベーションの源泉になる）なので誤り。'
+    },
+    {
+      id: 'r02',
+      passage: `　かつて日本では、職人が一つの技術を極めることを「道」と表現した。茶道・柔道・書道——いずれも「道」という字を含む。これは単なる技術習得にとどまらず、その修行を通じて人格を磨くという思想を反映している。\n　近年、こうした「道」の概念に共鳴する外国人が増えている。効率や結果を重視する現代社会において、プロセスそのものに意味を見出す日本的な価値観が、新鮮に映るのかもしれない。\n　しかし、この「道」の精神も、時代の変化とともに形式化・形骸化する危険をはらんでいる。伝統を守ることと、時代に適応することのバランスをどう取るかが、今後の課題と言えるだろう。`,
+      question: '本文の内容と合っているものはどれか。',
+      choices: [
+        '日本の「道」の概念は、技術習得よりも人格形成を重視する考え方を含んでいる。',
+        '外国人が「道」に共鳴するのは、効率的な技術習得ができるからだ。',
+        '「道」の精神は現代においても形骸化することなく受け継がれている。',
+        '筆者は伝統よりも時代への適応を優先すべきだと考えている。'
+      ],
+      answer: 0,
+      explanation: '第1段落に「単なる技術習得にとどまらず、その修行を通じて人格を磨くという思想を反映している」と明記されている。これが選択肢1の内容と一致する。\n\n選択肢3は第3段落の「形式化・形骸化する危険」と矛盾する。選択肢4は「バランスをどう取るか」と書かれており、どちらかを優先とは言っていない。'
+    },
+    {
+      id: 'r03',
+      passage: `　「失敗を恐れるな」という言葉は、よく自己啓発の文脈で使われる。だが、この言葉が本当に有効かどうかは、状況によって大きく異なる。\n　脳科学の研究によれば、人間の脳は失敗の経験から学ぶ際、感情と記憶が密接に結びついている。強い恐怖や失望を伴う失敗ほど、記憶に深く刻まれ、それが次の行動を抑制することがある。これを「失敗回避バイアス」と呼ぶ。\n　したがって、重要なのは「失敗を恐れない」ことではなく、「失敗から何を学ぶか」という視点の転換である。失敗を恐れることを完全に否定するのではなく、その恐怖を適切に管理し、学習のエネルギーに変えることが、成長への本質的な道筋と言えるだろう。`,
+      question: '筆者の考えとして正しいものはどれか。',
+      choices: [
+        '失敗を恐れる気持ちは完全に排除すべきだ。',
+        '失敗の記憶は感情と無関係に形成される。',
+        '失敗への恐怖を管理し学習に活かすことが大切だ。',
+        '「失敗を恐れるな」という言葉は常に有効だ。'
+      ],
+      answer: 2,
+      explanation: '第3段落に「失敗を恐れることを完全に否定するのではなく、その恐怖を適切に管理し、学習のエネルギーに変えること」と筆者の主張が明確に述べられている。\n\n選択肢1は「完全に排除すべき」と書かれているが、本文では「完全に否定するのではなく」とあるため誤り。'
+    },
+    {
+      id: 'r04',
+      passage: `　情報化社会の進展により、私たちは膨大な情報にさらされるようになった。スマートフォンを開けば、ニュース・SNS・メールが次々と流れ込んでくる。この「情報過多」の状態は、思考の質に深刻な影響を与えると専門家は警告している。\n　哲学者ニーチェは「最大の思想家は、最も孤独な瞬間に生まれる」と述べた。情報のシャワーを浴び続けることは、自らの思考を深める機会を奪い、他者の考えをただ消費するだけの状態に陥らせてしまう可能性がある。\n　意識的に情報を遮断する時間——「デジタルデトックス」——が現代人に必要とされている理由も、ここにある。`,
+      question: 'この文章で筆者が述べていることと最も合っているものはどれか。',
+      choices: [
+        '情報化社会においてSNSは全面的に否定されるべきだ。',
+        'ニーチェの言葉は現代社会には当てはまらない。',
+        '情報を意識的に遮断する時間が深い思考のために重要だ。',
+        'スマートフォンを使うことで思考の質が上がる。'
+      ],
+      answer: 2,
+      explanation: '第3段落に「意識的に情報を遮断する時間——デジタルデトックス——が現代人に必要とされている」と明記されており、選択肢3と一致する。\n\nニーチェの引用は「孤独（＝情報から離れること）が深い思考を生む」という文脈で使われており、選択肢2は誤り。'
+    },
+    {
+      id: 'r05',
+      passage: `　人口減少が続く地方都市において、「コンパクトシティ」という都市計画の概念が注目されている。コンパクトシティとは、都市機能を中心部に集約し、公共交通との連携によって効率的な都市運営を目指すものだ。\n　この政策は、医療・商業・行政サービスへのアクセスを向上させる一方で、周辺地域の過疎化を加速させるという批判もある。中心部に機能が集まることで、そこから離れた地域に住む人々が取り残されるリスクが生じるのだ。\n　コンパクトシティの成否は、中心部の整備だけでなく、周辺地域との有機的なつながりをどう維持するかにかかっていると言えよう。`,
+      question: 'コンパクトシティについて、筆者はどのように考えているか。',
+      choices: [
+        'コンパクトシティは地方都市の問題をすべて解決できる。',
+        'コンパクトシティは中心部の整備だけでなく周辺地域との連携が重要だ。',
+        'コンパクトシティは人口減少の根本的な原因を解決しない。',
+        'コンパクトシティは過疎化を必ず防ぐ有効な手段だ。'
+      ],
+      answer: 1,
+      explanation: '最終段落に「中心部の整備だけでなく、周辺地域との有機的なつながりをどう維持するかにかかっている」と筆者の見解が示されており、選択肢2と一致する。\n\n選択肢1・4は「すべて解決」「必ず防ぐ」と断定しており、本文の内容と合わない。'
+    },
+    {
+      id: 'r06',
+      passage: `　翻訳という行為は、単に言語を置き換える作業ではない。言語の背後にある文化・歴史・感情を解釈し、別の言語で再構成するプロセスである。そのため、優れた翻訳家は二つの言語の達人であるだけでなく、両文化の深い理解者でもある必要がある。\n　特に文学翻訳においては、原文の「雰囲気」や「リズム」をどう再現するかが翻訳家の腕の見せ所となる。直訳が必ずしも正確な翻訳とは限らず、時には大胆な意訳が原文の本質をより正確に伝えることもある。\n　翻訳は原著者と読者をつなぐ架け橋であり、文化の仲介者としての役割を担っている。`,
+      question: '翻訳について、筆者の考えとして合っているものはどれか。',
+      choices: [
+        '翻訳は原文を正確に置き換えることが最も重要だ。',
+        '直訳こそが最も正確な翻訳の方法だ。',
+        '翻訳には言語能力だけでなく文化への深い理解が必要だ。',
+        '文学翻訳は通常の翻訳とは全く異なる作業だ。'
+      ],
+      answer: 2,
+      explanation: '第1段落に「二つの言語の達人であるだけでなく、両文化の深い理解者でもある必要がある」と明記されており、選択肢3と一致する。\n\n選択肢2は第2段落「直訳が必ずしも正確な翻訳とは限らず」と矛盾する。'
+    },
+    {
+      id: 'r07',
+      passage: `　近年、「サーキュラーエコノミー（循環型経済）」という概念が世界的に注目されている。これは、従来の「作る→使う→捨てる」という線形経済モデルに対し、資源を循環させることで廃棄物を最小化しようとする経済システムだ。\n　日本でも江戸時代には、着物を何度も仕立て直したり、壊れた道具を修理して使い続けたりする「もったいない」の文化が根付いていた。この精神はサーキュラーエコノミーの理念と通じるものがある。\n　現代社会での実践には企業・消費者・政府の三者の協力が不可欠であり、各自が役割を意識した行動変容が求められている。`,
+      question: '本文の内容と合っているものはどれか。',
+      choices: [
+        '江戸時代の「もったいない」の文化はサーキュラーエコノミーの理念と全く異なる。',
+        'サーキュラーエコノミーは政府だけが推進できる政策だ。',
+        '「もったいない」の文化はサーキュラーエコノミーの理念と共通点がある。',
+        '線形経済モデルは資源を循環させる点が特徴だ。'
+      ],
+      answer: 2,
+      explanation: '第2段落に「この精神はサーキュラーエコノミーの理念と通じるものがある」と明記されており、選択肢3と一致する。\n\n選択肢4は線形経済と循環型経済を混同している。選択肢2は「三者の協力が不可欠」と本文にあるため誤り。'
+    },
+    {
+      id: 'r08',
+      passage: `　「聞く力」は、現代のビジネスにおいて最も重要なスキルの一つとして注目されている。話す力・プレゼン力が重視される一方で、相手の話を深く聞く能力が組織のパフォーマンスを左右するという研究が増えている。\n　心理学者のカール・ロジャーズは「積極的傾聴（アクティブリスニング）」という概念を提唱した。これは、相手の言葉だけでなく、その背後にある感情や意図まで受け取ろうとする傾聴の姿勢だ。\n　優れたリーダーは多くの場合、話すよりも聞くことに時間を使っているという調査結果がある。これは、傾聴が信頼関係の構築に直結するからに他ならない。`,
+      question: '本文で述べられている「聞く力」についての説明として正しいものはどれか。',
+      choices: [
+        '相手の言葉だけを正確に理解することが聞く力だ。',
+        '聞く力よりも話す力の方がビジネスでは重要だ。',
+        '積極的傾聴とは、相手の感情や意図まで受け取ろうとする姿勢だ。',
+        '優れたリーダーは話すことに多くの時間を使う。'
+      ],
+      answer: 2,
+      explanation: '第2段落に「相手の言葉だけでなく、その背後にある感情や意図まで受け取ろうとする傾聴の姿勢」とあり、選択肢3と一致する。\n\n選択肢4は「話すよりも聞くことに時間を使っている」と本文に書かれており逆の内容。選択肢1は「言葉だけ」としており不十分。'
+    },
+    {
+      id: 'r09',
+      passage: `　少子化対策として、日本各地で様々な施策が講じられているが、その多くは「経済的支援」に焦点を当てている。子育て費用の補助や保育所の拡充などがその代表例だ。\n　しかし、社会学者の中には、少子化の本質は経済的な問題ではなく「社会的孤立」にあると指摘する声もある。現代の若い世代は、地域コミュニティとのつながりが薄れ、子育てを一人で抱え込む孤独感が強まっているというのだ。\n　経済的支援は必要条件ではあるが、十分条件ではない。真の少子化対策には、人々がつながり、支え合える社会的インフラの再構築が欠かせないのかもしれない。`,
+      question: '筆者が少子化対策として最も重要だと考えているものはどれか。',
+      choices: [
+        '経済的な支援の大幅な拡充',
+        '保育所の数をさらに増やすこと',
+        '社会的なつながりを回復させる取り組み',
+        '若者の収入を増加させる政策'
+      ],
+      answer: 2,
+      explanation: '第3段落に「真の少子化対策には、人々がつながり、支え合える社会的インフラの再構築が欠かせない」と筆者の主張が示されており、選択肢3と一致する。\n\n経済的支援は「必要条件ではあるが、十分条件ではない」と述べられており、それだけでは不十分とされている。'
+    },
+    {
+      id: 'r10',
+      passage: `　人工知能（AI）の発展は、私たちの働き方を大きく変えようとしている。単純作業の自動化にとどまらず、法律文書の作成・医療診断・芸術作品の制作まで、かつては人間にしかできないと思われていた分野にもAIが進出している。\n　この変化に対し、「AIに仕事を奪われる」という不安を持つ人も多い。しかし、歴史を振り返ると、技術革新はつねに新たな職業を生み出してきた。産業革命時も同様の懸念があったが、結果として雇用は多様化・増加した。\n　重要なのは、AIを脅威として捉えるのではなく、人間の能力を拡張するツールとして活用する視点だ。そのためには、変化に適応し続ける「学び続ける力」が、これからの時代に最も求められる能力と言えるだろう。`,
+      question: 'AIと人間の関係について、筆者の考えとして最も適切なものはどれか。',
+      choices: [
+        'AIは人間の仕事を完全に奪ってしまうので対策が必要だ。',
+        'AIの発展は歴史上例がなく、対応は不可能だ。',
+        'AIを人間の能力を拡張するツールとして捉え、学び続けることが重要だ。',
+        'AIの進出を規制し、人間の仕事を守るべきだ。'
+      ],
+      answer: 2,
+      explanation: '第3段落に「AIを脅威として捉えるのではなく、人間の能力を拡張するツールとして活用する視点が重要」と明記されており、選択肢3と一致する。\n\n歴史的な事例（産業革命）を挙げて「技術革新は新たな職業を生み出す」と述べており、選択肢1・4と矛盾する。'
+    }
+  ]
+};
+
+// ═══════════════════════════════════════════
+// 문법 참고 사전
+// ═══════════════════════════════════════════
+const GRAMMAR_REF = [
+  { form: '〜をよそに', meaning: '〜を無視して・〜に関係なく行動する', ex: '周囲の反対をよそに計画を進めた。', level: 'N1' },
+  { form: '〜にほかならない', meaning: 'まさに〜だ・〜以外の何でもない（強い断定）', ex: '彼の成功は努力にほかならない。', level: 'N1' },
+  { form: '〜に際して', meaning: '〜という重要な場面・機会にあたって', ex: '入学に際して、ご挨拶申し上げます。', level: 'N1' },
+  { form: '〜をものともせず', meaning: '困難を物ともしない・意に介さず行動する', ex: '激しい風雨をものともせず進んだ。', level: 'N1' },
+  { form: '〜もさることながら', meaning: '〜も確かだが、それ以上に〜も', ex: '価格もさることながら品質が評判だ。', level: 'N1' },
+  { form: '〜ならでは（の）', meaning: '〜にしかできない・〜だからこそ', ex: 'プロならではの技術。', level: 'N1' },
+  { form: '〜いかんで', meaning: '〜の状況次第で（結果が変わる）', ex: '結果は努力いかんで変わる。', level: 'N1' },
+  { form: '〜いかんによらず', meaning: '〜がどうであれ関係なく', ex: '理由いかんによらず遅刻は禁止だ。', level: 'N1' },
+  { form: '〜ともあろう者が', meaning: '〜ほどの立場の人が（非難・驚き）', ex: '医者ともあろう者がそんな失敗をするとは。', level: 'N1' },
+  { form: '〜ずにはおかない', meaning: '必ず〜する・〜せずにいられない', ex: 'この映画は感動させずにはおかない。', level: 'N1' },
+  { form: '〜をおいて（ほかに）ない', meaning: '〜以外にない・〜しかない（唯一性）', ex: 'この役は彼女をおいていない。', level: 'N1' },
+  { form: '〜はおろか', meaning: '〜はもちろん（それ以上のことも）', ex: '漢字はおろかひらがなも書けない。', level: 'N1' },
+  { form: '〜にわたる', meaning: '（期間・範囲）に及ぶ', ex: '10年にわたる研究がついに実を結んだ。', level: 'N1' },
+  { form: '〜である以上', meaning: '〜という条件・立場である限り当然〜', ex: '社会人である以上責任を持つべきだ。', level: 'N1' },
+  { form: '〜があっては', meaning: '〜という事態は許されない', ex: 'ミスがあってはならない。', level: 'N1' },
+  { form: '〜いかんによっては', meaning: '〜の状況によっては（ある結果になることもある）', ex: '天候いかんによっては中止もある。', level: 'N1' },
+  { form: '〜しさえすれば', meaning: '〜だけすれば十分', ex: '参加さえすればいい。', level: 'N2' },
+  { form: '〜もさることながら', meaning: '〜も認めつつ、さらに〜を強調', ex: '技術もさることながら姿勢が大切だ。', level: 'N1' },
+  { form: '〜にかけては', meaning: '〜に関しては（他より優れている）', ex: '料理の腕前にかけては誰にも負けない。', level: 'N2' },
+  { form: '〜を余儀なくされる', meaning: '望まないのに〜せざるを得ない', ex: '事故で計画の変更を余儀なくされた。', level: 'N1' }
+];
+
+// ═══════════════════════════════════════════
+// 앱 상태
+// ═══════════════════════════════════════════
+let state = {
+  todayQuestions: [],
+  currentIdx: 0,
+  answered: [],
+  sessionDone: false,
+};
+
+function loadStorage() {
+  try {
+    const saved = localStorage.getItem('jlpt_n1_data');
+    return saved ? JSON.parse(saved) : { history: [], wrongIds: [] };
+  } catch(e) { return { history: [], wrongIds: [] }; }
+}
+
+function saveStorage(data) {
+  localStorage.setItem('jlpt_n1_data', JSON.stringify(data));
+}
+
+function todayKey() {
+  return new Date().toISOString().slice(0,10);
+}
+
+// 오늘 10문제 선택 (문법5 + 독해5) — 날짜 시드 기반으로 일관성 유지
+function pickTodayQuestions() {
+  const db = loadStorage();
+  const today = todayKey();
+  const existing = db.history.find(h => h.date === today);
+  if (existing) {
+    // 오늘 이미 진행한 경우: 저장된 문제 ID로 복원
+    const ids = existing.qIds;
+    const all = [...QUESTION_BANK.grammar, ...QUESTION_BANK.reading];
+    return ids.map(id => all.find(q => q.id === id)).filter(Boolean);
+  }
+
+  // 오답 가중치: 오답 문제를 우선 포함
+  const wrongIds = new Set(db.wrongIds || []);
+
+  // 날짜 기반 시드로 셔플
+  const seed = parseInt(today.replace(/-/g,''));
+  const seededRand = (n) => {
+    let x = Math.sin(seed + n) * 10000;
+    return x - Math.floor(x);
+  };
+
+  const shuffleSeeded = (arr, offset) => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(seededRand(i + offset) * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  // 오답 우선 정렬
+  const sortByWrong = (arr) => {
+    return [...arr].sort((a,b) => {
+      const wa = wrongIds.has(a.id) ? 0 : 1;
+      const wb = wrongIds.has(b.id) ? 0 : 1;
+      return wa - wb;
+    });
+  };
+
+  const g = shuffleSeeded(sortByWrong(QUESTION_BANK.grammar), 0).slice(0,5);
+  const r = shuffleSeeded(sortByWrong(QUESTION_BANK.reading), 100).slice(0,5);
+
+  // 문법 → 독해 번갈아 섞기
+  const mixed = [];
+  for(let i=0; i<5; i++) {
+    mixed.push(g[i]);
+    mixed.push(r[i]);
+  }
+  return mixed;
+}
+
+// ═══════════════════════════════════════════
+// UI
+// ═══════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+  ['quiz','review','grammar-ref'].forEach(id => {
+    document.getElementById('tab-'+id).style.display = id===tab ? 'block' : 'none';
+  });
+  if(tab==='review') renderReview();
+  if(tab==='grammar-ref') renderGrammarRef();
+}
+
+function updateDashboard() {
+  const db = loadStorage();
+  const days = db.history.filter(h => h.done).length;
+  const allAns = db.history.flatMap(h => h.answers || []);
+  const correct = allAns.filter(a => a.correct).length;
+  const rate = allAns.length ? Math.round(correct/allAns.length*100) : null;
+  const today = db.history.find(h => h.date === todayKey());
+
+  document.getElementById('dash-days').innerHTML = `${days}<span class="dash-unit">일</span>`;
+  document.getElementById('dash-rate').innerHTML = rate != null ? `${rate}<span class="dash-unit">%</span>` : `<span style="font-size:20px">-</span>`;
+  document.getElementById('dash-today').innerHTML = today?.done
+    ? `<span style="color:var(--correct)">✓</span>`
+    : today?.answers?.length
+    ? `${today.answers.length}<span class="dash-unit">/10</span>`
+    : `<span style="font-size:16px;color:var(--muted)">未</span>`;
+}
+
+function renderQuiz() {
+  const db = loadStorage();
+  const today = db.history.find(h => h.date === todayKey());
+
+  state.todayQuestions = pickTodayQuestions();
+  state.answered = today?.answers || [];
+  state.sessionDone = today?.done || false;
+
+  if(state.sessionDone) {
+    renderResult(true);
+    return;
+  }
+
+  state.currentIdx = state.answered.length;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = state.todayQuestions[state.currentIdx];
+  if(!q) { renderResult(false); return; }
+
+  const isGrammar = q.id.startsWith('g');
+  const total = state.todayQuestions.length;
+  const progress = Math.round((state.currentIdx / total) * 100);
+
+  let html = `
+    <div class="question-area">
+      <div class="q-meta">
+        <span class="q-badge ${isGrammar ? 'grammar' : 'reading'}">${isGrammar ? '📝 文法' : '📖 読解'}</span>
+        <span class="q-num">${state.currentIdx + 1} / ${total}</span>
+      </div>
+      <div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div>
+      <div class="card">
+  `;
+
+  if(!isGrammar && q.passage) {
+    html += `
+      <div class="passage">
+        <div class="passage-label">本 文</div>
+        ${q.passage.replace(/\n/g,'<br>')}
+      </div>
+    `;
+  }
+
+  html += `<div class="q-text">${q.text || q.question}</div>`;
+
+  html += `<div class="choices">`;
+  q.choices.forEach((c, i) => {
+    html += `
+      <div class="choice" id="choice-${i}" onclick="selectAnswer(${i})">
+        <span class="choice-num">${i+1}</span>
+        <span>${c}</span>
+      </div>`;
+  });
+  html += `</div>`;
+
+  html += `
+    <div class="explanation" id="explanation">
+      <div class="exp-label">解 説</div>
+      ${isGrammar ? `<div class="exp-grammar">${q.grammar_point}</div><br>` : ''}
+      <div class="exp-text">${q.explanation.replace(/\n/g,'<br>')}</div>
+    </div>
+    <div class="btn-row" id="btn-row">
+    </div>
+  </div></div>`;
+
+  document.getElementById('quiz-area').innerHTML = html;
+}
+
+function selectAnswer(idx) {
+  const q = state.todayQuestions[state.currentIdx];
+  const isCorrect = idx === q.answer;
+
+  // 선택지 스타일 적용
+  document.querySelectorAll('.choice').forEach((el, i) => {
+    el.classList.add('disabled');
+    if(i === idx) el.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+    if(i === q.answer && !isCorrect) el.classList.add('show-correct');
+  });
+
+  // 해설 표시
+  document.getElementById('explanation').classList.add('show');
+
+  // 다음 버튼
+  const isLast = state.currentIdx >= state.todayQuestions.length - 1;
+  document.getElementById('btn-row').innerHTML = `
+    <button class="btn btn-primary" onclick="nextQuestion()">
+      ${isLast ? '結果を見る →' : '次へ →'}
+    </button>
+  `;
+
+  // 저장
+  const db = loadStorage();
+  let todayRecord = db.history.find(h => h.date === todayKey());
+  if(!todayRecord) {
+    todayRecord = { date: todayKey(), qIds: state.todayQuestions.map(q=>q.id), answers: [], done: false };
+    db.history.push(todayRecord);
+  }
+  todayRecord.answers.push({ qId: q.id, selected: idx, correct: isCorrect });
+
+  if(!isCorrect) {
+    if(!db.wrongIds.includes(q.id)) db.wrongIds.push(q.id);
+  } else {
+    db.wrongIds = db.wrongIds.filter(id => id !== q.id);
+  }
+
+  state.answered.push({ qId: q.id, selected: idx, correct: isCorrect });
+  saveStorage(db);
+  updateDashboard();
+}
+
+function nextQuestion() {
+  state.currentIdx++;
+  if(state.currentIdx >= state.todayQuestions.length) {
+    // 세션 완료 처리
+    const db = loadStorage();
+    const todayRecord = db.history.find(h => h.date === todayKey());
+    if(todayRecord) { todayRecord.done = true; saveStorage(db); }
+    renderResult(false);
+  } else {
+    renderQuestion();
+  }
+  updateDashboard();
+}
+
+function renderResult(isResumed) {
+  const correct = state.answered.filter(a => a.correct).length;
+  const total = state.answered.length;
+  const pct = Math.round(correct/total*100);
+
+  const gCorrect = state.answered.filter((a,i) => a.correct && state.todayQuestions[i]?.id.startsWith('g')).length;
+  const rCorrect = state.answered.filter((a,i) => a.correct && state.todayQuestions[i]?.id.startsWith('r')).length;
+
+  let emoji = '🎉', msg = '';
+  if(pct >= 90) { emoji='🏆'; msg='素晴らしい！N1合格まであと一歩です。'; }
+  else if(pct >= 70) { emoji='⭐'; msg='いい調子です！毎日続けましょう。'; }
+  else if(pct >= 50) { emoji='📚'; msg='オッケー。間違えた問題を復習しましょう。'; }
+  else { emoji='💪'; msg='負けない！間違いから学ぶのが上達の近道。'; }
+
+  const html = `
+    <div class="card result-screen">
+      <div class="result-emoji">${emoji}</div>
+      <div class="result-circle">
+        <div class="result-score" style="color:${pct>=70?'var(--correct)':'var(--red)'}">${pct}</div>
+        <div class="result-denom">点</div>
+      </div>
+      <div class="result-title">本日の結果 ${correct} / ${total}</div>
+      <div class="result-msg">${msg}</div>
+      <div class="result-breakdown">
+        <div class="rb-item">
+          <div class="rb-label">文法</div>
+          <div class="rb-val" style="color:var(--blue)">${gCorrect}/5</div>
+        </div>
+        <div class="rb-item">
+          <div class="rb-label">読解</div>
+          <div class="rb-val" style="color:var(--red)">${rCorrect}/5</div>
+        </div>
+      </div>
+      <div class="btn-row" style="justify-content:center;gap:16px">
+        <button class="btn btn-outline" onclick="switchTab('review')">오답 복습</button>
+        <button class="btn btn-outline" onclick="switchTab('grammar-ref')">문법 사전</button>
+      </div>
+    </div>`;
+  document.getElementById('quiz-area').innerHTML = html;
+}
+
+function renderReview() {
+  const db = loadStorage();
+  const allHistory = db.history.flatMap(h => (h.answers||[]).map(a => ({...a, date: h.date})));
+  const wrongAnswers = allHistory.filter(a => !a.correct);
+  const all = [...QUESTION_BANK.grammar, ...QUESTION_BANK.reading];
+
+  if(!wrongAnswers.length) {
+    document.getElementById('review-area').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-jp">完璧</div>
+        <div class="empty-msg">오답이 없습니다!<br>계속 학습해주세요.</div>
+      </div>`;
+    return;
+  }
+
+  // 최근 오답만 (중복 제거)
+  const seen = new Set();
+  const unique = wrongAnswers.filter(a => {
+    if(seen.has(a.qId)) return false;
+    seen.add(a.qId); return true;
+  }).slice(-20).reverse();
+
+  let html = '<div class="review-list">';
+  unique.forEach(ans => {
+    const q = all.find(q => q.id === ans.qId);
+    if(!q) return;
+    const isGrammar = q.id.startsWith('g');
+    html += `
+      <div class="review-item wrong">
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+          <span class="q-badge ${isGrammar?'grammar':'reading'}" style="font-size:10px;padding:2px 8px">${isGrammar?'文法':'読解'}</span>
+          <span style="font-size:11px;color:var(--muted)">${ans.date}</span>
+        </div>
+        ${!isGrammar && q.passage ? `<div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.7">${q.passage.slice(0,100)}…</div>` : ''}
+        <div class="review-q">${q.text||q.question}</div>
+        <div class="review-ans">
+          내 답: <span class="wrong-ans">❌ ${q.choices[ans.selected]}</span><br>
+          정답: <span class="correct-ans">✅ ${q.choices[q.answer]}</span>
+        </div>
+        ${isGrammar ? `<div style="margin-top:10px;padding:10px;background:var(--washi);font-size:12px;line-height:1.7"><b>${q.grammar_point}</b><br>${q.explanation.split('\n')[0]}</div>` : ''}
+      </div>`;
+  });
+  html += '</div>';
+  document.getElementById('review-area').innerHTML = html;
+}
+
+function renderGrammarRef() {
+  let html = `<div style="margin-bottom:20px">
+    <input id="grammar-search" type="text" placeholder="문법 검색... (예: をよそに)"
+      oninput="filterGrammar(this.value)"
+      style="width:100%;padding:12px 16px;border:1.5px solid var(--border);background:white;font-size:13px;font-family:inherit;outline:none;border-radius:2px">
+  </div>
+  <div id="grammar-list" class="review-list">`;
+
+  GRAMMAR_REF.forEach(g => {
+    html += `
+      <div class="review-item correct" data-form="${g.form}" data-meaning="${g.meaning}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+          <span style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:700;color:var(--ink)">${g.form}</span>
+          <span class="q-badge grammar" style="font-size:10px;padding:2px 8px">${g.level}</span>
+        </div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px">${g.meaning}</div>
+        <div style="font-family:'Noto Serif JP',serif;font-size:13px;color:#3a3220;padding:8px 12px;background:var(--washi);border-left:2px solid var(--gold)">${g.ex}</div>
+      </div>`;
+  });
+  html += '</div>';
+  document.getElementById('grammar-ref-area').innerHTML = html;
+}
+
+function filterGrammar(val) {
+  const items = document.querySelectorAll('#grammar-list .review-item');
+  items.forEach(item => {
+    const form = item.dataset.form || '';
+    const meaning = item.dataset.meaning || '';
+    item.style.display = (form+meaning).includes(val) ? 'block' : 'none';
+  });
+}
+
+// ═══════════════════════════════════════════
+// 초기화
+// ═══════════════════════════════════════════
+function init() {
+  updateDashboard();
+  renderQuiz();
+}
+
+init();
+</script>
+</body>
+</html>
