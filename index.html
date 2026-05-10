@@ -22,1204 +22,294 @@
   --shadow: 0 2px 20px rgba(28,26,20,0.10);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
   font-family: 'Noto Sans KR', 'Noto Serif JP', sans-serif;
   background: var(--paper);
   color: var(--ink);
   min-height: 100vh;
 }
-
 body::before {
   content: '';
   position: fixed; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M0 40h80M40 0v80' stroke='%23cdc5b0' stroke-width='0.35' opacity='0.35'/%3E%3C/svg%3E");
   pointer-events: none; z-index: 0;
 }
+.accent-bar { height: 5px; background: linear-gradient(90deg, var(--red) 0%, var(--gold) 50%, var(--blue) 100%); position: fixed; top:0; left:0; right:0; z-index:200; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 60px 20px 80px; position: relative; z-index: 1; }
 
-.accent-bar {
-  height: 5px;
-  background: linear-gradient(90deg, var(--red) 0%, var(--gold) 50%, var(--blue) 100%);
-  position: fixed; top:0; left:0; right:0; z-index:200;
-}
-
-.wrap {
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 60px 20px 80px;
-  position: relative; z-index: 1;
-}
-
-/* ── 헤더 ── */
 header { text-align: center; margin-bottom: 48px; animation: fadeUp 0.6s ease; }
-.header-tag {
-  display: inline-block;
-  font-family: 'Shippori Mincho', serif;
-  font-size: 11px; letter-spacing: 5px;
-  color: var(--red); border: 1px solid var(--red);
-  padding: 3px 14px; margin-bottom: 14px;
-  text-transform: uppercase;
-}
-header h1 {
-  font-family: 'Shippori Mincho', serif;
-  font-size: clamp(26px,5vw,40px);
-  font-weight: 700; letter-spacing: 3px;
-  line-height: 1.25;
-}
-header p {
-  font-size: 12px; color: var(--muted);
-  margin-top: 8px; letter-spacing: 1px;
-}
+.header-tag { display: inline-block; font-family: 'Shippori Mincho', serif; font-size: 11px; letter-spacing: 5px; color: var(--red); border: 1px solid var(--red); padding: 3px 14px; margin-bottom: 14px; text-transform: uppercase; }
+header h1 { font-family: 'Shippori Mincho', serif; font-size: clamp(26px,5vw,40px); font-weight: 700; letter-spacing: 3px; line-height: 1.25; }
+header p { font-size: 12px; color: var(--muted); margin-top: 8px; letter-spacing: 1px; }
 
-/* ── 진도 대시보드 ── */
-.dashboard {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 14px; margin-bottom: 36px;
-}
-.dash-card {
-  background: white; border: 1px solid var(--border);
-  border-radius: 2px; padding: 18px 14px; text-align: center;
-  box-shadow: var(--shadow);
-}
+.dashboard { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 36px; }
+.dash-card { background: white; border: 1px solid var(--border); border-radius: 2px; padding: 18px 14px; text-align: center; box-shadow: var(--shadow); }
 .dash-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; }
 .dash-val { font-family: 'Shippori Mincho', serif; font-size: 28px; font-weight: 700; color: var(--ink); }
 .dash-unit { font-size: 11px; color: var(--muted); margin-left: 2px; }
 
-/* ── 탭 ── */
 .tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 32px; }
-.tab {
-  padding: 12px 28px; font-size: 13px; letter-spacing: 1px;
-  color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent;
-  transition: all 0.2s; margin-bottom: -2px; font-weight: 500;
-}
+.tab { padding: 12px 28px; font-size: 13px; letter-spacing: 1px; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; margin-bottom: -2px; font-weight: 500; }
 .tab.active { color: var(--red); border-bottom-color: var(--red); }
 .tab:hover { color: var(--ink); }
 
-/* ── 문제 카드 ── */
 .question-area { animation: fadeUp 0.4s ease; }
-.q-meta {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 16px;
-}
-.q-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 11px; letter-spacing: 2px; font-weight: 600;
-  padding: 4px 12px;
-  text-transform: uppercase;
-}
+.q-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.q-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 2px; font-weight: 600; padding: 4px 12px; text-transform: uppercase; }
 .q-badge.grammar { background: var(--blue); color: white; }
 .q-badge.reading { background: var(--red); color: white; }
 .q-num { font-size: 12px; color: var(--muted); }
-.q-progress-bar {
-  height: 3px; background: var(--washi);
-  border-radius: 2px; margin-bottom: 24px; overflow: hidden;
-}
-.q-progress-fill {
-  height: 100%; background: var(--gold);
-  transition: width 0.4s ease; border-radius: 2px;
-}
+.q-progress-bar { height: 3px; background: var(--washi); border-radius: 2px; margin-bottom: 24px; overflow: hidden; }
+.q-progress-fill { height: 100%; background: var(--gold); transition: width 0.4s ease; border-radius: 2px; }
 
-.card {
-  background: white; border: 1px solid var(--border);
-  border-radius: 2px; padding: 32px;
-  box-shadow: var(--shadow); margin-bottom: 20px;
-}
+.card { background: white; border: 1px solid var(--border); border-radius: 2px; padding: 32px; box-shadow: var(--shadow); margin-bottom: 20px; }
 
-/* 독해 지문 */
-.passage {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 14.5px; line-height: 2.0;
-  color: #2a2318;
-  padding: 20px 24px;
-  background: var(--paper);
-  border-left: 3px solid var(--gold);
-  margin-bottom: 24px;
-  border-radius: 0 2px 2px 0;
-}
-.passage-label {
-  font-size: 10px; letter-spacing: 3px; color: var(--gold);
-  text-transform: uppercase; margin-bottom: 10px; font-weight: 600;
-}
+.passage { font-family: 'Noto Serif JP', serif; font-size: 14.5px; line-height: 2.0; color: #2a2318; padding: 20px 24px; background: var(--paper); border-left: 3px solid var(--gold); margin-bottom: 24px; border-radius: 0 2px 2px 0; }
+.passage-label { font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; font-weight: 600; }
 
-.q-text {
-  font-family: 'Noto Serif JP', serif;
-  font-size: 15px; line-height: 1.9;
-  margin-bottom: 24px; font-weight: 400;
-}
-.blank {
-  display: inline-block;
-  border-bottom: 2px solid var(--ink);
-  min-width: 80px; text-align: center;
-  font-weight: 600;
-}
+.q-text { font-family: 'Noto Serif JP', serif; font-size: 15px; line-height: 1.9; margin-bottom: 24px; font-weight: 400; }
 
-/* 선택지 */
 .choices { display: grid; gap: 10px; }
-.choice {
-  padding: 14px 20px;
-  border: 1.5px solid var(--border);
-  border-radius: 2px; cursor: pointer;
-  font-family: 'Noto Serif JP', serif;
-  font-size: 14px; line-height: 1.7;
-  transition: all 0.18s;
-  display: flex; align-items: flex-start; gap: 14px;
-  background: white;
-}
+.choice { padding: 14px 20px; border: 1.5px solid var(--border); border-radius: 2px; cursor: pointer; font-family: 'Noto Serif JP', serif; font-size: 14px; line-height: 1.7; transition: all 0.18s; display: flex; align-items: flex-start; gap: 14px; background: white; }
 .choice:hover:not(.disabled) { border-color: var(--blue); background: #f0f4fa; }
 .choice.selected-correct { border-color: var(--correct); background: #edf7f0; color: var(--correct); }
 .choice.selected-wrong { border-color: var(--wrong); background: #fdf0ef; color: var(--wrong); }
 .choice.show-correct { border-color: var(--correct); background: #edf7f0; color: var(--correct); }
 .choice.disabled { cursor: default; }
-.choice-num {
-  min-width: 22px; height: 22px;
-  border: 1.5px solid currentColor;
-  border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
-}
+.choice-num { min-width: 22px; height: 22px; border: 1.5px solid currentColor; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
 
-/* 해설 */
-.explanation {
-  border-top: 1px dashed var(--border);
-  margin-top: 24px; padding-top: 20px;
-  display: none;
-}
+.explanation { border-top: 1px dashed var(--border); margin-top: 24px; padding-top: 20px; display: none; }
 .explanation.show { display: block; animation: fadeUp 0.3s ease; }
-.exp-label {
-  font-size: 10px; letter-spacing: 3px; color: var(--gold);
-  font-weight: 700; margin-bottom: 10px; text-transform: uppercase;
-}
-.exp-text {
-  font-size: 13.5px; line-height: 1.9; color: #3a3220;
-}
-.exp-grammar {
-  display: inline-block;
-  background: var(--ink); color: var(--paper);
-  padding: 2px 10px; font-size: 12px;
-  font-family: 'Noto Serif JP', serif;
-  margin-bottom: 8px; letter-spacing: 1px;
-}
+.exp-label { font-size: 10px; letter-spacing: 3px; color: var(--gold); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; }
+.exp-grammar { display: inline-block; background: var(--ink); color: var(--paper); padding: 2px 10px; font-size: 12px; font-family: 'Noto Serif JP', serif; margin-bottom: 4px; letter-spacing: 1px; }
+.exp-kr { font-size: 13px; color: var(--blue); font-weight: 600; margin: 6px 0 12px; padding: 6px 12px; background: #eef3fa; border-left: 3px solid var(--blue); }
+.exp-text { font-size: 13.5px; line-height: 1.9; color: #3a3220; }
 
-/* 버튼 */
 .btn-row { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
-.btn {
-  padding: 12px 28px; font-size: 13px;
-  border: none; cursor: pointer; letter-spacing: 1px;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: 600; transition: all 0.18s;
-}
+.btn { padding: 12px 28px; font-size: 13px; border: none; cursor: pointer; letter-spacing: 1px; font-family: 'Noto Sans KR', sans-serif; font-weight: 600; transition: all 0.18s; }
 .btn-primary { background: var(--ink); color: var(--paper); }
 .btn-primary:hover { background: #333; }
 .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--muted); }
 .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
-.btn-red { background: var(--red); color: white; }
-.btn-red:hover { background: #7a1a27; }
 
-/* ── 결과 화면 ── */
-.result-screen {
-  text-align: center; padding: 48px 24px;
-  animation: fadeUp 0.5s ease;
-}
-.result-circle {
-  width: 120px; height: 120px;
-  border-radius: 50%; margin: 0 auto 28px;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  border: 3px solid var(--gold);
-  background: white;
-}
+.result-screen { text-align: center; padding: 48px 24px; animation: fadeUp 0.5s ease; }
+.result-circle { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 3px solid var(--gold); background: white; }
 .result-score { font-family: 'Shippori Mincho', serif; font-size: 42px; font-weight: 700; }
 .result-denom { font-size: 13px; color: var(--muted); }
 .result-title { font-family: 'Shippori Mincho', serif; font-size: 22px; margin-bottom: 12px; }
 .result-msg { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
-.result-breakdown {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 12px; max-width: 320px; margin: 0 auto 32px;
-}
+.result-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 320px; margin: 0 auto 32px; }
 .rb-item { background: white; border: 1px solid var(--border); padding: 16px; }
 .rb-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); }
 .rb-val { font-size: 24px; font-family: 'Shippori Mincho', serif; font-weight: 700; margin-top: 4px; }
+.result-emoji { font-size: 36px; margin-bottom: 8px; }
 
-/* ── 복습 탭 ── */
 .review-list { display: grid; gap: 12px; }
-.review-item {
-  background: white; border: 1px solid var(--border);
-  padding: 20px 24px; border-radius: 2px;
-  border-left: 4px solid;
-}
-.review-item.correct { border-left-color: var(--correct); }
+.review-item { background: white; border: 1px solid var(--border); padding: 20px 24px; border-radius: 2px; border-left: 4px solid; }
 .review-item.wrong { border-left-color: var(--wrong); }
 .review-q { font-family: 'Noto Serif JP', serif; font-size: 13.5px; line-height: 1.8; margin-bottom: 10px; }
 .review-ans { font-size: 12px; }
-.review-ans span { font-weight: 600; }
-.review-ans .correct-ans { color: var(--correct); }
-.review-ans .wrong-ans { color: var(--wrong); }
+.correct-ans { color: var(--correct); font-weight: 600; }
+.wrong-ans { color: var(--wrong); font-weight: 600; }
 
-/* 빈 상태 */
-.empty-state {
-  text-align: center; padding: 60px 20px;
-  color: var(--muted);
-}
+.empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
 .empty-jp { font-family: 'Shippori Mincho', serif; font-size: 40px; opacity: 0.2; margin-bottom: 16px; }
 .empty-msg { font-size: 13px; line-height: 1.8; }
 
-/* ── 애니메이션 ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; } to { opacity: 1; }
-}
+.grammar-ref-list { display: grid; gap: 12px; }
+.gr-item { background: white; border: 1px solid var(--border); padding: 20px 24px; border-radius: 2px; border-left: 4px solid var(--correct); }
+.gr-form { font-family: 'Shippori Mincho', serif; font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.gr-kr { font-size: 12px; color: var(--blue); font-weight: 600; margin-bottom: 6px; }
+.gr-meaning { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.gr-ex { font-family: 'Noto Serif JP', serif; font-size: 13px; color: #3a3220; padding: 8px 12px; background: var(--paper); border-left: 2px solid var(--gold); }
 
-/* 결과 이모지 */
-.result-emoji { font-size: 36px; margin-bottom: 8px; }
-
-/* ── 반응형 ── */
-@media(max-width:600px) {
-  .dashboard { grid-template-columns: repeat(3,1fr); }
-  .dash-val { font-size: 22px; }
-  .card { padding: 22px 18px; }
-  .passage { padding: 16px; }
-  .tabs { overflow-x: auto; }
-  .tab { padding: 10px 16px; white-space: nowrap; }
-}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@media(max-width:600px) { .dashboard { grid-template-columns: repeat(3,1fr); } .dash-val { font-size: 22px; } .card { padding: 22px 18px; } .passage { padding: 16px; } .tabs { overflow-x: auto; } .tab { padding: 10px 16px; white-space: nowrap; } }
 </style>
 </head>
 <body>
 <div class="accent-bar"></div>
 <div class="wrap">
 
-  <header>
-    <div class="header-tag">N1 · 独学ノート</div>
-    <h1>日本語能力試験<br><span style="color:var(--red)">N1 独学</span></h1>
-    <p>독해 · 문법 | 하루 10문제 루틴</p>
-  </header>
+<header>
+  <div class="header-tag">N1 · 独学ノート</div>
+  <h1>日本語能力試験<br><span style="color:var(--red)">N1 独学</span></h1>
+  <p>독해 · 문법 | 하루 5문제 루틴</p>
+</header>
 
-  <!-- 대시보드 -->
-  <div class="dashboard">
-    <div class="dash-card">
-      <div class="dash-label">총 학습일</div>
-      <div class="dash-val" id="dash-days">0<span class="dash-unit">일</span></div>
-    </div>
-    <div class="dash-card">
-      <div class="dash-label">전체 정답률</div>
-      <div class="dash-val" id="dash-rate">-<span class="dash-unit">%</span></div>
-    </div>
-    <div class="dash-card">
-      <div class="dash-label">오늘 완료</div>
-      <div class="dash-val" id="dash-today">-</div>
-    </div>
+<div class="dashboard">
+  <div class="dash-card">
+    <div class="dash-label">총 학습일</div>
+    <div class="dash-val" id="dash-days">0<span class="dash-unit">일</span></div>
   </div>
-
-  <!-- 탭 -->
-  <div class="tabs">
-    <div class="tab active" data-tab="quiz" onclick="switchTab('quiz')">오늘의 학습</div>
-    <div class="tab" data-tab="review" onclick="switchTab('review')">오답 복습</div>
-    <div class="tab" data-tab="grammar-ref" onclick="switchTab('grammar-ref')">문법 사전</div>
+  <div class="dash-card">
+    <div class="dash-label">전체 정답률</div>
+    <div class="dash-val" id="dash-rate">-<span class="dash-unit">%</span></div>
   </div>
-
-  <!-- 퀴즈 탭 -->
-  <div id="tab-quiz">
-    <div id="quiz-area"></div>
+  <div class="dash-card">
+    <div class="dash-label">오늘 완료</div>
+    <div class="dash-val" id="dash-today">-</div>
   </div>
-
-  <!-- 복습 탭 -->
-  <div id="tab-review" style="display:none">
-    <div id="review-area"></div>
-  </div>
-
-  <!-- 문법 사전 탭 -->
-  <div id="tab-grammar-ref" style="display:none">
-    <div id="grammar-ref-area"></div>
-  </div>
-
 </div>
 
+<div class="tabs">
+  <div class="tab active" data-tab="quiz" onclick="switchTab('quiz')">오늘의 학습</div>
+  <div class="tab" data-tab="review" onclick="switchTab('review')">오답 복습</div>
+  <div class="tab" data-tab="grammar-ref" onclick="switchTab('grammar-ref')">문법 사전</div>
+</div>
+
+<div id="tab-quiz"><div id="quiz-area"></div></div>
+<div id="tab-review" style="display:none"><div id="review-area"></div></div>
+<div id="tab-grammar-ref" style="display:none"><div id="grammar-ref-area"></div></div>
+
+</div>
 <script>
 // ═══════════════════════════════════════════
-// 문제 데이터베이스 (N1 기준)
+// 문법 한국어 의미 매핑
+// ═══════════════════════════════════════════
+const GRAMMAR_KR = {
+  '〜をよそに':'~을 무시하고, ~에 관계없이 (주변 상황을 신경 쓰지 않고 행동)',
+  '〜にほかならない':'다름 아닌 ~이다, 바로 ~이다 (강한 단정)',
+  '〜である以上':'~인 이상은, ~인 한 (당연히 ~해야 한다)',
+  '〜に際して':'~에 즈음하여, ~할 때에 (중요한 장면·공식 상황)',
+  '〜があっては':'~이 있어서는 안 된다 (불허·불용의 조건)',
+  '〜をものともせず':'~을 아랑곳하지 않고, ~을 거뜬히 극복하며',
+  '〜もさることながら':'~은 물론이거니와, ~도 그렇지만 (더욱 강조)',
+  '〜ならでは（の）':'~이 아니면 안 되는, ~만의 (유일성·독자성 강조)',
+  '〜いかんで':'~여하에 따라, ~나름으로 (결과가 달라짐)',
+  '〜いかんによらず':'~여하에 관계없이, ~가 어떻든 간에',
+  '〜ともあろう者が':'~정도 되는 사람이 (어울리지 않는 행동에 대한 비난)',
+  '〜ずにはおかない':'반드시 ~하게 만든다, ~하지 않고는 못 배긴다',
+  '〜いかんによっては':'~에 따라서는 (조건부 가능성)',
+  '〜にわたる':'~에 걸쳐, ~에 미치는 (기간·범위)',
+  '〜しさえすれば':'~하기만 하면 된다 (조건을 하나로 좁힘)',
+  '〜をおいて（ほかに）ない':'~을 제외하고는 없다, ~밖에 없다 (유일성)',
+  '〜はおろか':'~은 커녕 (더 낮은 것을 예로 들어 그 이상도 해당됨)',
+  '〜ともなると':'~정도 되면, ~에 이르면 (당연히)',
+  '〜にもとる':'~에 어긋나다, ~에 반하다 (도리·예의 위반)',
+  '〜ことから':'~라는 것에서, ~이기 때문에 (원인·판단 근거)',
+  '〜であるかのように':'마치 ~인 것처럼 (실제는 아니지만)',
+  '〜というのに':'~인데도, ~라는데 (불만·놀람의 역접)',
+  '〜ずにはおかない（使役形）':'반드시 ~하게 만들다 (강제적·필연적 영향)',
+  '〜からには':'~한 이상은, ~하는 이상은 (당연히 ~해야)',
+  '〜のみで':'~만으로, ~뿐으로 (그것만으로는 불충분)',
+  '〜をおして':'~을 무릅쓰고, ~을 강행하여',
+  '〜をきっかけに':'~을 계기로, ~을 기회 삼아 (변화의 출발점)',
+  '〜となれば':'~이 되면, ~이라면 (당연한 결과)',
+  '〜に至る':'~에 이르다, ~에 달하다 (긴 과정 끝에 도달)',
+  '〜のあまり':'~한 나머지, ~이 지나쳐서 (감정이 너무 강해)',
+  '〜以上は':'~한 이상은 (책임·의무 강조)',
+  '〜ほかない':'~할 수밖에 없다, 다른 방법이 없다',
+  '〜を余儀なくされる':'~을 어쩔 수 없이 하게 되다 (원치 않는 상황 강제)',
+  '〜をもって':'~으로써, ~을 가지고 (수단·근거, 격식체)',
+  '〜際には':'~할 때에는, ~의 경우에는 (격식체)',
+  '〜うえで':'~함에 있어서, ~을 고려하면 (판단·행동의 전제)',
+  '〜もが':'누구나, 어디나 (전체 강조)',
+  '〜とあって':'~이라서, ~이기 때문에 (특별한 상황이 원인)',
+  '〜やいなや':'~하자마자, ~하는 것과 동시에 (동작의 즉각성)',
+  '〜としても':'~로서도, ~라는 역할에서도 (복수 측면)',
+  '〜だけに':'~인 만큼, ~이기 때문에 더욱더 (필연적 결과 강조)',
+  '〜べく':'~하기 위해, ~하려고 (목적·의도, 격식체)',
+  '〜にかぎらず':'~뿐만 아니라, ~에 한하지 않고',
+  '〜ものの':'~이긴 하지만, ~이나 (기대와 다른 결과)',
+  '〜きらいがある':'~하는 경향이 있다 (좋지 않은 습관·경향)',
+  '〜てやまない':'~해 마지않다, 끊임없이 ~하다 (강한 감정의 지속)',
+  '〜すえに':'~한 끝에, ~을 거친 결과 (긴 과정 후의 결말)',
+  '〜をふまえて':'~을 토대로, ~을 고려하여 (사실·경험을 바탕으로)',
+  '〜にもかかわらず':'~임에도 불구하고 (예상과 다른 결과)',
+  '〜につれ（て）':'~함에 따라, ~에 비례하여 (동시 변화)',
+  '〜ずにはいられない':'~하지 않고는 못 배기다 (충동·감정을 억제할 수 없음)',
+  '〜にしては':'~치고는, ~인데 비해서는 (기준에 비해 예외적)',
+  '〜たる者は':'~이라는 자는, ~인 사람은 (자격·책임 강조)',
+  '〜となく':'몇 ~이라 할 것 없이, 수없이',
+  '〜を経て':'~을 거쳐, ~을 경과하여 (과정·단계를 통해)',
+  '〜はもとより':'~은 말할 것도 없고, ~은 물론',
+  '〜がもとで':'~이 원인이 되어 (부정적 결과의 원인)',
+  '〜とともに':'~와 함께, ~과 동시에 (동반·동시 진행)',
+  '〜に対して':'~에 대해, ~을 향해 (대상·방향)',
+  '〜とたん（に）':'~하자마자, ~한 순간 (즉각적 반응)',
+  '〜において（も）':'~에 있어서(도), ~에서(도) (장소·분야·상황)',
+  '〜とかく':'자칫 ~하기 쉽다, 흔히 ~하는 경향이 있다',
+  '〜に値する':'~할 가치가 있다, ~에 값하다',
+  '〜とあって':'~이라서, ~이기 때문에 (특별한 상황이 원인)',
+  '〜つつも':'~하면서도, ~이면서도 (내적 모순·갈등)',
+  '〜てこそ':'~해야 비로소, ~함으로써 비로소',
+  '〜として':'~로서, ~의 자격으로 (입장·역할)',
+};
+
+// ═══════════════════════════════════════════
+// 문제 데이터베이스
 // ═══════════════════════════════════════════
 const QUESTION_BANK = {
   grammar: [
-    {
-      id: 'g01',
-      text: '彼女は仕事の忙しさ（　　）、友人との約束を何度もキャンセルしてしまった。',
-      choices: ['をよそに', 'にもかかわらず', 'のあまり', 'もさることながら'],
-      answer: 0,
-      grammar_point: '〜をよそに',
-      kr: '~을 무시하고 / ~에 관계없이 행동하다',
-      explanation: '「〜をよそに」は
-    },
-    {
-      id: 'g02',
-      text: '長年の研究の末、ついに新薬の開発に成功した。これ（　　）医学の進歩と言えるだろう。',
-      choices: ['にほかならない', 'をもってして', 'であれば', 'にすぎない'],
-      answer: 0,
-      grammar_point: '〜にほかならない',
-      explanation: '「〜にほかならない」は「まさに〜だ・〜以外の何でもない」という意味で、強い断定を表す。\n例：彼の成功は努力にほかならない。\n\n「にすぎない」は「ただ〜だけだ」という控えめな表現で、意味が逆になる。'
-    },
-    {
-      id: 'g03',
-      text: '規則（　　）、例外を認めることはできない。',
-      choices: ['上は', 'である以上', 'とあれば', 'からには'],
-      answer: 1,
-      grammar_point: '〜である以上',
-      explanation: '「〜である以上（は）」は「〜という条件・立場である限り、当然〜すべき/〜だ」という意味。責任・義務を表す。\n例：社会人である以上、責任感を持って行動すべきだ。\n\n「からには」も似ているが、主に「〜した以上は」と動作の後に使うことが多い。'
-    },
-    {
-      id: 'g04',
-      text: '新製品の発売（　　）、全社員が準備に追われている。',
-      choices: ['をめぐって', 'に際して', 'をもとに', 'に反して'],
-      answer: 1,
-      grammar_point: '〜に際して',
-      explanation: '「〜に際して」は「〜という重要な場面・機会にあたって」という意味。改まった場面やフォーマルな文脈で使う。\n例：入学に際して、保護者へのご挨拶を申し上げます。\n\n「をめぐって」は「〜を話題・争点として」という意味で文脈が異なる。'
-    },
-    {
-      id: 'g05',
-      text: '部長の反対（　　）、プロジェクトを強行することはできない。',
-      choices: ['をもってしても', 'いかんによらず', 'をおいて', 'があっては'],
-      answer: 3,
-      grammar_point: '〜があっては',
-      explanation: '「〜があっては（ならない）」は「〜という事態は許されない」という意味。不都合な条件を述べる。\n例：ミスがあってはならない場面だ。\n\n「いかんによらず」は「〜がどうであれ関係なく」という意味で文脈が逆になる。'
-    },
-    {
-      id: 'g06',
-      text: '彼はどんな困難（　　）、決して諦めなかった。',
-      choices: ['にあっても', 'をものともせず', 'もさることながら', 'をよそに'],
-      answer: 1,
-      grammar_point: '〜をものともせず',
-      explanation: '「〜をものともせず」は「困難・障害を物ともしない・意に介さず行動する」という意味。強い意志や克服を強調する。\n例：激しい風雨をものともせず、選手たちはプレーし続けた。'
-    },
-    {
-      id: 'g07',
-      text: '彼女の演奏は技術（　　）、感情表現も素晴らしかった。',
-      choices: ['のみならず', 'もさることながら', 'はともかく', 'にもかかわらず'],
-      answer: 1,
-      grammar_point: '〜もさることながら',
-      explanation: '「〜もさることながら」は「〜も確かにそうだが、それ以上に〜」という意味。前の事柄を認めつつ、後の事柄をより強調する。\n例：価格もさることながら、品質の高さが評判だ。'
-    },
-    {
-      id: 'g08',
-      text: 'この地域の文化（　　）の料理は、観光客に大変人気がある。',
-      choices: ['ならでは', 'をもって', 'をよそに', 'だけあって'],
-      answer: 0,
-      grammar_point: '〜ならでは（の）',
-      explanation: '「〜ならでは（の）」は「〜にしかできない・〜だからこそできる」という意味。唯一性・独自性を強調する。\n例：プロならではの技術。ここならではの景色。'
-    },
-    {
-      id: 'g09',
-      text: '事故の原因（　　）、対策を講じる必要がある。',
-      choices: ['いかんにかかわらず', 'いかんによっては', 'いかんで', 'いかんによらず'],
-      answer: 2,
-      grammar_point: '〜いかんで',
-      explanation: '「〜いかんで」は「〜の状況・内容次第で（結果が変わる）」という意味。\n\n比較: \n・いかんで＝〜次第で（結果が変わる）\n・いかんによらず＝〜に関係なく（結果は変わらない）\n・いかんによっては＝場合によっては'
-    },
-    {
-      id: 'g10',
-      text: '彼はチームのエース（　　）、プレッシャーに押しつぶされてしまった。',
-      choices: ['ともなると', 'ともあろう者が', 'とはいえ', 'とあれば'],
-      answer: 1,
-      grammar_point: '〜ともあろう者が',
-      explanation: '「〜ともあろう者が」は「〜ほどの立場・レベルの人が（あるまじき行動をした）」という意味。非難・驚きを表す。\n例：医者ともあろう者が、そんな不注意なことをするとは。'
-    },
-    {
-      id: 'g11',
-      text: '不正を見て（　　）。これは市民としての義務だ。',
-      choices: ['おくわけにはいかない', '知らずにはいられない', '黙っていられないわけがない', '見逃さずにはおかない'],
-      answer: 3,
-      grammar_point: '〜ずにはおかない',
-      explanation: '「〜ずにはおかない」は「必ず〜する・〜せずにいられない」という意味。強い決意や感情が自然に起こることを示す。\n例：このドラマは見る人を感動させずにはおかない。'
-    },
-    {
-      id: 'g12',
-      text: '会議の日程（　　）、参加できない方もいるかもしれません。',
-      choices: ['にかんして', 'いかんによっては', 'をめぐっては', 'をよそに'],
-      answer: 1,
-      grammar_point: '〜いかんによっては',
-      explanation: '「〜いかんによっては」は「〜の内容・状況によっては（ある結果になる場合もある）」という意味。条件付きの可能性を述べる。\n例：天候いかんによっては、中止になるかもしれない。'
-    },
-    {
-      id: 'g13',
-      text: '10年（　　）の研究がようやく実を結んだ。',
-      choices: ['にわたる', 'をかけた', 'にかけた', 'をわたる'],
-      answer: 0,
-      grammar_point: '〜にわたる',
-      explanation: '「〜にわたる」は「（期間・範囲）に及ぶ」という意味。広い範囲や長い期間を示す。\n例：全国にわたる調査。3時間にわたる会議。\n\n「をかけた」は「時間・お金を費やした」という意味で、後に名詞を修飾する形で使う（3年をかけた旅）。'
-    },
-    {
-      id: 'g14',
-      text: '彼の言葉は多くの人の心（　　）。',
-      choices: ['を動かしてやまない', 'を動かさずにはおかない', 'を動かさずにいない', 'を動かすほかない'],
-      answer: 1,
-      grammar_point: '〜ずにはおかない',
-      explanation: '「〜ずにはおかない」は「〜せずにいられない・必ず〜する」という必然的な影響を表す。\n例：その映像は見る者を涙させずにはおかなかった。'
-    },
-    {
-      id: 'g15',
-      text: '努力（　　）合格できるとは限らない。しかし、努力なしでは絶対に無理だ。',
-      choices: ['したが最後', 'したからには', 'しさえすれば', 'したとあっては'],
-      answer: 2,
-      grammar_point: '〜しさえすれば',
-      explanation: '「〜しさえすれば」は「〜だけすれば（それで十分）」という意味。条件を絞り込む。\n例：ここに来さえすれば、あとは何もしなくていい。\n\n「したからには」は「〜した以上は責任を持て」という意味で文脈が異なる。'
-    },
-    {
-      id: 'g16',
-      text: '先生（　　）の教え方は、学生にとってわかりやすいと好評だ。',
-      choices: ['ならでは', 'だからこそ', 'とあれば', 'にして'],
-      answer: 0,
-      grammar_point: '〜ならでは（の）',
-      explanation: '「〜ならでは（の）」は「〜にしかできない独自の」という意味。名詞に接続して修飾語を作る。\n例：職人ならではの技。日本ならではの文化。'
-    },
-    {
-      id: 'g17',
-      text: '今回の事件は、社内の体制の問題（　　）、外部からの不正アクセスにも原因があった。',
-      choices: ['もさることながら', 'のみならず', 'はおろか', 'をよそに'],
-      answer: 0,
-      grammar_point: '〜もさることながら',
-      explanation: '「〜もさることながら」は「〜も確かだが、さらに〜も」という意味で、複数の原因・要素を列挙する際に使う。\nフォーマルな文章でよく使われる表現。'
-    },
-    {
-      id: 'g18',
-      text: 'この問題を解決できる人がいるとしたら、彼（　　）いない。',
-      choices: ['をおいて', 'ほかに', 'のみに', 'だけが'],
-      answer: 0,
-      grammar_point: '〜をおいて',
-      explanation: '「〜をおいて（ほかに）ない」は「〜以外にない・〜しかいない」という意味。唯一性を強調する。\n例：この役を演じられるのは彼女をおいていない。'
-    },
-    {
-      id: 'g19',
-      text: '彼女は失業（　　）、住む家まで失ってしまった。',
-      choices: ['もさることながら', 'はおろか', 'だけでなく', 'にもまして'],
-      answer: 1,
-      grammar_point: '〜はおろか',
-      explanation: '「〜はおろか」は「〜はもちろん（それ以上のことも）」という意味。程度の低いものを例に挙げ、さらに高いレベルまで及ぶことを示す。\n例：漢字はおろか、ひらがなも書けない。'
-    },
-    {
-      id: 'g20',
-      text: 'プロジェクトが失敗に終わったのは、準備不足（　　）だった。',
-      choices: ['にほかならない', 'をもとに', 'をきっかけに', 'にかわって'],
-      answer: 0,
-      grammar_point: '〜にほかならない',
-      explanation: '「〜にほかならない」は「まさに〜だ」という強い断定・強調表現。\n例：この結果は皆さんの努力にほかならない。\n\nフォーマルな文章・スピーチでよく使われる。'
-    },
-    {
-      id: 'g21',
-      text: '社長（　　）の発言だけに、社内に大きな波紋を呼んだ。',
-      choices: ['ともあれ', 'ともなると', 'ともなれば', 'ともあろうに'],
-      answer: 1,
-      grammar_point: '〜ともなると',
-      explanation: '「〜ともなると」は「〜ほどの立場・レベルになると、当然〜だ」という意味。地位や規模が上がると自然に伴う変化を表す。\n例：部長ともなると、責任も大きくなる。\n\n「ともあろうに」は非難のニュアンスが強い別の表現。'
-    },
-    {
-      id: 'g22',
-      text: '彼の態度は礼儀（　　）ものだった。',
-      choices: ['にもとる', 'にあたる', 'にわたる', 'にかける'],
-      answer: 0,
-      grammar_point: '〜にもとる',
-      explanation: '「〜にもとる」は「〜に反する・〜に背く」という意味。道徳・礼儀・規則などに違反することを表す硬い表現。\n例：人道にもとる行為。道義にもとる発言。'
-    },
-    {
-      id: 'g23',
-      text: '予算が削減された（　　）、計画を縮小せざるを得なかった。',
-      choices: ['ことから', 'ことで', 'ことには', 'ことか'],
-      answer: 0,
-      grammar_point: '〜ことから',
-      explanation: '「〜ことから」は「〜という理由・根拠から」という意味。原因・判断の根拠を示す。\n例：外見が似ていることから、双子だと思われた。\n\n「ことで」も理由を示すが、よりカジュアルな文脈で使われる。'
-    },
-    {
-      id: 'g24',
-      text: '彼は部下の失敗を自分のこと（　　）怒り続けた。',
-      choices: ['のように', 'のごとく', 'かのように', 'であるかのように'],
-      answer: 3,
-      grammar_point: '〜であるかのように',
-      explanation: '「〜であるかのように」は「実際はそうではないのに、まるで〜のように」という意味。仮定的な様子を表す。\n例：まるで自分が正しいかのように振る舞う。'
-    },
-    {
-      id: 'g25',
-      text: '締め切りが迫っている（　　）、彼はのんびり休憩していた。',
-      choices: ['にもかかわらず', 'にしては', 'というのに', 'とはいえ'],
-      answer: 2,
-      grammar_point: '〜というのに',
-      explanation: '「〜というのに」は「〜なのに（話者の不満・驚き）」という意味。期待に反する状況に対する感情を含む。\n例：もう夜中というのに、子供たちはまだ起きている。\n\n「にもかかわらず」は客観的な逆接で感情色が薄い。'
-    },
-    {
-      id: 'g26',
-      text: '彼女の歌声は聴く者を感動（　　）。',
-      choices: ['せずにはおかない', 'せざるをえない', 'しかねない', 'しないではいられない'],
-      answer: 0,
-      grammar_point: '〜ずにはおかない',
-      explanation: '「〜ずにはおかない」は「必ず〜させる・〜せずにいられない」。主語が人以外（物・事）のとき、強制的・必然的な影響を表す。\n例：この本は読む者を考えさせずにはおかない。'
-    },
-    {
-      id: 'g27',
-      text: '一度決めた（　　）、どんなに辛くても続けるべきだ。',
-      choices: ['からこそ', 'からには', 'からといって', 'からして'],
-      answer: 1,
-      grammar_point: '〜からには',
-      explanation: '「〜からには」は「〜した以上は・〜する以上は（当然〜すべき）」という意味。決意・義務・責任を表す。\n例：参加するからには、全力を尽くせ。\n\n「からといって」は「〜だからといって必ずしも〜ではない」と逆接的に使う。'
-    },
-    {
-      id: 'g28',
-      text: '環境問題は一国（　　）解決できる問題ではない。',
-      choices: ['のみで', 'だけで', 'のみならず', 'のみにて'],
-      answer: 0,
-      grammar_point: '〜のみで',
-      explanation: '「〜のみで」は「〜だけで（それでは不十分・限界がある）」という意味。「だけで」より書き言葉的・強調的な表現。\n例：言葉のみで伝えることの難しさ。'
-    },
-    {
-      id: 'g29',
-      text: '彼の発言は人種差別（　　）もので、到底許せない。',
-      choices: ['にもとる', 'にあたる', 'にかかわる', 'にふれる'],
-      answer: 0,
-      grammar_point: '〜にもとる',
-      explanation: '「〜にもとる」は「〜に反する・道義・礼儀に背く」行為を批判するときに使う硬い表現。\n例：人道にもとる行為は断じて許されない。'
-    },
-    {
-      id: 'g30',
-      text: '彼は怪我（　　）、試合に出場し続けた。',
-      choices: ['をよそに', 'をものともせず', 'にもかかわらず', 'をおして'],
-      answer: 3,
-      grammar_point: '〜をおして',
-      explanation: '「〜をおして」は「〜という困難・反対を押し切って」という意味。主に身体的な障害や他者の反対を無視して行動する場合に使う。\n例：病をおして舞台に立った。反対をおして計画を進めた。\n\n「をものともせず」も似ているが、外部の困難全般に使える。'
-    },
-    {
-      id: 'g31',
-      text: '新しいシステムの導入（　　）、業務効率が大幅に改善された。',
-      choices: ['をもとに', 'をきっかけに', 'をもって', 'をめぐって'],
-      answer: 1,
-      grammar_point: '〜をきっかけに',
-      explanation: '「〜をきっかけに」は「〜をきっかけとして・〜がきっかけで変化が起きた」という意味。変化のきっかけ・契機を示す。\n例：この出会いをきっかけに、人生が変わった。'
-    },
-    {
-      id: 'g32',
-      text: '彼（　　）、こんな簡単なミスをするとは信じられない。',
-      choices: ['ほどの人が', 'ともなると', 'ともあろう者が', 'にしては'],
-      answer: 2,
-      grammar_point: '〜ともあろう者が',
-      explanation: '「〜ともあろう者が」は「〜ほどの地位・実力の人が（あるまじきことをした）」という非難・驚きを表す。\n例：ベテランともあろう者がそんな失敗をするとは。'
-    },
-    {
-      id: 'g33',
-      text: '合格（　　）、これほど嬉しいことはない。',
-      choices: ['したが最後', 'したとたん', 'できたとあっては', 'できたとなれば'],
-      answer: 3,
-      grammar_point: '〜となれば',
-      explanation: '「〜となれば」は「〜という状況・条件になると（当然〜だ）」という意味。仮定的な条件に基づく当然の結果を示す。\n例：卒業となれば、寂しくなる。優勝となれば、話は別だ。'
-    },
-    {
-      id: 'g34',
-      text: '長い交渉の末、ようやく合意（　　）。',
-      choices: ['に至った', 'に達した', 'にいたった', 'のいたりだ'],
-      answer: 0,
-      grammar_point: '〜に至る',
-      explanation: '「〜に至る」は「（長い過程を経て）〜という結論・状態に達した」という意味。結論・到達点を表す。\n例：決裂に至った。このような状況に至った経緯を説明する。'
-    },
-    {
-      id: 'g35',
-      text: '子供（　　）大人まで楽しめるイベントを企画した。',
-      choices: ['から', 'はじめ', 'をはじめ', 'まで'],
-      answer: 0,
-      grammar_point: '〜から〜まで',
-      explanation: '「〜から〜まで」は範囲・幅の広さを表す。\n例：老人から子供まで楽しめる。\n\n「をはじめ」は「〜を代表として（その他も含め）」という意味で用法が異なる。\n例：東京をはじめ、全国で開催された。'
-    },
-    {
-      id: 'g36',
-      text: '彼女は感謝（　　）、涙を流した。',
-      choices: ['のあまり', 'のせいで', 'のために', 'にかかわらず'],
-      answer: 0,
-      grammar_point: '〜のあまり',
-      explanation: '「〜のあまり」は「感情・状態が強すぎて（予期しない行動・状態になった）」という意味。\n例：嬉しさのあまり声が出なかった。緊張のあまり失敗した。\n\n感情・心理状態を表す名詞に接続する点が特徴。'
-    },
-    {
-      id: 'g37',
-      text: '彼の作品は完成度（　　）、見る者を圧倒する迫力がある。',
-      choices: ['もさることながら', 'はおろか', 'のみならず', 'をよそに'],
-      answer: 0,
-      grammar_point: '〜もさることながら',
-      explanation: '「〜もさることながら」は「〜は言うまでもなく・〜はもちろんのこと、さらに〜も」という意味。複数の優れた点を強調する際に使う。\n例：技術もさることながら、センスが際立っている。'
-    },
-    {
-      id: 'g38',
-      text: '彼女は一度約束した（　　）、必ず守る人だ。',
-      choices: ['以上は', 'からには', 'からこそ', 'とあっては'],
-      answer: 0,
-      grammar_point: '〜以上は',
-      explanation: '「〜以上は」は「〜した・〜する以上は（当然〜すべき）」という意味。「からには」と非常に近いが、「以上は」のほうがやや書き言葉的。\n例：引き受けた以上は責任を持ってやり遂げろ。'
-    },
-    {
-      id: 'g39',
-      text: '試験に合格したいなら、努力する（　　）ない。',
-      choices: ['ほか', 'だけで', 'まで', 'のみ'],
-      answer: 0,
-      grammar_point: '〜ほかない / 〜ほかはない',
-      explanation: '「〜ほかない」は「〜するしかない・それ以外に方法がない」という意味。唯一の選択肢を示す。\n例：こうなれば諦めるほかない。信じて待つほかはない。'
-    },
-    {
-      id: 'g40',
-      text: '交通事故で入院を（　　）された。',
-      choices: ['余儀なく', 'やむを得なく', 'せざるを得なく', 'しかたなく'],
-      answer: 0,
-      grammar_point: '〜を余儀なくされる',
-      explanation: '「〜を余儀なくされる」は「望んでいないのに〜することを強いられる」という意味。外部の力によって不本意な行動をせざるを得ない状況を表す。\n例：計画の中止を余儀なくされた。'
-    },
-    {
-      id: 'g41',
-      text: 'このプロジェクトの成功は、チーム全員の協力（　　）実現した。',
-      choices: ['をもって', 'によって', 'をもとに', 'により'],
-      answer: 0,
-      grammar_point: '〜をもって',
-      explanation: '「〜をもって」は「〜を手段・根拠として」という意味。フォーマルな文章でよく使われる。\n例：実力をもって証明する。本日をもって閉店いたします（＝時点）。\n\n「によって」はより一般的な手段・原因表現。'
-    },
-    {
-      id: 'g42',
-      text: '彼の無礼な発言は、聴衆を怒ら（　　）。',
-      choices: ['せずにはおかなかった', 'ないではおかなかった', 'なくてはおかなかった', 'ずにはいられなかった'],
-      answer: 0,
-      grammar_point: '〜ずにはおかない（使役形）',
-      explanation: '「〜（さ）せずにはおかない」は「必ず〜させてしまう」という意味。物・事が人に強制的・必然的な感情・行動を引き起こす場合に使う。\n例：この映画は観客を泣かせずにはおかない。'
-    },
-    {
-      id: 'g43',
-      text: '問題が起きた（　　）、すぐに報告してください。',
-      choices: ['際には', 'ことには', 'ものには', 'ところには'],
-      answer: 0,
-      grammar_point: '〜際には',
-      explanation: '「〜際には」は「〜という場合・機会には」という意味。改まった状況や特定の場面を示す。「場合には」より書き言葉的。\n例：緊急の際には、このボタンを押してください。'
-    },
-    {
-      id: 'g44',
-      text: '彼女は自分の考えを曲げない（　　）、強い意志の持ち主だ。',
-      choices: ['ことで', 'ことから', 'ことに', 'ことなく'],
-      answer: 1,
-      grammar_point: '〜ことから',
-      explanation: '「〜ことから」は「〜という特徴・事実から判断して」という意味。性格・特性を根拠として結論を導く。\n例：細かいことによく気づくことから、彼女は観察眼が鋭いと言える。'
-    },
-    {
-      id: 'g45',
-      text: '会社の将来を考える（　　）、今すぐ対策を講じるべきだ。',
-      choices: ['につけ', 'にあたって', 'うえで', 'うえに'],
-      answer: 2,
-      grammar_point: '〜うえで',
-      explanation: '「〜うえで」は「〜を考慮した場合に」または「〜するために」という意味。判断・行動の前提条件を表す。\n例：健康のうえで問題はない。就職するうえで資格は重要だ。'
-    },
-    {
-      id: 'g46',
-      text: '彼の努力は、誰（　　）認めるところだ。',
-      choices: ['もが', 'もなく', 'でもが', 'であれ'],
-      answer: 0,
-      grammar_point: '〜もが',
-      explanation: '「誰もが」「どこもが」のように「〜も」＋「が」で「すべての〜が」という意味を強調する。\n例：誰もが認める実力。どこもが同じ問題を抱えている。'
-    },
-    {
-      id: 'g47',
-      text: '不景気（　　）、採用人数を大幅に減らした企業が多い。',
-      choices: ['とあって', 'だけあって', 'にあって', 'といって'],
-      answer: 0,
-      grammar_point: '〜とあって',
-      explanation: '「〜とあって」は「〜という状況・理由なので（当然〜だ）」という意味。特別な状況がある理由を示す。\n例：連休とあって、観光地は大賑わいだった。'
-    },
-    {
-      id: 'g48',
-      text: '彼が辞任（　　）、会社の株価が急落した。',
-      choices: ['したとたん', 'したが最後', 'するやいなや', 'したきり'],
-      answer: 2,
-      grammar_point: '〜やいなや',
-      explanation: '「〜やいなや」は「〜するとすぐに（瞬時に次の動作が起きた）」という意味。「したとたん」「するとすぐに」に近いが、やや書き言葉的で出来事の速さを強調。\n例：ドアを開けるやいなや、猫が飛び出した。'
-    },
-    {
-      id: 'g49',
-      text: '彼女は歌手（　　）、女優としても活躍している。',
-      choices: ['はさておき', 'はともかく', 'としても', 'をはじめ'],
-      answer: 2,
-      grammar_point: '〜としても',
-      explanation: '「〜としても」は「〜という立場・役割においても」という意味で、複数の側面・役割を示す。\n例：教師としても、親としても尊敬される人物だ。\n\n「をはじめ」は「〜を代表例として（他にも多くある）」という意味。'
-    },
-    {
-      id: 'g50',
-      text: 'この薬は副作用が強い（　　）、安易に服用すべきではない。',
-      choices: ['だけに', 'だけあって', 'からこそ', 'にしては'],
-      answer: 0,
-      grammar_point: '〜だけに',
-      explanation: '「〜だけに」は「〜という理由・特性があるからこそ（より〜だ）」という意味。原因が強調され、結果への必然性を示す。\n例：期待が大きかっただけに、失望も大きかった。\n\n「だけあって」は「〜にふさわしく（ポジティブな評価）」という意味で用法が異なる。'
-    },
-    { id:'g51', text:'子供の頃の夢を（　　）、彼はついにパイロットになった。', choices:['かなえるべく','かなえるまでもなく','かなえてやまず','かなえるとともに'], answer:0, grammar_point:'〜べく', kr:'~하기 위해, ~하려고 (목적·의도, 격식체)', explanation:'「〜べく」は「〜するために」という意味の文語的表現。改まった文章・ニュースなどで使われる。\n例：夢を実現すべく、毎日練習した。' },
-    { id:'g52', text:'彼女は言葉（　　）、目で語りかけてくるような人だ。', choices:['もさることながら','にかぎらず','のみならず','はおろか'], answer:1, grammar_point:'〜にかぎらず', kr:'~뿐만 아니라, ~에 한하지 않고', explanation:'「〜にかぎらず」は「〜だけでなく、それ以外も含めて」という意味。\n例：音楽にかぎらず、芸術全般に興味がある。' },
-    { id:'g53', text:'彼は疲れている（　　）、それを表情に出すことはなかった。', choices:['にせよ','にしても','とはいえ','ものの'], answer:3, grammar_point:'〜ものの', kr:'~이긴 하지만, ~이나 (기대와 다른 결과)', explanation:'「〜ものの」は「〜だが（期待と異なる結果）」という逆接。\n例：合格したものの、喜べない事情があった。' },
-    { id:'g54', text:'彼の言葉には、言外に批判が含まれている（　　）。', choices:['きらいがある','ことがある','ものがある','わけがある'], answer:0, grammar_point:'〜きらいがある', kr:'~하는 경향이 있다 (좋지 않은 습관·경향)', explanation:'「〜きらいがある」は「好ましくない傾向がある」という批判的ニュアンスを含む傾向表現。\n例：彼は物事を悲観的に考えるきらいがある。' },
-    { id:'g55', text:'その映画は見る者を（　　）感動を与えてくれる。', choices:['引きつけてやまない','やまない','引きつけずにはおかない','ずにはいられない'], answer:0, grammar_point:'〜てやまない', kr:'~해 마지않다, 끊임없이 ~하다 (강한 감정의 지속)', explanation:'「〜てやまない」は「強い感情が止まらない・ずっと〜し続ける」という意味。\n例：彼女の成功を願ってやまない。故郷を愛してやまない。' },
-    { id:'g56', text:'彼が失敗した（　　）には、いくつかの原因が重なっていた。', choices:['の','こと','ため','もの'], answer:1, grammar_point:'〜こと（名詞節）', kr:'~한 것 (명사절로 명사화, 객관적 사실)', explanation:'「〜こと」は動詞を名詞化する。「こと」は客観的事実を、「の」は主観・感覚を表すことが多い。\n例：彼女が来ることは分かっている（事実）。' },
-    { id:'g57', text:'この問題は簡単（　　）、実は非常に奥が深い。', choices:['そうで','なようで','そうなのに','に見えて'], answer:3, grammar_point:'〜に見えて（実は）', kr:'~처럼 보이지만 (실제로는 다름)', explanation:'「〜に見えて（実は）」は「外見上は〜のように見えるが、実際は違う」という意味。\n例：簡単に見えて実は難しい。' },
-    { id:'g58', text:'彼女は苦労を重ねた（　　）、今の地位を築いた。', choices:['すえに','ために','うえで','からこそ'], answer:0, grammar_point:'〜すえに', kr:'~한 끝에, ~을 거친 결과 (긴 과정 후의 결말)', explanation:'「〜すえに」は「長い時間・努力・苦労の末に（ある結果になった）」という意味。\n例：長い交渉のすえに合意に達した。' },
-    { id:'g59', text:'両国の対立は、長年の歴史的背景（　　）理解しなければならない。', choices:['をもとに','にそくして','をふまえて','にもとづいて'], answer:2, grammar_point:'〜をふまえて', kr:'~을 토대로, ~을 고려하여 (사실·경험을 바탕으로)', explanation:'「〜をふまえて」は「〜という事実・経験を土台として考慮した上で」という意味。\n例：前回の失敗をふまえて改善策を立てた。' },
-    { id:'g60', text:'彼の行動は、周囲の期待（　　）ものだった。', choices:['に背く','に沿った','を裏切る','に応える'], answer:2, grammar_point:'期待を裏切る', kr:'기대를 저버리다, 예상과 다른 결과를 내다', explanation:'「期待を裏切る」は慣用表現で「期待通りにならない」という意味。ただし良い意味でも使われる。\n例：良い意味で期待を裏切ってくれた。' },
-    { id:'g61', text:'努力（　　）、結果が出ないこともある。しかし諦めてはならない。', choices:['したにもかかわらず','したとはいえ','すれども','しようとも'], answer:0, grammar_point:'〜にもかかわらず', kr:'~임에도 불구하고 (예상과 다른 결과)', explanation:'「〜にもかかわらず」は「〜であるのに（予想と反した結果）」という逆接。客観的・書き言葉的。\n例：雨にもかかわらず、多くの人が集まった。' },
-    { id:'g62', text:'景気回復（　　）、雇用状況も改善されつつある。', choices:['とともに','とあわせて','につれ','にしたがって'], answer:2, grammar_point:'〜につれ（て）', kr:'~함에 따라, ~에 비례하여 (동시 변화)', explanation:'「〜につれて」は「〜の変化と比例して（別の変化も起きる）」という意味。\n例：年を取るにつれて、体力が落ちる。' },
-    { id:'g63', text:'彼は困っている人を見ると、（　　）性格だ。', choices:['助けずにはいられない','ずにはおかない','助けてやまない','助けることができない'], answer:0, grammar_point:'〜ずにはいられない', kr:'~하지 않고는 못 배기다 (충동·감정을 억제할 수 없음)', explanation:'「〜ずにはいられない」は「〜したい気持ちを抑えられない」という意味。\n例：彼女の歌を聞くと涙せずにはいられない。' },
-    { id:'g64', text:'新入社員（　　）、そのくらいのミスは仕方ない。', choices:['だけあって','にしては','だからこそ','とあれば'], answer:1, grammar_point:'〜にしては', kr:'~치고는, ~인데 비해서는 (기준에 비해 예외적)', explanation:'「〜にしては」は「〜という条件を考えると（予想と違って）〜だ」という意味。\n例：子供にしては上手い絵だ。初めてにしてはよくできた。' },
-    { id:'g65', text:'リーダー（　　）、チームをまとめる責任がある。', choices:['たる者は','ともなると','とあれば','であれ'], answer:0, grammar_point:'〜たる者は', kr:'~이라는 자는, ~인 사람은 (자격·책임 강조)', explanation:'「〜たる者は」は「〜という立場・資格を持つ者は（当然〜すべきだ）」という格式体表現。\n例：教師たる者は、学び続けなければならない。' },
-    { id:'g66', text:'何度（　　）失敗しても、彼は立ち上がり続けた。', choices:['となく','とはなく','となしに','となれば'], answer:0, grammar_point:'〜となく', kr:'몇 ~이라 할 것 없이, 수없이', explanation:'「〜となく」は「何度となく」「幾度となく」の形で「何回も繰り返し」を強調する慣用表現。\n例：何度となく警告を受けた。' },
-    { id:'g67', text:'長い会議（　　）、ようやく方針が決まった。', choices:['のすえに','をへて','を経て','ののちに'], answer:2, grammar_point:'〜を経て', kr:'~을 거쳐, ~을 경과하여 (과정·단계를 통해)', explanation:'「〜を経て」は「〜というプロセスを通って（次の状態になった）」という意味。\n例：数年の研究を経て、論文を発表した。' },
-    { id:'g68', text:'彼は才能（　　）、努力も怠らない人物だ。', choices:['はもとより','はさておき','ならではの','にかぎらず'], answer:0, grammar_point:'〜はもとより', kr:'~은 말할 것도 없고, ~은 물론', explanation:'「〜はもとより」は「〜はもちろん（その上に）〜も」という意味。\n例：日本語はもとより、英語も話せる。' },
-    { id:'g69', text:'その失言（　　）、大臣は辞任せざるを得なかった。', choices:['が原因で','がもとで','をきっかけに','によって'], answer:1, grammar_point:'〜がもとで', kr:'~이 원인이 되어 (부정적 결과의 원인)', explanation:'「〜がもとで」は「〜が原因・きっかけとなって（悪い結果になった）」という意味。\n例：小さなトラブルがもとで、友情が壊れた。' },
-    { id:'g70', text:'この政策は、経済成長（　　）、環境への配慮も同時に目指している。', choices:['とともに','と同時に','のみならず','もさることながら'], answer:0, grammar_point:'〜とともに', kr:'~와 함께, ~과 동시에 (동반·동시 진행)', explanation:'「〜とともに」は「〜と同時に・〜と一緒に」という意味。時間的同時進行を示す。\n例：春の訪れとともに、花が咲いた。' },
-    { id:'g71', text:'社会問題（　　）、一人一人が関心を持つことが大切だ。', choices:['に対して','をめぐって','にあたって','として'], answer:0, grammar_point:'〜に対して', kr:'~에 대해, ~을 향해 (대상·방향)', explanation:'「〜に対して」は「〜という対象に向けて」という意味。態度・行動・感情の対象を示す。\n例：患者に対して誠実に接する。' },
-    { id:'g72', text:'そのニュースを聞いた（　　）、涙が止まらなかった。', choices:['とたん','きり','ところ','ばかりに'], answer:0, grammar_point:'〜とたん（に）', kr:'~하자마자, ~한 순간 (즉각적 반응)', explanation:'「〜とたん（に）」は「〜した直後に、すぐに〜が起きた」という意味。瞬間的な変化を強調。\n例：外に出たとたん、雨が降り出した。' },
-    { id:'g73', text:'何事（　　）、基本を大切にすることが上達の近道だ。', choices:['においても','についても','にわたっても','に際しても'], answer:0, grammar_point:'〜において（も）', kr:'~에 있어서(도), ~에서(도) (장소·분야·상황)', explanation:'「〜において」は「〜という場所・分野・状況で」という格式体表現。\n例：ビジネスにおいて信頼は重要だ。' },
-    { id:'g74', text:'計画通りに（　　）いかないのが、プロジェクトの難しいところだ。', choices:['なかなか','めったに','とかく','どうしても'], answer:2, grammar_point:'とかく', kr:'자칫 ~하기 쉽다, 흔히 ~하는 경향이 있다', explanation:'「とかく」は「どうしても・ともすれば」という意味で、好ましくない傾向が繰り返されることを示す副詞。\n例：人間はとかく楽な方に流れがちだ。' },
-    { id:'g75', text:'彼女は言われたこと（　　）でなく、それ以上のことをやり遂げた。', choices:['のみ','しか','だけ','ばかり'], answer:0, grammar_point:'〜のみならず', kr:'~뿐만 아니라 (그 이상도)', explanation:'「〜のみならず」は「〜だけでなく（それ以上も）」という意味の書き言葉表現。\n例：国内のみならず、海外でも評価されている。' },
-    { id:'g76', text:'この計画は実行する（　　）に値する。', choices:['だけ','ほど','のみ','まで'], answer:0, grammar_point:'〜に値する', kr:'~할 가치가 있다, ~에 값하다', explanation:'「〜に値する」は「〜するだけの価値・評価がある」という意味。\n例：この作品は読むに値する。彼の行動は称賛に値する。' },
-    { id:'g77', text:'彼が引退を表明した（　　）、大きな波紋が広がった。', choices:['とたんに','にあたって','とあって','とあれば'], answer:2, grammar_point:'〜とあって', kr:'~이라서, ~이기 때문에 (특별한 상황이 원인)', explanation:'「〜とあって」は「〜という特別な状況・理由なので（当然〜だ）」という意味。\n例：連休とあって、観光地は大賑わいだった。' },
-    { id:'g78', text:'彼は問題に気づき（　　）、見て見ぬふりをした。', choices:['ながらも','ながら','つつ','つつも'], answer:3, grammar_point:'〜つつも', kr:'~하면서도, ~이면서도 (내적 모순·갈등)', explanation:'「〜つつも」は「〜しながら（それと矛盾する状況がある）」という意味。内面的な葛藤を強調する。\n例：知りつつも黙っていた。反対しつつも従った。\n\n「ながらも」と似ているが「つつも」はより心理的葛藤に使う。' },
-    { id:'g79', text:'失敗を（　　）こそ、成長があると言われる。', choices:['おそれる','おそれない','おそれた','おそれぬ'], answer:1, grammar_point:'〜てこそ', kr:'~해야 비로소, ~함으로써 비로소', explanation:'「〜てこそ」は「〜して初めて（ある価値・意味がある）」という意味。\n例：苦労してこそ、喜びがわかる。実際にやってみてこそ分かることがある。' },
-    { id:'g80', text:'このプロジェクトの責任者（　　）、最後まで責任を持って取り組む。', choices:['として','たる者は','にあって','とあれば'], answer:0, grammar_point:'〜として', kr:'~로서, ~의 자격으로 (입장·역할)', explanation:'「〜として」は「〜という立場・役割・資格で」という意味。\n例：代表として発言する。責任者として最後まで対応した。' }
+    { id:'g01', text:'彼女は仕事の忙しさ（　　）、友人との約束を何度もキャンセルしてしまった。', choices:['をよそに','にもかかわらず','のあまり','もさることながら'], answer:0, grammar_point:'〜をよそに', explanation:'「〜をよそに」は「〜を無視して・〜に関係なく」という意味。周囲の状況や他者の気持ちを気にせず行動するときに使う。\n例：周囲の反対をよそに、彼は計画を進めた。\n\n「のあまり」は感情が強すぎて何かが起こる場合に使う（感情の文脈で使用）。' },
+    { id:'g02', text:'長年の研究の末、ついに新薬の開発に成功した。これ（　　）医学の進歩と言えるだろう。', choices:['にほかならない','をもってして','であれば','にすぎない'], answer:0, grammar_point:'〜にほかならない', explanation:'「〜にほかならない」は「まさに〜だ・〜以外の何でもない」という意味で、強い断定を表す。\n例：彼の成功は努力にほかならない。\n\n「にすぎない」は「ただ〜だけだ」という控えめな表現で、意味が逆になる。' },
+    { id:'g03', text:'規則（　　）、例外を認めることはできない。', choices:['上は','である以上','とあれば','からには'], answer:1, grammar_point:'〜である以上', explanation:'「〜である以上（は）」は「〜という条件・立場である限り、当然〜すべき/〜だ」という意味。責任・義務を表す。\n例：社会人である以上、責任感を持って行動すべきだ。' },
+    { id:'g04', text:'新製品の発売（　　）、全社員が準備に追われている。', choices:['をめぐって','に際して','をもとに','に反して'], answer:1, grammar_point:'〜に際して', explanation:'「〜に際して」は「〜という重要な場面・機会にあたって」という意味。改まった場面やフォーマルな文脈で使う。\n例：入学に際して、保護者へのご挨拶を申し上げます。' },
+    { id:'g05', text:'部長の反対（　　）、プロジェクトを強行することはできない。', choices:['をもってしても','いかんによらず','をおいて','があっては'], answer:3, grammar_point:'〜があっては', explanation:'「〜があっては（ならない）」は「〜という事態は許されない」という意味。不都合な条件を述べる。\n例：ミスがあってはならない場面だ。' },
+    { id:'g06', text:'彼はどんな困難（　　）、決して諦めなかった。', choices:['にあっても','をものともせず','もさることながら','をよそに'], answer:1, grammar_point:'〜をものともせず', explanation:'「〜をものともせず」は「困難・障害を物ともしない・意に介さず行動する」という意味。強い意志や克服を強調する。\n例：激しい風雨をものともせず、選手たちはプレーし続けた。' },
+    { id:'g07', text:'彼女の演奏は技術（　　）、感情表現も素晴らしかった。', choices:['のみならず','もさることながら','はともかく','にもかかわらず'], answer:1, grammar_point:'〜もさることながら', explanation:'「〜もさることながら」は「〜も確かにそうだが、それ以上に〜」という意味。前の事柄を認めつつ、後の事柄をより強調する。\n例：価格もさることながら、品質の高さが評判だ。' },
+    { id:'g08', text:'この地域の文化（　　）の料理は、観光客に大変人気がある。', choices:['ならでは','をもって','をよそに','だけあって'], answer:0, grammar_point:'〜ならでは（の）', explanation:'「〜ならでは（の）」は「〜にしかできない・〜だからこそできる」という意味。唯一性・独自性を強調する。\n例：プロならではの技術。' },
+    { id:'g09', text:'事故の原因（　　）、対策を講じる必要がある。', choices:['いかんにかかわらず','いかんによっては','いかんで','いかんによらず'], answer:2, grammar_point:'〜いかんで', explanation:'「〜いかんで」は「〜の状況・内容次第で（結果が変わる）」という意味。\n\n比較:\n・いかんで＝〜次第で（結果が変わる）\n・いかんによらず＝〜に関係なく（結果は変わらない）' },
+    { id:'g10', text:'彼はチームのエース（　　）、プレッシャーに押しつぶされてしまった。', choices:['ともなると','ともあろう者が','とはいえ','とあれば'], answer:1, grammar_point:'〜ともあろう者が', explanation:'「〜ともあろう者が」は「〜ほどの立場・レベルの人が（あるまじき行動をした）」という意味。非難・驚きを表す。\n例：医者ともあろう者が、そんな不注意なことをするとは。' },
+    { id:'g11', text:'不正を見て（　　）。これは市民としての義務だ。', choices:['おくわけにはいかない','知らずにはいられない','黙っていられないわけがない','見逃さずにはおかない'], answer:3, grammar_point:'〜ずにはおかない', explanation:'「〜ずにはおかない」は「必ず〜する・〜せずにいられない」という意味。強い決意や感情が自然に起こることを示す。' },
+    { id:'g12', text:'会議の日程（　　）、参加できない方もいるかもしれません。', choices:['にかんして','いかんによっては','をめぐっては','をよそに'], answer:1, grammar_point:'〜いかんによっては', explanation:'「〜いかんによっては」は「〜の内容・状況によっては（ある結果になる場合もある）」という意味。\n例：天候いかんによっては、中止になるかもしれない。' },
+    { id:'g13', text:'10年（　　）の研究がようやく実を結んだ。', choices:['にわたる','をかけた','にかけた','をわたる'], answer:0, grammar_point:'〜にわたる', explanation:'「〜にわたる」は「（期間・範囲）に及ぶ」という意味。広い範囲や長い期間を示す。\n例：全国にわたる調査。3時間にわたる会議。' },
+    { id:'g14', text:'今回の事件は、社内の体制の問題（　　）、外部からの不正アクセスにも原因があった。', choices:['もさることながら','のみならず','はおろか','をよそに'], answer:0, grammar_point:'〜もさることながら', explanation:'「〜もさることながら」は「〜も確かだが、さらに〜も」という意味で、複数の原因・要素を列挙する際に使う。フォーマルな文章でよく使われる表現。' },
+    { id:'g15', text:'この問題を解決できる人がいるとしたら、彼（　　）いない。', choices:['をおいて','ほかに','のみに','だけが'], answer:0, grammar_point:'〜をおいて（ほかに）ない', explanation:'「〜をおいて（ほかに）ない」は「〜以外にない・〜しかいない」という意味。唯一性を強調する。\n例：この役を演じられるのは彼女をおいていない。' },
+    { id:'g16', text:'彼女は失業（　　）、住む家まで失ってしまった。', choices:['もさることながら','はおろか','だけでなく','にもまして'], answer:1, grammar_point:'〜はおろか', explanation:'「〜はおろか」は「〜はもちろん（それ以上のことも）」という意味。程度の低いものを例に挙げ、さらに高いレベルまで及ぶことを示す。\n例：漢字はおろか、ひらがなも書けない。' },
+    { id:'g17', text:'先生（　　）の教え方は、学生にとってわかりやすいと好評だ。', choices:['ならでは','だからこそ','とあれば','にして'], answer:0, grammar_point:'〜ならでは（の）', explanation:'「〜ならでは（の）」は「〜にしかできない独自の」という意味。名詞に接続して修飾語を作る。\n例：職人ならではの技。日本ならではの文化。' },
+    { id:'g18', text:'努力（　　）合格できるとは限らない。しかし、努力なしでは絶対に無理だ。', choices:['したが最後','したからには','しさえすれば','したとあっては'], answer:2, grammar_point:'〜しさえすれば', explanation:'「〜しさえすれば」は「〜だけすれば（それで十分）」という意味。条件を絞り込む。\n例：ここに来さえすれば、あとは何もしなくていい。' },
+    { id:'g19', text:'プロジェクトが失敗に終わったのは、準備不足（　　）だった。', choices:['にほかならない','をもとに','をきっかけに','にかわって'], answer:0, grammar_point:'〜にほかならない', explanation:'「〜にほかならない」は「まさに〜だ」という強い断定・強調表現。\n例：この結果は皆さんの努力にほかならない。' },
+    { id:'g20', text:'社長（　　）の発言だけに、社内に大きな波紋を呼んだ。', choices:['ともあれ','ともなると','ともなれば','ともあろうに'], answer:1, grammar_point:'〜ともなると', explanation:'「〜ともなると」は「〜ほどの立場・レベルになると、当然〜だ」という意味。地位や規模が上がると自然に伴う変化を表す。\n例：部長ともなると、責任も大きくなる。' },
+    { id:'g21', text:'彼の態度は礼儀（　　）ものだった。', choices:['にもとる','にあたる','にわたる','にかける'], answer:0, grammar_point:'〜にもとる', explanation:'「〜にもとる」は「〜に反する・〜に背く」という意味。道徳・礼儀・規則などに違反することを表す硬い表現。\n例：人道にもとる行為。道義にもとる発言。' },
+    { id:'g22', text:'予算が削減された（　　）、計画を縮小せざるを得なかった。', choices:['ことから','ことで','ことには','ことか'], answer:0, grammar_point:'〜ことから', explanation:'「〜ことから」は「〜という理由・根拠から」という意味。原因・判断の根拠を示す。\n例：外見が似ていることから、双子だと思われた。' },
+    { id:'g23', text:'締め切りが迫っている（　　）、彼はのんびり休憩していた。', choices:['にもかかわらず','にしては','というのに','とはいえ'], answer:2, grammar_point:'〜というのに', explanation:'「〜というのに」は「〜なのに（話者の不満・驚き）」という意味。期待に反する状況に対する感情を含む。\n例：もう夜中というのに、子供たちはまだ起きている。' },
+    { id:'g24', text:'一度決めた（　　）、どんなに辛くても続けるべきだ。', choices:['からこそ','からには','からといって','からして'], answer:1, grammar_point:'〜からには', explanation:'「〜からには」は「〜した以上は・〜する以上は（当然〜すべき）」という意味。決意・義務・責任を表す。\n例：参加するからには、全力を尽くせ。' },
+    { id:'g25', text:'彼女は感謝（　　）、涙を流した。', choices:['のあまり','のせいで','のために','にかかわらず'], answer:0, grammar_point:'〜のあまり', explanation:'「〜のあまり」は「感情・状態が強すぎて（予期しない行動・状態になった）」という意味。\n例：嬉しさのあまり声が出なかった。緊張のあまり失敗した。' },
+    { id:'g26', text:'彼女は一度約束した（　　）、必ず守る人だ。', choices:['以上は','からには','からこそ','とあっては'], answer:0, grammar_point:'〜以上は', explanation:'「〜以上は」は「〜した・〜する以上は（当然〜すべき）」という意味。「からには」と非常に近いが、「以上は」のほうがやや書き言葉的。\n例：引き受けた以上は責任を持ってやり遂げろ。' },
+    { id:'g27', text:'試験に合格したいなら、努力する（　　）ない。', choices:['ほか','だけで','まで','のみ'], answer:0, grammar_point:'〜ほかない / 〜ほかはない', explanation:'「〜ほかない」は「〜するしかない・それ以外に方法がない」という意味。唯一の選択肢を示す。\n例：こうなれば諦めるほかない。' },
+    { id:'g28', text:'交通事故で入院を（　　）された。', choices:['余儀なく','やむを得なく','せざるを得なく','しかたなく'], answer:0, grammar_point:'〜を余儀なくされる', explanation:'「〜を余儀なくされる」は「望んでいないのに〜することを強いられる」という意味。外部の力によって不本意な行動をせざるを得ない状況を表す。\n例：計画の中止を余儀なくされた。' },
+    { id:'g29', text:'このプロジェクトの成功は、チーム全員の協力（　　）実現した。', choices:['をもって','によって','をもとに','により'], answer:0, grammar_point:'〜をもって', explanation:'「〜をもって」は「〜を手段・根拠として」という意味。フォーマルな文章でよく使われる。\n例：実力をもって証明する。本日をもって閉店いたします。' },
+    { id:'g30', text:'問題が起きた（　　）、すぐに報告してください。', choices:['際には','ことには','ものには','ところには'], answer:0, grammar_point:'〜際には', explanation:'「〜際には」は「〜という場合・機会には」という意味。改まった状況や特定の場面を示す。「場合には」より書き言葉的。\n例：緊急の際には、このボタンを押してください。' },
+    { id:'g31', text:'会社の将来を考える（　　）、今すぐ対策を講じるべきだ。', choices:['につけ','にあたって','うえで','うえに'], answer:2, grammar_point:'〜うえで', explanation:'「〜うえで」は「〜を考慮した場合に」または「〜するために」という意味。判断・行動の前提条件を表す。\n例：健康のうえで問題はない。就職するうえで資格は重要だ。' },
+    { id:'g32', text:'彼の努力は、誰（　　）認めるところだ。', choices:['もが','もなく','でもが','であれ'], answer:0, grammar_point:'〜もが', explanation:'「誰もが」「どこもが」のように「〜も」＋「が」で「すべての〜が」という意味を強調する。\n例：誰もが認める実力。' },
+    { id:'g33', text:'不景気（　　）、採用人数を大幅に減らした企業が多い。', choices:['とあって','だけあって','にあって','といって'], answer:0, grammar_point:'〜とあって', explanation:'「〜とあって」は「〜という状況・理由なので（当然〜だ）」という意味。特別な状況がある理由を示す。\n例：連休とあって、観光地は大賑わいだった。' },
+    { id:'g34', text:'彼が辞任（　　）、会社の株価が急落した。', choices:['したとたん','したが最後','するやいなや','したきり'], answer:2, grammar_point:'〜やいなや', explanation:'「〜やいなや」は「〜するとすぐに（瞬時に次の動作が起きた）」という意味。「したとたん」「するとすぐに」に近いが、やや書き言葉的で出来事の速さを強調。\n例：ドアを開けるやいなや、猫が飛び出した。' },
+    { id:'g35', text:'この薬は副作用が強い（　　）、安易に服用すべきではない。', choices:['だけに','だけあって','からこそ','にしては'], answer:0, grammar_point:'〜だけに', explanation:'「〜だけに」は「〜という理由・特性があるからこそ（より〜だ）」という意味。原因が強調され、結果への必然性を示す。\n例：期待が大きかっただけに、失望も大きかった。' },
+    { id:'g36', text:'子供の頃の夢を（　　）、彼はついにパイロットになった。', choices:['かなえるべく','かなえるまでもなく','かなえてやまず','かなえるとともに'], answer:0, grammar_point:'〜べく', explanation:'「〜べく」は「〜するために・〜しようとして」という意味の文語的表現。改まった文章・ニュースなどで使われる。\n例：夢を実現すべく、毎日練習した。' },
+    { id:'g37', text:'彼は疲れている（　　）、それを表情に出すことはなかった。', choices:['にせよ','にしても','とはいえ','ものの'], answer:3, grammar_point:'〜ものの', explanation:'「〜ものの」は「〜だが、しかし（期待と異なる結果）」という意味の逆接。前件を認めながら後件が続く。\n例：合格したものの、喜べない事情があった。' },
+    { id:'g38', text:'その映画は見る者を（　　）感動を与えてくれる。', choices:['引きつけてやまない','やまない','引きつけずにはおかない','ずにはいられない'], answer:0, grammar_point:'〜てやまない', explanation:'「〜てやまない」は「強い感情が止まらない・ずっと〜し続ける」という意味。愛する・望む・祈るなど感情動詞と共に使う。\n例：彼女の成功を願ってやまない。' },
+    { id:'g39', text:'彼女は苦労を重ねた（　　）、今の地位を築いた。', choices:['すえに','ために','うえで','からこそ'], answer:0, grammar_point:'〜すえに', explanation:'「〜すえに」は「長い時間・努力・苦労の末に（ある結果になった）」という意味。プロセスの重さを強調する。\n例：長い交渉のすえに合意に達した。' },
+    { id:'g40', text:'両国の対立は、長年の歴史的背景（　　）理解しなければならない。', choices:['をもとに','にそくして','をふまえて','にもとづいて'], answer:2, grammar_point:'〜をふまえて', explanation:'「〜をふまえて」は「〜という事実・経験を土台として考慮した上で」という意味。\n例：前回の失敗をふまえて改善策を立てた。' },
+    { id:'g41', text:'努力（　　）、結果が出ないこともある。しかし諦めてはならない。', choices:['したにもかかわらず','したとはいえ','すれども','しようとも'], answer:0, grammar_point:'〜にもかかわらず', explanation:'「〜にもかかわらず」は「〜であるのに（予想と反した結果）」という意味の逆接。客観的・書き言葉的。\n例：雨にもかかわらず、多くの人が集まった。' },
+    { id:'g42', text:'景気回復（　　）、雇用状況も改善されつつある。', choices:['とともに','とあわせて','につれ','にしたがって'], answer:2, grammar_point:'〜につれ（て）', explanation:'「〜につれて」は「〜の変化と比例して（別の変化も起きる）」という意味。\n例：年を取るにつれて、体力が落ちる。' },
+    { id:'g43', text:'彼は困っている人を見ると、（　　）性格だ。', choices:['助けずにはいられない','ずにはおかない','助けてやまない','助けることができない'], answer:0, grammar_point:'〜ずにはいられない', explanation:'「〜ずにはいられない」は「〜したい気持ちを抑えられない・自然と〜してしまう」という意味。\n例：彼女の歌を聞くと涙せずにはいられない。' },
+    { id:'g44', text:'新入社員（　　）、そのくらいのミスは仕方ない。', choices:['だけあって','にしては','だからこそ','とあれば'], answer:1, grammar_point:'〜にしては', explanation:'「〜にしては」は「〜という条件・立場を考えると（予想と違って）〜だ」という意味。\n例：子供にしては上手い絵だ。初めてにしてはよくできた。' },
+    { id:'g45', text:'リーダー（　　）、チームをまとめる責任がある。', choices:['たる者は','ともなると','とあれば','であれ'], answer:0, grammar_point:'〜たる者は', explanation:'「〜たる者は」は「〜という立場・資格を持つ者は（当然〜すべきだ）」という意味。格式体で、責任・義務を強調する。\n例：教師たる者は、学び続けなければならない。' },
+    { id:'g46', text:'何度（　　）失敗しても、彼は立ち上がり続けた。', choices:['となく','とはなく','となしに','となれば'], answer:0, grammar_point:'〜となく', explanation:'「〜となく」は「何度となく」「幾度となく」などの形で「何回も・繰り返し」という意味を表す慣用表現。\n例：何度となく警告を受けた。' },
+    { id:'g47', text:'長い会議（　　）、ようやく方針が決まった。', choices:['のすえに','をへて','を経て','ののちに'], answer:2, grammar_point:'〜を経て', explanation:'「〜を経て」は「〜というプロセス・段階を通って（次の状態になった）」という意味。\n例：数年の研究を経て、論文を発表した。' },
+    { id:'g48', text:'彼は才能（　　）、努力も怠らない人物だ。', choices:['はもとより','はさておき','ならではの','にかぎらず'], answer:0, grammar_point:'〜はもとより', explanation:'「〜はもとより」は「〜はもちろん（その上に）〜も」という意味。当然のことを前提に追가 정보를 더한다.\n例：日本語はもとより、英語も話せる。' },
+    { id:'g49', text:'その失言（　　）、大臣は辞任せざるを得なかった。', choices:['が原因で','がもとで','をきっかけに','によって'], answer:1, grammar_point:'〜がもとで', explanation:'「〜がもとで」は「〜が原因・きっかけとなって（悪い結果になった）」という意味。\n例：小さなトラブルがもとで、友情が壊れた。' },
+    { id:'g50', text:'彼問題は言われたこと（　　）でなく、それ以上のことをやり遂げた。', choices:['のみ','しか','だけ','ばかり'], answer:0, grammar_point:'〜のみならず', explanation:'「〜のみならず」は「〜だけでなく（それ以上も）」という意味の書き言葉表現。\n例：国内のみならず、海外でも評価されている。' }
   ],
 
   reading: [
-    {
-      id: 'r01',
-      passage: `　現代社会において、「効率化」という言葉はあらゆる場面で使われる。企業は業務の効率化を求め、個人は時間の効率化を追い求める。しかし、過度な効率化の追求は、思わぬ弊害をもたらすことがある。\n　心理学者のポール・レーマンは、常に効率を意識することで、人間は「目的」と「手段」を混同しやすくなると指摘している。例えば、会議を短くすることが目的化してしまい、本来の目的であるアイデアの共有や問題解決がおろそかになるケースがある。\n　また、効率化によって「余白」がなくなると、創造性が低下するという研究結果もある。無駄に見える雑談や散歩が、実はイノベーションの源泉になっていることは少なくない。`,
-      question: '筆者が最も言いたいことは何か。',
-      choices: [
-        '効率化は現代社会において最も重要な課題である。',
-        '効率化を追求しすぎると本来の目的を見失う恐れがある。',
-        '会議を短くすることが生産性向上の鍵である。',
-        '無駄な時間をなくすことで創造性が高まる。'
-      ],
-      answer: 1,
-      explanation: '第2段落で「目的と手段の混同」、第3段落で「余白がなくなると創造性が低下する」という2つの弊害を挙げ、過度な効率化への警鐘を鳴らしている。筆者の主張は選択肢2が最も正確に表している。\n\n選択肢4は本文と逆の内容（無駄がイノベーションの源泉になる）なので誤り。'
-    },
-    {
-      id: 'r02',
-      passage: `　かつて日本では、職人が一つの技術を極めることを「道」と表現した。茶道・柔道・書道——いずれも「道」という字を含む。これは単なる技術習得にとどまらず、その修行を通じて人格を磨くという思想を反映している。\n　近年、こうした「道」の概念に共鳴する外国人が増えている。効率や結果を重視する現代社会において、プロセスそのものに意味を見出す日本的な価値観が、新鮮に映るのかもしれない。\n　しかし、この「道」の精神も、時代の変化とともに形式化・形骸化する危険をはらんでいる。伝統を守ることと、時代に適応することのバランスをどう取るかが、今後の課題と言えるだろう。`,
-      question: '本文の内容と合っているものはどれか。',
-      choices: [
-        '日本の「道」の概念は、技術習得よりも人格形成を重視する考え方を含んでいる。',
-        '外国人が「道」に共鳴するのは、効率的な技術習得ができるからだ。',
-        '「道」の精神は現代においても形骸化することなく受け継がれている。',
-        '筆者は伝統よりも時代への適応を優先すべきだと考えている。'
-      ],
-      answer: 0,
-      explanation: '第1段落に「単なる技術習得にとどまらず、その修行を通じて人格を磨くという思想を反映している」と明記されている。これが選択肢1の内容と一致する。\n\n選択肢3は第3段落の「形式化・形骸化する危険」と矛盾する。選択肢4は「バランスをどう取るか」と書かれており、どちらかを優先とは言っていない。'
-    },
-    {
-      id: 'r03',
-      passage: `　「失敗を恐れるな」という言葉は、よく自己啓発の文脈で使われる。だが、この言葉が本当に有効かどうかは、状況によって大きく異なる。\n　脳科学の研究によれば、人間の脳は失敗の経験から学ぶ際、感情と記憶が密接に結びついている。強い恐怖や失望を伴う失敗ほど、記憶に深く刻まれ、それが次の行動を抑制することがある。これを「失敗回避バイアス」と呼ぶ。\n　したがって、重要なのは「失敗を恐れない」ことではなく、「失敗から何を学ぶか」という視点の転換である。失敗を恐れることを完全に否定するのではなく、その恐怖を適切に管理し、学習のエネルギーに変えることが、成長への本質的な道筋と言えるだろう。`,
-      question: '筆者の考えとして正しいものはどれか。',
-      choices: [
-        '失敗を恐れる気持ちは完全に排除すべきだ。',
-        '失敗の記憶は感情と無関係に形成される。',
-        '失敗への恐怖を管理し学習に活かすことが大切だ。',
-        '「失敗を恐れるな」という言葉は常に有効だ。'
-      ],
-      answer: 2,
-      explanation: '第3段落に「失敗を恐れることを完全に否定するのではなく、その恐怖を適切に管理し、学習のエネルギーに変えること」と筆者の主張が明確に述べられている。\n\n選択肢1は「完全に排除すべき」と書かれているが、本文では「完全に否定するのではなく」とあるため誤り。'
-    },
-    {
-      id: 'r04',
-      passage: `　情報化社会の進展により、私たちは膨大な情報にさらされるようになった。スマートフォンを開けば、ニュース・SNS・メールが次々と流れ込んでくる。この「情報過多」の状態は、思考の質に深刻な影響を与えると専門家は警告している。\n　哲学者ニーチェは「最大の思想家は、最も孤独な瞬間に生まれる」と述べた。情報のシャワーを浴び続けることは、自らの思考を深める機会を奪い、他者の考えをただ消費するだけの状態に陥らせてしまう可能性がある。\n　意識的に情報を遮断する時間——「デジタルデトックス」——が現代人に必要とされている理由も、ここにある。`,
-      question: 'この文章で筆者が述べていることと最も合っているものはどれか。',
-      choices: [
-        '情報化社会においてSNSは全面的に否定されるべきだ。',
-        'ニーチェの言葉は現代社会には当てはまらない。',
-        '情報を意識的に遮断する時間が深い思考のために重要だ。',
-        'スマートフォンを使うことで思考の質が上がる。'
-      ],
-      answer: 2,
-      explanation: '第3段落に「意識的に情報を遮断する時間——デジタルデトックス——が現代人に必要とされている」と明記されており、選択肢3と一致する。\n\nニーチェの引用は「孤独（＝情報から離れること）が深い思考を生む」という文脈で使われており、選択肢2は誤り。'
-    },
-    {
-      id: 'r05',
-      passage: `　人口減少が続く地方都市において、「コンパクトシティ」という都市計画の概念が注目されている。コンパクトシティとは、都市機能を中心部に集約し、公共交通との連携によって効率的な都市運営を目指すものだ。\n　この政策は、医療・商業・行政サービスへのアクセスを向上させる一方で、周辺地域の過疎化を加速させるという批判もある。中心部に機能が集まることで、そこから離れた地域に住む人々が取り残されるリスクが生じるのだ。\n　コンパクトシティの成否は、中心部の整備だけでなく、周辺地域との有機的なつながりをどう維持するかにかかっていると言えよう。`,
-      question: 'コンパクトシティについて、筆者はどのように考えているか。',
-      choices: [
-        'コンパクトシティは地方都市の問題をすべて解決できる。',
-        'コンパクトシティは中心部の整備だけでなく周辺地域との連携が重要だ。',
-        'コンパクトシティは人口減少の根本的な原因を解決しない。',
-        'コンパクトシティは過疎化を必ず防ぐ有効な手段だ。'
-      ],
-      answer: 1,
-      explanation: '最終段落に「中心部の整備だけでなく、周辺地域との有機的なつながりをどう維持するかにかかっている」と筆者の見解が示されており、選択肢2と一致する。\n\n選択肢1・4は「すべて解決」「必ず防ぐ」と断定しており、本文の内容と合わない。'
-    },
-    {
-      id: 'r06',
-      passage: `　翻訳という行為は、単に言語を置き換える作業ではない。言語の背後にある文化・歴史・感情を解釈し、別の言語で再構成するプロセスである。そのため、優れた翻訳家は二つの言語の達人であるだけでなく、両文化の深い理解者でもある必要がある。\n　特に文学翻訳においては、原文の「雰囲気」や「リズム」をどう再現するかが翻訳家の腕の見せ所となる。直訳が必ずしも正確な翻訳とは限らず、時には大胆な意訳が原文の本質をより正確に伝えることもある。\n　翻訳は原著者と読者をつなぐ架け橋であり、文化の仲介者としての役割を担っている。`,
-      question: '翻訳について、筆者の考えとして合っているものはどれか。',
-      choices: [
-        '翻訳は原文を正確に置き換えることが最も重要だ。',
-        '直訳こそが最も正確な翻訳の方法だ。',
-        '翻訳には言語能力だけでなく文化への深い理解が必要だ。',
-        '文学翻訳は通常の翻訳とは全く異なる作業だ。'
-      ],
-      answer: 2,
-      explanation: '第1段落に「二つの言語の達人であるだけでなく、両文化の深い理解者でもある必要がある」と明記されており、選択肢3と一致する。\n\n選択肢2は第2段落「直訳が必ずしも正確な翻訳とは限らず」と矛盾する。'
-    },
-    {
-      id: 'r07',
-      passage: `　近年、「サーキュラーエコノミー（循環型経済）」という概念が世界的に注目されている。これは、従来の「作る→使う→捨てる」という線形経済モデルに対し、資源を循環させることで廃棄物を最小化しようとする経済システムだ。\n　日本でも江戸時代には、着物を何度も仕立て直したり、壊れた道具を修理して使い続けたりする「もったいない」の文化が根付いていた。この精神はサーキュラーエコノミーの理念と通じるものがある。\n　現代社会での実践には企業・消費者・政府の三者の協力が不可欠であり、各自が役割を意識した行動変容が求められている。`,
-      question: '本文の内容と合っているものはどれか。',
-      choices: [
-        '江戸時代の「もったいない」の文化はサーキュラーエコノミーの理念と全く異なる。',
-        'サーキュラーエコノミーは政府だけが推進できる政策だ。',
-        '「もったいない」の文化はサーキュラーエコノミーの理念と共通点がある。',
-        '線形経済モデルは資源を循環させる点が特徴だ。'
-      ],
-      answer: 2,
-      explanation: '第2段落に「この精神はサーキュラーエコノミーの理念と通じるものがある」と明記されており、選択肢3と一致する。\n\n選択肢4は線形経済と循環型経済を混同している。選択肢2は「三者の協力が不可欠」と本文にあるため誤り。'
-    },
-    {
-      id: 'r08',
-      passage: `　「聞く力」は、現代のビジネスにおいて最も重要なスキルの一つとして注目されている。話す力・プレゼン力が重視される一方で、相手の話を深く聞く能力が組織のパフォーマンスを左右するという研究が増えている。\n　心理学者のカール・ロジャーズは「積極的傾聴（アクティブリスニング）」という概念を提唱した。これは、相手の言葉だけでなく、その背後にある感情や意図まで受け取ろうとする傾聴の姿勢だ。\n　優れたリーダーは多くの場合、話すよりも聞くことに時間を使っているという調査結果がある。これは、傾聴が信頼関係の構築に直結するからに他ならない。`,
-      question: '本文で述べられている「聞く力」についての説明として正しいものはどれか。',
-      choices: [
-        '相手の言葉だけを正確に理解することが聞く力だ。',
-        '聞く力よりも話す力の方がビジネスでは重要だ。',
-        '積極的傾聴とは、相手の感情や意図まで受け取ろうとする姿勢だ。',
-        '優れたリーダーは話すことに多くの時間を使う。'
-      ],
-      answer: 2,
-      explanation: '第2段落に「相手の言葉だけでなく、その背後にある感情や意図まで受け取ろうとする傾聴の姿勢」とあり、選択肢3と一致する。\n\n選択肢4は「話すよりも聞くことに時間を使っている」と本文に書かれており逆の内容。選択肢1は「言葉だけ」としており不十分。'
-    },
-    {
-      id: 'r09',
-      passage: `　少子化対策として、日本各地で様々な施策が講じられているが、その多くは「経済的支援」に焦点を当てている。子育て費用の補助や保育所の拡充などがその代表例だ。\n　しかし、社会学者の中には、少子化の本質は経済的な問題ではなく「社会的孤立」にあると指摘する声もある。現代の若い世代は、地域コミュニティとのつながりが薄れ、子育てを一人で抱え込む孤独感が強まっているというのだ。\n　経済的支援は必要条件ではあるが、十分条件ではない。真の少子化対策には、人々がつながり、支え合える社会的インフラの再構築が欠かせないのかもしれない。`,
-      question: '筆者が少子化対策として最も重要だと考えているものはどれか。',
-      choices: [
-        '経済的な支援の大幅な拡充',
-        '保育所の数をさらに増やすこと',
-        '社会的なつながりを回復させる取り組み',
-        '若者の収入を増加させる政策'
-      ],
-      answer: 2,
-      explanation: '第3段落に「真の少子化対策には、人々がつながり、支え合える社会的インフラの再構築が欠かせない」と筆者の主張が示されており、選択肢3と一致する。\n\n経済的支援は「必要条件ではあるが、十分条件ではない」と述べられており、それだけでは不十分とされている。'
-    },
-    {
-      id: 'r10',
-      passage: `　人工知能（AI）の発展は、私たちの働き方を大きく変えようとしている。単純作業の自動化にとどまらず、法律文書の作成・医療診断・芸術作品の制作まで、かつては人間にしかできないと思われていた分野にもAIが進出している。\n　この変化に対し、「AIに仕事を奪われる」という不安を持つ人も多い。しかし、歴史を振り返ると、技術革新はつねに新たな職業を生み出してきた。産業革命時も同様の懸念があったが、結果として雇用は多様化・増加した。\n　重要なのは、AIを脅威として捉えるのではなく、人間の能力を拡張するツールとして活用する視点だ。そのためには、変化に適応し続ける「学び続ける力」が、これからの時代に最も求められる能力と言えるだろう。`,
-      question: 'AIと人間の関係について、筆者の考えとして最も適切なものはどれか。',
-      choices: [
-        'AIは人間の仕事を完全に奪ってしまうので対策が必要だ。',
-        'AIの発展は歴史上例がなく、対応は不可能だ。',
-        'AIを人間の能力を拡張するツールとして捉え、学び続けることが重要だ。',
-        'AIの進出を規制し、人間の仕事を守るべきだ。'
-      ],
-      answer: 2,
-      explanation: '第3段落に「AIを脅威として捉えるのではなく、人間の能力を拡張するツールとして活用する視点が重要」と明記されており、選択肢3と一致する。\n\n歴史的な事例（産業革命）を挙げて「技術革新は新たな職業を生み出す」と述べており、選択肢1・4と矛盾する。'
-    },
-    {
-      id: 'r11',
-      passage: `　「褒めて育てる」という教育方針が広まって久しい。しかし、近年の心理学研究では、褒め方によって子供の成長に与える影響が大きく異なることが明らかになっている。\n　スタンフォード大学のキャロル・ドゥエックの研究によると、「頭がいいね」のように能力を褒めると、子供は失敗を恐れてチャレンジを避ける傾向が生まれる。一方、「よく頑張ったね」のようにプロセスを褒めると、失敗をも学習の機会として捉え、粘り強く取り組む姿勢が育まれるという。\n　つまり、重要なのは「褒める・褒めない」ではなく、「何を・どのように褒めるか」なのだ。`,
-      question: '研究から分かる「褒め方」の違いとして正しいものはどれか。',
-      choices: [
-        '褒めることは子供の成長に常にプラスの効果をもたらす。',
-        '能力を褒めると失敗を恐れない積極的な子供が育つ。',
-        'プロセスを褒めると粘り強さが育まれる。',
-        '褒めない教育の方が子供の成長には効果的だ。'
-      ],
-      answer: 2,
-      explanation: '第2段落に「プロセスを褒めると、失敗をも学習の機会として捉え、粘り強く取り組む姿勢が育まれる」と明記されており選択肢3が正しい。\n\n選択肢2は逆（能力を褒めると失敗を恐れる）なので誤り。'
-    },
-    {
-      id: 'r12',
-      passage: `　現代人の多くは「忙しい」という言葉を口癖にしている。しかし、時間管理の専門家たちは口をそろえて言う。「忙しいのではなく、優先順位がついていないだけだ」と。\n　人間が一日に使える時間は、富める者も貧しき者も等しく24時間である。その限られた時間の中で何を選び、何を捨てるかが、人生の質を決定する。\n　「忙しい」という言葉は、しばしば「重要なことから目を背けるための言い訳」になっている。本当に大切なことは何かを問い直すことが、時間管理の本質と言えるだろう。`,
-      question: '筆者の主張として最も適切なものはどれか。',
-      choices: [
-        '一日の時間を増やす工夫が大切だ。',
-        '忙しい現代人はもっと休息を取るべきだ。',
-        '「忙しい」という言葉は優先順位の欠如を隠す言い訳になりがちだ。',
-        '時間管理の専門家に相談することが問題解決の近道だ。'
-      ],
-      answer: 2,
-      explanation: '第3段落に「忙しいという言葉は、しばしば重要なことから目を背けるための言い訳になっている」と筆者の主張が明確に述べられている。選択肢3と一致する。'
-    },
-    {
-      id: 'r13',
-      passage: `　日本の職人文化において「守破離」という概念がある。「守」は師匠の教えを忠実に守る段階、「破」は基本を土台に自分なりの工夫を加える段階、「離」は独自のスタイルを確立し師匠から離れる段階を意味する。\n　この概念は武道・茶道・芸術など多くの分野で伝えられてきたが、近年はビジネスやデザインの世界でも注目されている。\n　特にイノベーションを目指す現代において、「破」と「離」のプロセスは創造性の源泉として評価されている。しかし、「守」なくして「破」も「離」もないという原則は、いつの時代も変わらない。`,
-      question: '「守破離」について、筆者が最も伝えたいことは何か。',
-      choices: [
-        '現代では「離」の段階が最も重要だ。',
-        '「破」と「離」こそがイノベーションに必要な要素だ。',
-        '基礎（守）があってこそ、創造（破・離）が可能になる。',
-        '守破離は武道や茶道にのみ適用できる概念だ。'
-      ],
-      answer: 2,
-      explanation: '最終段落に「守なくして破も離もないという原則は、いつの時代も変わらない」と述べており、基礎の重要性が筆者の核心的主張。選択肢3と一致する。\n\n選択肢4は「ビジネスやデザインでも注目」と矛盾する。'
-    },
-    {
-      id: 'r14',
-      passage: `　近年、「マインドフルネス」が世界的なブームとなっている。グーグルやアップルをはじめとする大企業が社員研修に取り入れ、学術的な研究も急増している。\n　マインドフルネスとは、仏教の瞑想に起源を持つ概念で、「今この瞬間に意識を向け、判断せずにありのままを観察する」という心の状態を指す。\n　心理学者たちはマインドフルネスが、ストレス軽減・集中力向上・感情調整などに効果的であることを実証してきた。ただし、効果には個人差があり、万能薬ではないという点を忘れてはならない。`,
-      question: 'マインドフルネスについて本文の内容と合っているものはどれか。',
-      choices: [
-        'マインドフルネスはグーグルが開発した瞑想法だ。',
-        'マインドフルネスはすべての人に同じ効果をもたらす。',
-        'マインドフルネスは仏教の瞑想に起源を持ち、様々な効果が実証されている。',
-        'マインドフルネスはストレス軽減のみに有効な手法だ。'
-      ],
-      answer: 2,
-      explanation: '第2段落に「仏教の瞑想に起源を持つ」とあり、第3段落に「ストレス軽減・集中力向上・感情調整などに効果的」と複数の効果が述べられている。選択肢3が正しい。\n\n選択肢2は「個人差がある」という記述と矛盾する。'
-    },
-    {
-      id: 'r15',
-      passage: `　「失われた20年」と呼ばれる日本の長期経済停滞は、単なる景気サイクルの問題ではなく、構造的な課題の産物であったと多くの経済学者は分析する。\n　バブル崩壊後、企業は過剰な設備投資・雇用・債務の削減に追われ、内部留保を積み上げることを優先した。その結果、消費は低迷し、デフレが長期化した。\n　しかし、この時代を単純に「失敗の時代」と断じることは正確ではない。製造業の技術力の維持・向上、安全で安定した社会インフラの整備など、この時代に達成されたことも少なくない。`,
-      question: '本文で筆者が述べていることと合っているものはどれか。',
-      choices: [
-        '「失われた20年」はバブル崩壊とは無関係の現象だ。',
-        '「失われた20年」は景気サイクルの一部に過ぎない。',
-        '「失われた20年」には、成果と見なせる面も存在する。',
-        'この時代に企業は内部留保を積み上げることを避けた。'
-      ],
-      answer: 2,
-      explanation: '第3段落に「この時代を単純に失敗の時代と断じることは正確ではない」とあり、「製造業の技術力維持」「インフラ整備」などポジティブな面も述べられている。選択肢3が一致する。\n\n選択肢4は「内部留保を積み上げることを優先した」と逆の内容。'
-    },
-    {
-      id: 'r16',
-      passage: `　子供の「なぜ？」という問いは、哲学の出発点である。ソクラテスはかつて「私が知っているのは、自分が何も知らないということだ」と言った。この「無知の知」こそが、探究する姿勢の根本だ。\n　ところが教育の現場では、「正解を早く出すこと」が評価される傾向がある。問うことよりも答えることが重視され、子供たちの「なぜ？」は次第に萎縮していく。\n　本当の意味での知性とは、答えを持つことではなく、問い続ける力にあるのかもしれない。教育の場が「問いを育てる場所」となることが、今後の課題だろう。`,
-      question: '筆者が教育に対して求めていることは何か。',
-      choices: [
-        '正解を素早く導き出す能力の育成。',
-        'ソクラテスの教えを授業に取り入れること。',
-        '子供たちが問い続ける力を育てられる環境づくり。',
-        '哲学を必修科目として導入すること。'
-      ],
-      answer: 2,
-      explanation: '最終段落に「教育の場が問いを育てる場所となることが、今後の課題」と筆者の主張が明確に述べられている。選択肢3と一致する。\n\n選択肢1は第2段落で批判されている傾向であり誤り。'
-    },
-    {
-      id: 'r17',
-      passage: `　都市部への人口集中が続く中、地方移住を促進する政策が各地で打たれている。しかし、単に「移住者を増やす」ことを目標とした施策は、本質的な地域活性化には結びつかないと専門家は指摘する。\n　重要なのは「人数」ではなく「関係性」だ。地域に深くかかわり、地元住民と協力して課題解決に取り組む移住者こそが、地域の変革の担い手となる。\n　近年注目されているのが「関係人口」という概念だ。定住はしないが、特定の地域と継続的につながりを持つ人々を指し、移住者とは異なる形で地域に貢献する存在として期待されている。`,
-      question: '地方移住について、筆者の考えに最も近いものはどれか。',
-      choices: [
-        '移住者の数を増やすことが地域活性化の最善策だ。',
-        '地域住民との関係性を築く移住者こそが地域活性化に貢献する。',
-        '「関係人口」の概念は地域にとってデメリットが多い。',
-        '地方移住の促進には政府の大規模な支援が必要だ。'
-      ],
-      answer: 1,
-      explanation: '第2段落に「重要なのは人数ではなく関係性だ。地域に深くかかわり、地元住民と協力して課題解決に取り組む移住者こそが地域の変革の担い手となる」と述べられており選択肢2と一致する。'
-    },
-    {
-      id: 'r18',
-      passage: `　「言語は思考を形作る」という言語相対性仮説は、長年にわたって議論されてきた。例えば、色の名称が多い言語を話す人は、色の区別をより細かく認識できるという研究がある。\n　日本語には「木漏れ日」「物の哀れ」など、他の言語に一語で訳せない独自の表現が多い。これらの言葉は、日本人が長い歴史の中で培ってきた感受性と世界観を反映している。\n　言語を学ぶことは、単に意思疎通の手段を増やすだけでなく、異なる世界の見方・感じ方にアクセスすることでもある。これが多言語学習の本質的な意義ではないだろうか。`,
-      question: '筆者が多言語学習の本質として述べていることは何か。',
-      choices: [
-        'コミュニケーションの幅を広げること。',
-        '色の認識能力を向上させること。',
-        '異なる世界の見方・感じ方を理解すること。',
-        '日本語の独自表現を外国語に翻訳すること。'
-      ],
-      answer: 2,
-      explanation: '最終段落に「言語を学ぶことは、異なる世界の見方・感じ方にアクセスすること」と述べられており、選択肢3と一致する。\n\n選択肢1は「単に意思疎通の手段を増やすだけでなく」という表現で否定されている。'
-    },
-    {
-      id: 'r19',
-      passage: `　スポーツにおける「スランプ」は、技術的な後退ではなく、むしろ成長の前兆である場合が多いと、スポーツ心理学者は言う。\n　選手が新しいレベルの技術を習得しようとするとき、それまでの動作が一時的に崩れることがある。これは脳と身体が新しいパターンを統合しようとしているサインだ。\n　したがって、スランプに陥ったときに焦って元の動作に戻そうとすることは、成長のプロセスを妨げることになりかねない。むしろ、信頼できるコーチのもとで辛抱強く続けることが、スランプ脱出への近道とされている。`,
-      question: 'スランプについて、筆者が述べていることと合っているものはどれか。',
-      choices: [
-        'スランプは選手の技術が根本的に低下したサインだ。',
-        'スランプのときは元の動作に戻すことが最善策だ。',
-        'スランプは新しい技術を統合する過程で起きうる成長の前兆だ。',
-        'スランプを経験しない選手こそ真の実力者だ。'
-      ],
-      answer: 2,
-      explanation: '第1・2段落にスランプは「成長の前兆」であり「脳と身体が新しいパターンを統合しようとしているサイン」と述べられており選択肢3と一致する。\n\n選択肢2は第3段落「元の動作に戻そうとすることは成長のプロセスを妨げる」と矛盾する。'
-    },
-    {
-      id: 'r20',
-      passage: `　「働き方改革」が叫ばれる中、日本企業の残業文化は依然として根強い。長時間労働が美徳とされる風潮は、生産性の低下をもたらすだけでなく、労働者の心身の健康を著しく損なう。\n　OECD諸国の比較データを見ると、一人当たりの労働時間と生産性は必ずしも比例せず、むしろ短い労働時間の国がより高い生産性を示す傾向がある。\n　重要なのは「何時間働くか」ではなく「何を達成したか」だ。アウトカム（成果）によって評価される組織文化への転換こそが、真の働き方改革の要諦と言えるだろう。`,
-      question: '筆者が提唱する働き方改革の核心は何か。',
-      choices: [
-        '残業を全面的に禁止する法律の制定。',
-        '労働時間ではなく成果による評価への転換。',
-        'OECD諸国と同じ労働時間に揃えること。',
-        '残業代を増やし労働者に報いること。'
-      ],
-      answer: 1,
-      explanation: '最終段落に「重要なのは何時間働くかではなく何を達成したか。アウトカムによって評価される組織文化への転換こそが真の働き方改革の要諦」と述べられており選択肢2と一致する。'
-    },
-    {
-      id: 'r21',
-      passage: `　グローバル化が進む現代において、「文化の均質化」への懸念が高まっている。ファストフードやSNSの普及によって、世界中の若者が似たような消費行動・価値観を共有するようになったと指摘される。\n　しかし、別の視点から見ると、グローバル化は文化の「混合」と「再創造」をもたらしてもいる。K-POPが世界を席巻し、日本のアニメが海外で独自の解釈で二次創作されるように、文化は接触によって豊かになる側面もある。\n　文化の均質化と多様化は同時進行しており、一方的な視点で判断することは難しい。重要なのは、その変化を受動的に受け入れるのではなく、主体的に関与していく姿勢ではないだろうか。`,
-      question: 'グローバル化と文化について、筆者の考えとして最も適切なものはどれか。',
-      choices: [
-        'グローバル化は文化の均質化のみをもたらす。',
-        '文化の多様化はグローバル化とは無関係だ。',
-        'グローバル化には文化の均質化と豊富化の両面がある。',
-        'K-POPとアニメがグローバル化の弊害を示している。'
-      ],
-      answer: 2,
-      explanation: '第3段落に「文化の均質化と多様化は同時進行しており」と述べられており、両面があるという選択肢3と一致する。\n\n第2段落のK-POPとアニメの例は「文化の混合と再創造」のポジティブな例として挙げられており選択肢4は誤り。'
-    },
-    {
-      id: 'r22',
-      passage: `　読書と学力の関係について多くの研究が行われているが、近年特に注目されているのが「読書の質」だ。ただ文字を追うだけの「受動的読書」と、テキストに問いを立てながら読む「能動的読書」では、思考力への影響が大きく異なるという。\n　フィンランドなど教育先進国では、読んだ内容について討論したり、自分の言葉でまとめたりする活動が読書教育に組み込まれている。これにより、情報を批判的に評価する力が育まれる。\n　日本でも読書量を増やすことだけでなく、「どう読むか」という質の向上に目を向けた教育が求められている。`,
-      question: '読書教育について筆者が主張していることは何か。',
-      choices: [
-        '読書量を増やすことが学力向上の唯一の方法だ。',
-        'フィンランドの読書教育を全面的に導入すべきだ。',
-        '読書の量だけでなく能動的に読む質を高めることが重要だ。',
-        '受動的読書は思考力に全く影響を与えない。'
-      ],
-      answer: 2,
-      explanation: '最終段落に「読書量を増やすことだけでなく、どう読むかという質の向上に目を向けた教育が求められている」と筆者の主張が明確に述べられており選択肢3と一致する。'
-    },
-    {
-      id: 'r23',
-      passage: `　「沈黙は金」という諺がある。しかし、組織においてはこの沈黙が致命的な問題を引き起こすことがある。「心理的安全性」の概念を提唱したエイミー・エドモンドソンは、チームの成功には「意見を言っても安全だという信頼感」が不可欠だと主張した。\n　実際、多くの組織事故の背景には、問題に気づきながらも声を上げられなかった従業員の存在があった。上下関係の強い文化において、異議を唱えることは「場の空気を乱すこと」とみなされるからだ。\n　心理的安全性の高い職場では、失敗が隠蔽されず、問題が早期に表面化する。これが長期的な組織の健全性につながるのだ。`,
-      question: '「心理的安全性」について、本文と合っているものはどれか。',
-      choices: [
-        '心理的安全性が高い職場では失敗が増える。',
-        '沈黙は組織においては常に美徳である。',
-        '意見を言いやすい環境が組織の長期的な健全性に貢献する。',
-        '心理的安全性は個人の精神的健康にのみ影響する。'
-      ],
-      answer: 2,
-      explanation: '最終段落に「心理的安全性の高い職場では、失敗が隠蔽されず、問題が早期に表面化する。これが長期的な組織の健全性につながる」とあり選択肢3と一致する。\n\n選択肢1は「失敗が増える」のではなく「失敗が隠蔽されない」のであり誤り。'
-    },
-    {
-      id: 'r24',
-      passage: `　近年、サステナビリティ（持続可能性）への関心が高まる中、「エシカル消費」という概念が広まっている。環境・社会・人権などへの配慮を消費行動に反映させることを指す。\n　しかし、エシカル消費の普及には「価格の壁」が存在する。フェアトレード製品やオーガニック食品は、通常の製品と比べて割高な場合が多く、低所得層には選択が難しい現実がある。\n　「誰もが選べるエシカル消費」を実現するためには、製品の価格構造の見直しや政策的な支援が必要だ。倫理的な消費が一部の「意識高い系」の特権にとどまらないよう、社会全体での取り組みが求められている。`,
-      question: 'エシカル消費の課題として筆者が挙げているものはどれか。',
-      choices: [
-        '環境への配慮が消費者の関心から外れていること。',
-        '価格が高く、すべての人が選べるわけではないこと。',
-        'フェアトレード製品の品質が低いこと。',
-        '政府がエシカル消費を規制していること。'
-      ],
-      answer: 1,
-      explanation: '第2段落に「フェアトレード製品やオーガニック食品は割高な場合が多く、低所得層には選択が難しい現実がある」と価格の壁が課題として挙げられており選択肢2と一致する。'
-    },
-    {
-      id: 'r25',
-      passage: `　「習慣」の力についての研究は、近年急速に進んでいる。神経科学者たちは、習慣とは脳の「省エネシステム」だと説明する。頻繁に繰り返される行動は、大脳基底核に自動化されたルーティンとして刻み込まれ、意識的な努力を必要としなくなる。\n　これは諸刃の剣でもある。良い習慣が自動化されれば努力不要で継続できるが、悪い習慣もまた同様に強固になってしまう。\n　習慣を変えるためのカギは、「きっかけ→ルーティン→報酬」という習慣のループを意識し、ルーティン部分を別の行動に置き換えることだと言われている。`,
-      question: '習慣の変え方について、筆者が示している方法はどれか。',
-      choices: [
-        '悪い習慣を完全にやめ、新たにゼロから習慣を始める。',
-        '大脳基底核を鍛えることで習慣を変える。',
-        '習慣のループのきっかけと報酬を同時に変える。',
-        '習慣のループのルーティン部分を別の行動に置き換える。'
-      ],
-      answer: 3,
-      explanation: '最終段落に「ルーティン部分を別の行動に置き換えること」と明記されており選択肢4（0-indexed: 3）と一致する。\n\n選択肢3は「きっかけと報酬を同時に変える」としており、本文では「ルーティンを置き換える」と述べているため誤り。'
-    },
-    {
-      id: 'r26',
-      passage: `　「共感疲労」という概念が近年注目されている。他者の苦しみや悲しみに共感しすぎることで、自身が精神的・身体的に疲弊してしまう状態を指す。医療従事者や福祉関係者に多く見られるが、SNSの普及によって一般の人々にも広がっている。\n　スマートフォンを通じて世界中の悲惨なニュースが絶え間なく届く現代において、感受性の高い人ほどこの状態に陥りやすい。\n　対策としては、意識的に情報から距離を置く時間を設けること、そして「共感」と「同情」を区別して自己の境界線を守ることが重要とされている。`,
-      question: '「共感疲労」について本文の内容と合っているものはどれか。',
-      choices: ['医療従事者にのみ起こる特殊な状態だ。', 'SNSの普及で一般の人にも広がっている。', '感受性の低い人ほど陥りやすい。', '共感と同情は同じものだと筆者は述べている。'],
-      answer: 1,
-      explanation: '第1段落に「SNSの普及によって一般の人々にも広がっている」と明記されており選択肢2と一致する。\n\n選択肢1は「医療従事者に多く見られるが」の後に「一般の人々にも」と続いており誤り。選択肢3は「感受性の高い人ほど」と本文に逆。'
-    },
-    {
-      id: 'r27',
-      passage: `　人口が減少し続ける日本において、「シュリンキング・シティ（縮小都市）」への対応は喫緊の課題だ。かつての高度経済成長期に拡大した都市インフラを、人口減少に合わせて縮小・再編していく「都市のスリム化」が求められている。\n　しかし、この過程は単なる縮小ではなく、コミュニティの再構築を伴う創造的なプロセスでもある。空き家や空き地を活用した新たな公共スペースの創出、デジタル技術を活用したスマートシティ化など、縮小をチャンスに変える取り組みが各地で始まっている。\n　縮小を「衰退」と捉えるのではなく、「再生」へのプロセスとして位置づける発想の転換が、今後の都市行政に求められている。`,
-      question: '筆者の主張として最も適切なものはどれか。',
-      choices: ['人口減少に対応するには都市の拡大が必要だ。', '縮小都市への対応は単なる規模縮小ではなく創造的な再生として捉えるべきだ。', 'スマートシティ化が都市問題のすべての解決策だ。', '縮小都市の問題は経済成長によってのみ解決できる。'],
-      answer: 1,
-      explanation: '最終段落に「縮小を衰退と捉えるのではなく、再生へのプロセスとして位置づける発想の転換が求められている」と述べられており選択肢2と一致する。'
-    },
-    {
-      id: 'r28',
-      passage: `　「メタ認知」とは、自分自身の思考・行動を客観的に観察・監視・評価する能力を指す。「自分が何を知っていて、何を知らないかを知ること」とも言われる。\n　学習の場面では、メタ認知能力が高い学習者は、自分がどこで躓いているかを的確に把握し、効果的な学習方法を選択できるという研究結果がある。\n　ビジネスの場面でも、自分の強み・弱みを客観的に把握し、チームの中での自分の役割を認識できるリーダーが高い成果を上げることが知られている。メタ認知は、学習・仕事・人間関係のあらゆる場面で応用できる汎用スキルと言えるだろう。`,
-      question: 'メタ認知について、本文の内容として正しいものはどれか。',
-      choices: ['メタ認知は学習の場面にのみ有効なスキルだ。', 'メタ認知能力が高い人は自分の弱みを隠すことが得意だ。', 'メタ認知は自分の思考・行動を客観的に観察する能力だ。', 'メタ認知はリーダーだけに必要な特殊な能力だ。'],
-      answer: 2,
-      explanation: '第1段落に「自分自身の思考・行動を客観的に観察・監視・評価する能力」と定義されており選択肢3と一致する。\n\n選択肢1は「あらゆる場面で応用できる」と最終段落に述べられており誤り。'
-    },
-    {
-      id: 'r29',
-      passage: `　現代の若者世代を「Z世代」と呼ぶことが多いが、その消費行動は従来の世代と大きく異なるとされる。モノを「所有」することへの関心が低く、体験・経験に価値を見出す傾向が強い。\n　背景には、デジタルネイティブとして育った彼らが、「シェアリングエコノミー」に親しんでいることがある。車を「所有」するのではなく必要な時だけ「借りる」、音楽や映像を「買う」のではなく「サブスクリプションで楽しむ」という行動様式が日常化している。\n　企業にとっては、製品そのものの価値だけでなく、その製品を通じて得られる「体験の質」をどう設計するかが、今後の競争優位の源泉となるだろう。`,
-      question: 'Z世代の消費行動について、本文の内容と合っているものはどれか。',
-      choices: ['Z世代はモノの所有に高い価値を置く傾向がある。', 'Z世代は体験・経験よりも製品の品質を重視する。', 'Z世代はシェアリングエコノミーに親しみ、所有より体験を重視する。', 'Z世代はデジタル技術に不慣れな世代だ。'],
-      answer: 2,
-      explanation: '第1段落に「モノを所有することへの関心が低く、体験・経験に価値を見出す傾向が強い」とあり、第2段落でシェアリングエコノミーへの親しみが述べられている。選択肢3と一致する。'
-    },
-    {
-      id: 'r30',
-      passage: `　「ナッジ（Nudge）」とは、強制や禁止ではなく、行動経済学の知見を活用して人々の望ましい行動を自然に引き出す手法だ。英語で「肘で軽くつつく」を意味し、そっと後押しするイメージがある。\n　例えば、社員食堂で野菜料理を目立つ場所に置くだけで野菜の摂取量が増えたり、階段に「カロリー消費量」を表示するだけで階段使用者が増えたりするという研究がある。\n　ナッジの特徴は、個人の選択の自由を尊重しながら、社会的に望ましい結果を引き出す点にある。強制しないがゆえに反発を招かず、コストも低いため、公衆衛生・環境・節電など様々な分野で活用されている。`,
-      question: 'ナッジについて筆者が述べていることと合っているものはどれか。',
-      choices: ['ナッジは禁止・強制によって行動を変える手法だ。', 'ナッジは実施コストが高く普及が難しい。', 'ナッジは個人の選択の自由を保ちながら望ましい行動を促す。', 'ナッジは食堂での食事管理にのみ有効な手法だ。'],
-      answer: 2,
-      explanation: '第3段落に「個人の選択の自由を尊重しながら、社会的に望ましい結果を引き出す」と述べられており選択肢3と一致する。\n\n選択肢1は「強制や禁止ではなく」と第1段落に反し誤り。選択肢2は「コストも低い」と矛盾する。'
-    },
-    {
-      id: 'r31',
-      passage: `　「ダークパターン」とは、ウェブサービスやアプリのデザインにおいて、ユーザーが意図しない行動（購読の申し込み、個人情報の提供など）をするよう誘導するUI設計の手法を指す。\n　例えば、無料トライアルの終了後に自動的に有料プランへ移行させる設定を見えにくくしたり、メルマガの解除ボタンを意図的に分かりにくい場所に配置したりするケースがある。\n　消費者庁などの規制当局は、ダークパターンを不正競争や消費者保護の観点から問題視し始めており、透明性・公正性を求める法整備が世界各国で進んでいる。`,
-      question: 'ダークパターンについて、本文の内容と合っているものはどれか。',
-      choices: ['ダークパターンはユーザーの利便性を向上させるデザイン手法だ。', 'ダークパターンはユーザーが意図しない行動を誘導するUI設計だ。', '規制当局はダークパターンを問題なしと判断している。', 'ダークパターンは日本のみで規制が進んでいる。'],
-      answer: 1,
-      explanation: '第1段落に「ユーザーが意図しない行動をするよう誘導するUI設計の手法」と定義されており選択肢2と一致する。\n\n選択肢3は「問題視し始めており」と逆の内容。選択肢4は「世界各国で進んでいる」と矛盾する。'
-    },
-    {
-      id: 'r32',
-      passage: `　経営学者のピーター・ドラッカーは「企業の目的は顧客の創造である」と述べた。この言葉は、利益追求よりも顧客への価値提供が企業の本質だという考え方を示している。\n　しかし、近年の研究では「顧客満足度（CS）」だけでなく「従業員満足度（ES）」の重要性が注目されている。従業員が仕事に誇りと喜びを感じていなければ、顧客に真の価値を提供することは難しいからだ。\n　「良い顧客体験は、良い従業員体験から生まれる」という考え方が、現代の経営において広く受け入れられつつある。`,
-      question: '経営における顧客と従業員の関係について、筆者の考えとして最も近いものはどれか。',
-      choices: ['顧客満足度さえ高ければ従業員満足度は重要ではない。', '従業員満足度と顧客満足度は互いに無関係だ。', '良い顧客体験のためには従業員満足度の向上も不可欠だ。', 'ドラッカーの理論は現代では通用しない。'],
-      answer: 2,
-      explanation: '最終段落に「良い顧客体験は、良い従業員体験から生まれる」と述べられており選択肢3と一致する。\n\n第2段落に「従業員が仕事に誇りと喜びを感じていなければ、顧客に真の価値を提供することは難しい」とも述べられている。'
-    },
-    {
-      id: 'r33',
-      passage: `　「フロー状態」とは、心理学者チクセントミハイが提唱した概念で、ある活動に完全に没入し、時間の感覚を忘れるほど集中している心理状態を指す。スポーツ選手が「ゾーンに入る」と表現するのもこれに近い。\n　フロー状態が生まれる条件として、「課題の難易度」と「本人のスキルレベル」のバランスが重要とされる。課題が易しすぎると退屈し、難しすぎると不安になる。両者がほどよく釣り合ったときにフロー状態が生じやすい。\n　職場でフロー状態を生み出すためには、仕事の目標が明確で、即座にフィードバックが得られる環境が重要だと言われている。`,
-      question: 'フロー状態について、本文の内容として正しいものはどれか。',
-      choices: ['フロー状態は課題が非常に難しいときに生じる。', 'フロー状態は課題の難易度とスキルレベルが釣り合ったときに生じやすい。', 'フロー状態はスポーツ選手だけが経験できる特別な状態だ。', '職場でフロー状態を生むには曖昧な目標設定が効果的だ。'],
-      answer: 1,
-      explanation: '第2段落に「課題の難易度と本人のスキルレベルのバランス」「両者がほどよく釣り合ったときにフロー状態が生じやすい」と明記されており選択肢2と一致する。\n\n選択肢4は「目標が明確で」という記述と矛盾する。'
-    },
-    {
-      id: 'r34',
-      passage: `　「多様性（ダイバーシティ）」が企業経営のキーワードとなって久しい。女性・外国人・障がい者・高齢者など、様々なバックグラウンドを持つ人材を活用することで、イノベーションが生まれやすくなるという考え方だ。\n　しかし、多様な人材を集めるだけでは不十分だという指摘もある。異なる価値観や意見が組織の中で本当に尊重され、活かされる「インクルージョン（包摂）」の環境がなければ、多様性はかえって組織の混乱を招く可能性がある。\n　真のダイバーシティ経営とは、表面的な多様性の確保にとどまらず、一人一人が力を発揮できる組織文化の醸成まで含む包括的な取り組みだと言えるだろう。`,
-      question: 'ダイバーシティ経営について筆者が主張していることは何か。',
-      choices: ['多様な人材を集めるだけで十分にイノベーションが生まれる。', '表面的な多様性の確保こそがダイバーシティ経営の目標だ。', '多様な人材が力を発揮できる包摂的な組織文化の構築まで必要だ。', 'ダイバーシティは企業の混乱を招くため推進すべきでない。'],
-      answer: 2,
-      explanation: '最終段落に「表面的な多様性の確保にとどまらず、一人一人が力を発揮できる組織文化の醸成まで含む包括的な取り組みだ」と筆者の主張が述べられており選択肢3と一致する。'
-    },
-    {
-      id: 'r35',
-      passage: `　現代医学の発展により、多くの病気が「治る」時代になった。しかし、完治が難しい慢性疾患や終末期医療においては、「治す医療」から「支える医療」へのパラダイムシフトが求められている。\n　「緩和ケア」とは、がんなどの重篤な疾患を持つ患者と家族の苦痛を和らげ、生活の質（QOL）を向上させることを目的とした医療・ケアだ。疼痛管理にとどまらず、精神的・社会的・霊的な苦痛にも対応する全人的アプローチが特徴だ。\n　緩和ケアは「死を前にした諦め」ではなく、最期まで自分らしく生きることを支える積極的な医療行為として、今や世界標準となっている。`,
-      question: '緩和ケアについて筆者が述べていることと合っているものはどれか。',
-      choices: ['緩和ケアは完治が目標の積極的治療だ。', '緩和ケアは疼痛管理のみを目的としている。', '緩和ケアは患者が最期まで自分らしく生きることを支える積極的な医療だ。', '緩和ケアは死への諦めを促すものだ。'],
-      answer: 2,
-      explanation: '最終段落に「最期まで自分らしく生きることを支える積極的な医療行為」と述べられており選択肢3と一致する。\n\n選択肢4は「死を前にした諦めではなく」と本文に明記されており誤り。'
-    },
-    {
-      id: 'r36',
-      passage: `　「インターネット・オブ・シングス（IoT）」は、あらゆる物がインターネットに接続され、データを収集・共有する技術を指す。スマートホームの家電から、工場の製造ラインまで、IoTの活用範囲は急速に拡大している。\n　一方で、IoTの普及に伴うセキュリティリスクも深刻化している。接続されたデバイスが増えるほど、サイバー攻撃の入口となりうるポイントが増加するからだ。特に、セキュリティ対策が不十分な家庭用機器が踏み台にされる事例が増えている。\n　IoTの恩恵を安全に享受するためには、技術の利便性とセキュリティの両立を常に意識した設計・運用が求められる。`,
-      question: 'IoTについて筆者が述べていることと合っているものはどれか。',
-      choices: ['IoTの普及によりセキュリティリスクは完全に解消された。', 'IoTは工場の製造ラインのみに活用されている。', 'IoTの便利さとセキュリティを両立させることが重要だ。', 'セキュリティ対策は企業向け機器にのみ必要だ。'],
-      answer: 2,
-      explanation: '最終段落に「技術の利便性とセキュリティの両立を常に意識した設計・運用が求められる」と述べられており選択肢3と一致する。\n\n選択肢4は「家庭用機器が踏み台にされる事例が増えている」と矛盾する。'
-    },
-    {
-      id: 'r37',
-      passage: `　「ビジョン」を持つ組織とそうでない組織は、長期的なパフォーマンスに大きな差が出ると経営学では言われている。ビジョンとは「我々はどこへ向かうのか」という問いへの答えであり、組織の羅針盤となるものだ。\n　しかし、ビジョンがあるだけでは不十分だ。それが組織のあらゆる層に浸透し、日々の意思決定や行動と結びついていなければ、絵に描いた餅にすぎない。\n　真に機能するビジョンとは、経営者が一方的に宣言するものではなく、組織のメンバーが共に語り合い、自分事として内面化できるものでなければならない。`,
-      question: '組織のビジョンについて筆者が最も伝えたいことは何か。',
-      choices: ['ビジョンは経営者が一方的に決定し宣言するものだ。', 'ビジョンがあれば組織の課題は自然に解決される。', '組織全体に浸透し、メンバーが自分事として内面化できるビジョンこそ機能する。', 'ビジョンは長期的な経営計画の数値目標だ。'],
-      answer: 2,
-      explanation: '最終段落に「組織のメンバーが共に語り合い、自分事として内面化できるものでなければならない」と述べられており選択肢3と一致する。\n\n選択肢1は「経営者が一方的に宣言するものではなく」と本文に否定されており誤り。'
-    },
-    {
-      id: 'r38',
-      passage: `　江戸時代の日本には、「冥加（みょうが）」という概念があった。これは、神仏の加護・恩恵を意味し、利益を得た者はその一部を社会に還元すべきだという考え方と結びついていた。\n　裕福な商人が寺社に多額の寄進をしたり、橋や道を修繕したりすることは、単なる慈善ではなく、受けた恩恵（冥加）を社会に返すという信仰的・道徳的義務でもあった。\n　現代のCSR（企業の社会的責任）や「社会貢献活動」の概念に通じるこの考え方は、日本の商業倫理の根底に長く流れてきたと言えるだろう。`,
-      question: '「冥加」の概念と現代の概念との関係について、筆者が述べていることは何か。',
-      choices: ['冥加は現代のCSRとは全く無関係な古い概念だ。', '冥加は寺社への寄進のみを指す宗教的概念だ。', '冥加の考え方はCSRや社会貢献活動の概念と通じる日本古来の商業倫理だ。', '現代のCSRは冥加の概念から直接生まれたものだ。'],
-      answer: 2,
-      explanation: '最終段落に「現代のCSRや社会貢献活動の概念に通じるこの考え方は、日本の商業倫理の根底に長く流れてきた」と述べられており選択肢3と一致する。\n\n選択肢4は「直接生まれた」と断言しており本文を超えた内容。'
-    },
-    {
-      id: 'r39',
-      passage: `　「サステナブルファッション」は、環境負荷の低い素材や製造工程を採用し、衣類の廃棄を減らすことを目指すファッション運動だ。従来のファストファッションモデル——大量生産・大量消費・大量廃棄——への反省から生まれた。\n　しかし批判的な見方もある。「サステナブル」を謳いながら実態が伴わない「グリーンウォッシング（見せかけの環境配慮）」の問題だ。企業がイメージ戦略として環境訴求を行うだけで、本質的な変化を避けるケースが指摘されている。\n　消費者としては、企業の主張を鵜呑みにせず、実際の取り組み内容を調べる批判的リテラシーが求められている。`,
-      question: 'サステナブルファッションについて、筆者の考えとして最も近いものはどれか。',
-      choices: ['サステナブルを謳う企業はすべて信頼できる。', 'ファストファッションはサステナビリティに貢献している。', '消費者は企業の主張を批判的に検証する力が必要だ。', 'グリーンウォッシングは環境問題の解決に役立つ。'],
-      answer: 2,
-      explanation: '最終段落に「企業の主張を鵜呑みにせず、実際の取り組み内容を調べる批判的リテラシーが求められている」と述べられており選択肢3と一致する。'
-    },
-    {
-      id: 'r40',
-      passage: `　「学び直し（リスキリング）」が日本でも急速に注目されている。技術革新のスピードが加速する中、一度学んだスキルだけでは通用しなくなる時代において、継続的な学習が不可欠になっているからだ。\n　政府も企業も個人への投資を促しているが、課題もある。働きながら学ぶためには、時間的・経済的なゆとりが必要だが、多くの会社員はすでに業務で手一杯の状態だ。\n　リスキリングを単なる「自己責任の問題」とするのではなく、企業が学習時間の確保・費用負担・キャリアパスの整備まで支援する「組織的学習戦略」として位置づけることが、真の意味でのリスキリング社会実現の鍵となるだろう。`,
-      question: 'リスキリングについて筆者が主張していることは何か。',
-      choices: ['リスキリングは完全に個人の自己責任で行うべきだ。', '政府の補助金があればリスキリングの課題はすべて解決する。', '企業が時間・費用・キャリアを含めて組織的に支援することが重要だ。', 'リスキリングは若い世代にのみ必要だ。'],
-      answer: 2,
-      explanation: '最終段落に「企業が学習時間の確保・費用負担・キャリアパスの整備まで支援する組織的学習戦略として位置づけることが鍵」と述べられており選択肢3と一致する。\n\n選択肢1は「単なる自己責任の問題とするのではなく」と本文に否定されており誤り。'
-    }
+    { id:'r01', passage:'　現代社会において、「効率化」という言葉はあらゆる場面で使われる。企業は業務の効率化を求め、個人は時間の効率化を追い求める。しかし、過度な効率化の追求は、思わぬ弊害をもたらすことがある。\n　心理学者のポール・レーマンは、常に効率を意識することで、人間は「目的」と「手段」を混同しやすくなると指摘している。例えば、会議を短くすることが目的化してしまい、本来の目的であるアイデアの共有や問題解決がおろそかになるケースがある。\n　また、効率化によって「余白」がなくなると、創造性が低下するという研究結果もある。無駄に見える雑談や散歩が、実はイノベーションの源泉になっていることは少なくない。', question:'筆者が最も言いたいことは何か。', choices:['効率化は現代社会において最も重要な課題である。','効率化を追求しすぎると本来の目的を見失う恐れがある。','会議を短くすることが生産性向上の鍵である。','無駄な時間をなくすことで創造性が高まる。'], answer:1, explanation:'第2段落で「目的と手段の混同」、第3段落で「余白がなくなると創造性が低下する」という2つの弊害を挙げ、過度な効率化への警鐘を鳴らしている。\n\n選択肢4は本文と逆の内容（無駄がイノベーションの源泉になる）なので誤り。' },
+    { id:'r02', passage:'　かつて日本では、職人が一つの技術を極めることを「道」と表現した。茶道・柔道・書道——いずれも「道」という字を含む。これは単なる技術習得にとどまらず、その修行を通じて人格を磨くという思想を反映している。\n　近年、こうした「道」の概念に共鳴する外国人が増えている。効率や結果を重視する現代社会において、プロセスそのものに意味を見出す日本的な価値観が、新鮮に映るのかもしれない。\n　しかし、この「道」の精神も、時代の変化とともに形式化・形骸化する危険をはらんでいる。伝統を守ることと、時代に適応することのバランスをどう取るかが、今後の課題と言えるだろう。', question:'本文の内容と合っているものはどれか。', choices:['日本の「道」の概念は、技術習得よりも人格形成を重視する考え方を含んでいる。','外国人が「道」に共鳴するのは、効率的な技術習得ができるからだ。','「道」の精神は現代においても形骸化することなく受け継がれている。','筆者は伝統よりも時代への適応を優先すべきだと考えている。'], answer:0, explanation:'第1段落に「単なる技術習得にとどまらず、その修行を通じて人格を磨くという思想を反映している」と明記されている。これが選択肢1の内容と一致する。\n\n選択肢3は第3段落の「形式化・形骸化する危険」と矛盾する。' },
+    { id:'r03', passage:'　「失敗を恐れるな」という言葉は、よく自己啓発の文脈で使われる。だが、この言葉が本当に有効かどうかは、状況によって大きく異なる。\n　脳科学の研究によれば、人間の脳は失敗の経験から学ぶ際、感情と記憶が密接に結びついている。強い恐怖や失望を伴う失敗ほど、記憶に深く刻まれ、それが次の行動を抑制することがある。これを「失敗回避バイアス」と呼ぶ。\n　したがって、重要なのは「失敗を恐れない」ことではなく、「失敗から何を学ぶか」という視点の転換である。失敗を恐れることを完全に否定するのではなく、その恐怖を適切に管理し、学習のエネルギーに変えることが、成長への本質的な道筋と言えるだろう。', question:'筆者の考えとして正しいものはどれか。', choices:['失敗を恐れる気持ちは完全に排除すべきだ。','失敗の記憶は感情と無関係に形成される。','失敗への恐怖を管理し学習に活かすことが大切だ。','「失敗を恐れるな」という言葉は常に有効だ。'], answer:2, explanation:'第3段落に「失敗を恐れることを完全に否定するのではなく、その恐怖を適切に管理し、学習のエネルギーに変えること」と筆者の主張が明確に述べられている。\n\n選択肢1は「完全に排除すべき」と書かれているが、本文では「完全に否定するのではなく」とあるため誤り。' },
+    { id:'r04', passage:'　情報化社会の進展により、私たちは膨大な情報にさらされるようになった。スマートフォンを開けば、ニュース・SNS・メールが次々と流れ込んでくる。この「情報過多」の状態は、思考の質に深刻な影響を与えると専門家は警告している。\n　哲学者ニーチェは「最大の思想家は、最も孤独な瞬間に生まれる」と述べた。情報のシャワーを浴び続けることは、自らの思考を深める機会を奪い、他者の考えをただ消費するだけの状態に陥らせてしまう可能性がある。\n　意識的に情報を遮断する時間——「デジタルデトックス」——が現代人に必要とされている理由も、ここにある。', question:'この文章で筆者が述べていることと最も合っているものはどれか。', choices:['情報化社会においてSNSは全面的に否定されるべきだ。','ニーチェの言葉は現代社会には当てはまらない。','情報を意識的に遮断する時間が深い思考のために重要だ。','スマートフォンを使うことで思考の質が上がる。'], answer:2, explanation:'第3段落に「意識的に情報を遮断する時間——デジタルデトックス——が現代人に必要とされている」と明記されており、選択肢3と一致する。' },
+    { id:'r05', passage:'　人口減少が続く地方都市において、「コンパクトシティ」という都市計画の概念が注目されている。コンパクトシティとは、都市機能を中心部に集約し、公共交通との連携によって効率的な都市運営を目指すものだ。\n　この政策は、医療・商業・行政サービスへのアクセスを向上させる一方で、周辺地域の過疎化を加速させるという批判もある。中心部に機能が集まることで、そこから離れた地域に住む人々が取り残されるリスクが生じるのだ。\n　コンパクトシティの成否は、中心部の整備だけでなく、周辺地域との有機的なつながりをどう維持するかにかかっていると言えよう。', question:'コンパクトシティについて、筆者はどのように考えているか。', choices:['コンパクトシティは地方都市の問題をすべて解決できる。','コンパクトシティは中心部の整備だけでなく周辺地域との連携が重要だ。','コンパクトシティは人口減少の根本的な原因を解決しない。','コンパクトシティは過疎化を必ず防ぐ有効な手段だ。'], answer:1, explanation:'最終段落に「中心部の整備だけでなく、周辺地域との有機的なつながりをどう維持するかにかかっている」と筆者の見解が示されており、選択肢2と一致する。' },
+    { id:'r06', passage:'　「褒めて育てる」という教育方針が広まって久しい。しかし、近年の心理学研究では、褒め方によって子供の成長に与える影響が大きく異なることが明らかになっている。\n　スタンフォード大学のキャロル・ドゥエックの研究によると、「頭がいいね」のように能力を褒めると、子供は失敗を恐れてチャレンジを避ける傾向が生まれる。一方、「よく頑張ったね」のようにプロセスを褒めると、失敗をも学習の機会として捉え、粘り強く取り組む姿勢が育まれるという。\n　つまり、重要なのは「褒める・褒めない」ではなく、「何を・どのように褒めるか」なのだ。', question:'研究から分かる「褒め方」の違いとして正しいものはどれか。', choices:['褒めることは子供の成長に常にプラスの効果をもたらす。','能力を褒めると失敗を恐れない積極的な子供が育つ。','プロセスを褒めると粘り強さが育まれる。','褒めない教育の方が子供の成長には効果的だ。'], answer:2, explanation:'第2段落に「プロセスを褒めると、失敗をも学習の機会として捉え、粘り強く取り組む姿勢が育まれる」と明記されており選択肢3が正しい。\n\n選択肢2は逆（能力を褒めると失敗を恐れる）なので誤り。' },
+    { id:'r07', passage:'　現代人の多くは「忙しい」という言葉を口癖にしている。しかし、時間管理の専門家たちは口をそろえて言う。「忙しいのではなく、優先順位がついていないだけだ」と。\n　人間が一日に使える時間は、富める者も貧しき者も等しく24時間である。その限られた時間の中で何を選び、何を捨てるかが、人生の質を決定する。\n　「忙しい」という言葉は、しばしば「重要なことから目を背けるための言い訳」になっている。本当に大切なことは何かを問い直すことが、時間管理の本質と言えるだろう。', question:'筆者の主張として最も適切なものはどれか。', choices:['一日の時間を増やす工夫が大切だ。','忙しい現代人はもっと休息を取るべきだ。','「忙しい」という言葉は優先順位の欠如を隠す言い訳になりがちだ。','時間管理の専門家に相談することが問題解決の近道だ。'], answer:2, explanation:'第3段落に「忙しいという言葉は、しばしば重要なことから目を背けるための言い訳になっている」と筆者の主張が明確に述べられている。選択肢3と一致する。' },
+    { id:'r08', passage:'　「聞く力」は、現代のビジネスにおいて最も重要なスキルの一つとして注目されている。話す力・プレゼン力が重視される一方で、相手の話を深く聞く能力が組織のパフォーマンスを左右するという研究が増えている。\n　心理学者のカール・ロジャーズは「積極的傾聴（アクティブリスニング）」という概念を提唱した。これは、相手の言葉だけでなく、その背後にある感情や意図まで受け取ろうとする傾聴の姿勢だ。\n　優れたリーダーは多くの場合、話すよりも聞くことに時間を使っているという調査結果がある。これは、傾聴が信頼関係の構築に直結するからに他ならない。', question:'本文で述べられている「聞く力」についての説明として正しいものはどれか。', choices:['相手の言葉だけを正確に理解することが聞く力だ。','聞く力よりも話す力の方がビジネスでは重要だ。','積極的傾聴とは、相手の感情や意図まで受け取ろうとする姿勢だ。','優れたリーダーは話すことに多くの時間を使う。'], answer:2, explanation:'第2段落に「相手の言葉だけでなく、その背後にある感情や意図まで受け取ろうとする傾聴の姿勢」とあり、選択肢3と一致する。\n\n選択肢4は「話すよりも聞くことに時間を使っている」と本文に書かれており逆の内容。' },
+    { id:'r09', passage:'　「働き方改革」が叫ばれる中、日本企業の残業文化は依然として根強い。長時間労働が美徳とされる風潮は、生産性の低下をもたらすだけでなく、労働者の心身の健康を著しく損なう。\n　OECD諸国の比較データを見ると、一人当たりの労働時間と生産性は必ずしも比例せず、むしろ短い労働時間の国がより高い生産性を示す傾向がある。\n　重要なのは「何時間働くか」ではなく「何を達成したか」だ。アウトカム（成果）によって評価される組織文化への転換こそが、真の働き方改革の要諦と言えるだろう。', question:'筆者が提唱する働き方改革の核心は何か。', choices:['残業を全面的に禁止する法律の制定。','労働時間ではなく成果による評価への転換。','OECD諸国と同じ労働時間に揃えること。','残業代を増やし労働者に報いること。'], answer:1, explanation:'最終段落に「重要なのは何時間働くかではなく何を達成したか。アウトカムによって評価される組織文化への転換こそが真の働き方改革の要諦」と述べられており選択肢2と一致する。' },
+    { id:'r10', passage:'　人工知能（AI）の発展は、私たちの働き方を大きく変えようとしている。単純作業の自動化にとどまらず、法律文書の作成・医療診断・芸術作品の制作まで、かつては人間にしかできないと思われていた分野にもAIが進出している。\n　この変化に対し、「AIに仕事を奪われる」という不安を持つ人も多い。しかし、歴史を振り返ると、技術革新はつねに新たな職業を生み出してきた。産業革命時も同様の懸念があったが、結果として雇用は多様化・増加した。\n　重要なのは、AIを脅威として捉えるのではなく、人間の能力を拡張するツールとして活用する視点だ。そのためには、変化に適応し続ける「学び続ける力」が、これからの時代に最も求められる能力と言えるだろう。', question:'AIと人間の関係について、筆者の考えとして最も適切なものはどれか。', choices:['AIは人間の仕事を完全に奪ってしまうので対策が必要だ。','AIの発展は歴史上例がなく、対応は不可能だ。','AIを人間の能力を拡張するツールとして捉え、学び続けることが重要だ。','AIの進出を規制し、人間の仕事を守るべきだ。'], answer:2, explanation:'第3段落に「AIを脅威として捉えるのではなく、人間の能力を拡張するツールとして活用する視点が重要」と明記されており、選択肢3と一致する。' },
+    { id:'r11', passage:'　「共感疲労」という概念が近年注目されている。他者の苦しみや悲しみに共感しすぎることで、自身が精神的・身体的に疲弊してしまう状態を指す。医療従事者や福祉関係者に多く見られるが、SNSの普及によって一般の人々にも広がっている。\n　スマートフォンを通じて世界中の悲惨なニュースが絶え間なく届く現代において、感受性の高い人ほどこの状態に陥りやすい。\n　対策としては、意識的に情報から距離を置く時間を設けること、そして「共感」と「同情」を区別して自己の境界線を守ることが重要とされている。', question:'「共感疲労」について本文の内容と合っているものはどれか。', choices:['医療従事者にのみ起こる特殊な状態だ。','SNSの普及で一般の人にも広がっている。','感受性の低い人ほど陥りやすい。','共感と同情は同じものだと筆者は述べている。'], answer:1, explanation:'第1段落に「SNSの普及によって一般の人々にも広がっている」と明記されており選択肢2と一致する。\n\n選択肢1は「医療従事者に多く見られるが」の後に「一般の人々にも」と続いており誤り。選択肢3は「感受性の高い人ほど」と本文に逆。' },
+    { id:'r12', passage:'　「メタ認知」とは、自分自身の思考・行動を客観的に観察・監視・評価する能力を指す。「自分が何を知っていて、何を知らないかを知ること」とも言われる。\n　学習の場面では、メタ認知能力が高い学習者は、自分がどこで躓いているかを的確に把握し、効果的な学習方法を選択できるという研究結果がある。\n　ビジネスの場面でも、自分の強み・弱みを客観的に把握し、チームの中での自分の役割を認識できるリーダーが高い成果を上げることが知られている。メタ認知は、学習・仕事・人間関係のあらゆる場面で応用できる汎用スキルと言えるだろう。', question:'メタ認知について、本文の内容として正しいものはどれか。', choices:['メタ認知は学習の場面にのみ有効なスキルだ。','メタ認知能力が高い人は自分の弱みを隠すことが得意だ。','メタ認知は自分の思考・行動を客観的に観察する能力だ。','メタ認知はリーダーだけに必要な特殊な能力だ。'], answer:2, explanation:'第1段落に「自分自身の思考・行動を客観的に観察・監視・評価する能力」と定義されており選択肢3と一致する。\n\n選択肢1は「あらゆる場面で応用できる」と最終段落に述べられており誤り。' },
+    { id:'r13', passage:'　「ナッジ（Nudge）」とは、強制や禁止ではなく、行動経済学の知見を活用して人々の望ましい行動を自然に引き出す手法だ。英語で「肘で軽くつつく」を意味し、そっと後押しするイメージがある。\n　例えば、社員食堂で野菜料理を目立つ場所に置くだけで野菜の摂取量が増えたり、階段に「カロリー消費量」を表示するだけで階段使用者が増えたりするという研究がある。\n　ナッジの特徴は、個人の選択の自由を尊重しながら、社会的に望ましい結果を引き出す点にある。強制しないがゆえに反発を招かず、コストも低いため、公衆衛生・環境・節電など様々な分野で活用されている。', question:'ナッジについて筆者が述べていることと合っているものはどれか。', choices:['ナッジは禁止・強制によって行動を変える手法だ。','ナッジは実施コストが高く普及が難しい。','ナッジは個人の選択の自由を保ちながら望ましい行動を促す。','ナッジは食堂での食事管理にのみ有効な手法だ。'], answer:2, explanation:'第3段落に「個人の選択の自由を尊重しながら、社会的に望ましい結果を引き出す」と述べられており選択肢3と一致する。\n\n選択肢1は「強制や禁止ではなく」と第1段落に反し誤り。' },
+    { id:'r14', passage:'　「学び直し（リスキリング）」が日本でも急速に注目されている。技術革新のスピードが加速する中、一度学んだスキルだけでは通用しなくなる時代において、継続的な学習が不可欠になっているからだ。\n　政府も企業も個人への投資を促しているが、課題もある。働きながら学ぶためには、時間的・経済的なゆとりが必要だが、多くの会社員はすでに業務で手一杯の状態だ。\n　リスキリングを単なる「自己責任の問題」とするのではなく、企業が学習時間の確保・費用負担・キャリアパスの整備まで支援する「組織的学習戦略」として位置づけることが、真の意味でのリスキリング社会実現の鍵となるだろう。', question:'リスキリングについて筆者が主張していることは何か。', choices:['リスキリングは完全に個人の自己責任で行うべきだ。','政府の補助金があればリスキリングの課題はすべて解決する。','企業が時間・費用・キャリアを含めて組織的に支援することが重要だ。','リスキリングは若い世代にのみ必要だ。'], answer:2, explanation:'最終段落に「企業が学習時間の確保・費用負担・キャリアパスの整備まで支援する組織的学習戦略として位置づけることが鍵」と述べられており選択肢3と一致する。' },
+    { id:'r15', passage:'　「サステナブルファッション」は、環境負荷の低い素材や製造工程を採用し、衣類の廃棄を減らすことを目指すファッション運動だ。従来のファストファッションモデル——大量生産・大量消費・大量廃棄——への反省から生まれた。\n　しかし批判的な見方もある。「サステナブル」を謳いながら実態が伴わない「グリーンウォッシング（見せかけの環境配慮）」の問題だ。企業がイメージ戦略として環境訴求を行うだけで、本質的な変化を避けるケースが指摘されている。\n　消費者としては、企業の主張を鵜呑みにせず、実際の取り組み内容を調べる批判的リテラシーが求められている。', question:'サステナブルファッションについて、筆者の考えとして最も近いものはどれか。', choices:['サステナブルを謳う企業はすべて信頼できる。','ファストファッションはサステナビリティに貢献している。','消費者は企業の主張を批判的に検証する力が必要だ。','グリーンウォッシングは環境問題の解決に役立つ。'], answer:2, explanation:'最終段落に「企業の主張を鵜呑みにせず、実際の取り組み内容を調べる批判的リテラシーが求められている」と述べられており選択肢3と一致する。' }
   ]
 };
 
@@ -1227,151 +317,67 @@ const QUESTION_BANK = {
 // 문법 참고 사전
 // ═══════════════════════════════════════════
 const GRAMMAR_REF = [
-  { form: '〜をよそに', meaning: '〜を無視して・〜に関係なく行動する', ex: '周囲の反対をよそに計画を進めた。', level: 'N1' },
-  { form: '〜にほかならない', meaning: 'まさに〜だ・〜以外の何でもない（強い断定）', ex: '彼の成功は努力にほかならない。', level: 'N1' },
-  { form: '〜に際して', meaning: '〜という重要な場面・機会にあたって', ex: '入学に際して、ご挨拶申し上げます。', level: 'N1' },
-  { form: '〜をものともせず', meaning: '困難を物ともしない・意に介さず行動する', ex: '激しい風雨をものともせず進んだ。', level: 'N1' },
-  { form: '〜もさることながら', meaning: '〜も確かだが、それ以上に〜も', ex: '価格もさることながら品質が評判だ。', level: 'N1' },
-  { form: '〜ならでは（の）', meaning: '〜にしかできない・〜だからこそ', ex: 'プロならではの技術。', level: 'N1' },
-  { form: '〜いかんで', meaning: '〜の状況次第で（結果が変わる）', ex: '結果は努力いかんで変わる。', level: 'N1' },
-  { form: '〜いかんによらず', meaning: '〜がどうであれ関係なく', ex: '理由いかんによらず遅刻は禁止だ。', level: 'N1' },
-  { form: '〜ともあろう者が', meaning: '〜ほどの立場の人が（非難・驚き）', ex: '医者ともあろう者がそんな失敗をするとは。', level: 'N1' },
-  { form: '〜ずにはおかない', meaning: '必ず〜する・〜せずにいられない', ex: 'この映画は感動させずにはおかない。', level: 'N1' },
-  { form: '〜をおいて（ほかに）ない', meaning: '〜以外にない・〜しかない（唯一性）', ex: 'この役は彼女をおいていない。', level: 'N1' },
-  { form: '〜はおろか', meaning: '〜はもちろん（それ以上のことも）', ex: '漢字はおろかひらがなも書けない。', level: 'N1' },
-  { form: '〜にわたる', meaning: '（期間・範囲）に及ぶ', ex: '10年にわたる研究がついに実を結んだ。', level: 'N1' },
-  { form: '〜である以上', meaning: '〜という条件・立場である限り当然〜', ex: '社会人である以上責任を持つべきだ。', level: 'N1' },
-  { form: '〜があっては', meaning: '〜という事態は許されない', ex: 'ミスがあってはならない。', level: 'N1' },
-  { form: '〜いかんによっては', meaning: '〜の状況によっては（ある結果になることもある）', ex: '天候いかんによっては中止もある。', level: 'N1' },
-  { form: '〜しさえすれば', meaning: '〜だけすれば十分', ex: '参加さえすればいい。', level: 'N2' },
-  { form: '〜もさることながら', meaning: '〜も認めつつ、さらに〜を強調', ex: '技術もさることながら姿勢が大切だ。', level: 'N1' },
-  { form: '〜にかけては', meaning: '〜に関しては（他より優れている）', ex: '料理の腕前にかけては誰にも負けない。', level: 'N2' },
-  { form: '〜を余儀なくされる', meaning: '望まないのに〜せざるを得ない', ex: '事故で計画の変更を余儀なくされた。', level: 'N1' }
+  { form:'〜をよそに', kr:'~을 무시하고, ~에 관계없이', meaning:'〜を無視して・〜に関係なく行動する', ex:'周囲の反対をよそに計画を進めた。', level:'N1' },
+  { form:'〜にほかならない', kr:'다름 아닌 ~이다 (강한 단정)', meaning:'まさに〜だ・〜以外の何でもない', ex:'彼の成功は努力にほかならない。', level:'N1' },
+  { form:'〜に際して', kr:'~에 즈음하여, ~할 때에', meaning:'〜という重要な場面・機会にあたって', ex:'入学に際して、ご挨拶申し上げます。', level:'N1' },
+  { form:'〜をものともせず', kr:'~을 아랑곳하지 않고', meaning:'困難を物ともしない・意に介さず行動する', ex:'激しい風雨をものともせず進んだ。', level:'N1' },
+  { form:'〜もさることながら', kr:'~은 물론이거니와, ~도 그렇지만', meaning:'〜も確かだが、それ以上に〜も', ex:'価格もさることながら品質が評判だ。', level:'N1' },
+  { form:'〜ならでは（の）', kr:'~이 아니면 안 되는, ~만의', meaning:'〜にしかできない・〜だからこそ', ex:'プロならではの技術。', level:'N1' },
+  { form:'〜いかんで', kr:'~여하에 따라 (결과가 달라짐)', meaning:'〜の状況次第で（結果が変わる）', ex:'結果は努力いかんで変わる。', level:'N1' },
+  { form:'〜いかんによらず', kr:'~여하에 관계없이', meaning:'〜がどうであれ関係なく', ex:'理由いかんによらず遅刻は禁止だ。', level:'N1' },
+  { form:'〜ともあろう者が', kr:'~정도 되는 사람이 (비난·놀람)', meaning:'〜ほどの立場の人が（非難・驚き）', ex:'医者ともあろう者がそんな失敗をするとは。', level:'N1' },
+  { form:'〜ずにはおかない', kr:'반드시 ~하게 만든다', meaning:'必ず〜する・〜せずにいられない', ex:'この映画は感動させずにはおかない。', level:'N1' },
+  { form:'〜をおいて（ほかに）ない', kr:'~밖에 없다 (유일성)', meaning:'〜以外にない・〜しかない', ex:'この役は彼女をおいていない。', level:'N1' },
+  { form:'〜はおろか', kr:'~은 커녕 (그 이상도)', meaning:'〜はもちろん（それ以上のことも）', ex:'漢字はおろかひらがなも書けない。', level:'N1' },
+  { form:'〜にわたる', kr:'~에 걸쳐, ~에 미치는', meaning:'（期間・範囲）に及ぶ', ex:'10年にわたる研究がついに実を結んだ。', level:'N1' },
+  { form:'〜である以上', kr:'~인 이상은 (당연한 의무)', meaning:'〜という条件・立場である限り当然〜', ex:'社会人である以上責任を持つべきだ。', level:'N1' },
+  { form:'〜があっては', kr:'~이 있어서는 안 된다', meaning:'〜という事態は許されない', ex:'ミスがあってはならない。', level:'N1' },
+  { form:'〜いかんによっては', kr:'~에 따라서는 (조건부 가능성)', meaning:'〜の状況によっては（ある結果になることもある）', ex:'天候いかんによっては中止もある。', level:'N1' },
+  { form:'〜ほかない', kr:'~할 수밖에 없다', meaning:'〜するしかない・それ以外に方法がない', ex:'こうなれば諦めるほかない。', level:'N1' },
+  { form:'〜もさることながら', kr:'~도 물론이지만, 더욱이 ~도', meaning:'〜も認めつつ、さらに〜を強調', ex:'技術もさることながら姿勢が大切だ。', level:'N1' },
+  { form:'〜を余儀なくされる', kr:'어쩔 수 없이 ~하게 되다', meaning:'望まないのに〜せざるを得ない', ex:'事故で計画の変更を余儀なくされた。', level:'N1' },
+  { form:'〜をもって', kr:'~으로써, ~을 가지고 (격식체)', meaning:'〜を手段・根拠として（フォーマル）', ex:'実力をもって証明する。', level:'N1' },
 ];
 
 // ═══════════════════════════════════════════
-// 문법 한국어 의미 매핑
+// 앱 상태
 // ═══════════════════════════════════════════
-const GRAMMAR_KR = {
-  '〜をよそに': '~을 무시하고, ~에 관계없이 (주변 상황을 신경 쓰지 않고 행동)',
-  '〜にほかならない': '다름 아닌 ~이다, 바로 ~이다 (강한 단정)',
-  '〜である以上': '~인 이상은, ~인 한 (당연히 ~해야 한다)',
-  '〜に際して': '~에 즈음하여, ~할 때에 (중요한 장면·공식 상황)',
-  '〜があっては': '~이 있어서는 안 된다 (불허·불용의 조건)',
-  '〜をものともせず': '~을 아랑곳하지 않고, ~을 거뜬히 극복하며',
-  '〜もさることながら': '~은 물론이거니와, ~도 그렇지만 (더욱 강조)',
-  '〜ならでは（の）': '~이 아니면 안 되는, ~만의 (유일성·독자성 강조)',
-  '〜いかんで': '~여하에 따라, ~나름으로 (결과가 달라짐)',
-  '〜いかんによらず': '~여하에 관계없이, ~가 어떻든 간에',
-  '〜ともあろう者が': '~정도 되는 사람이 (어울리지 않는 행동에 대한 비난)',
-  '〜ずにはおかない': '반드시 ~하게 만든다, ~하지 않고는 못 배긴다',
-  '〜いかんによっては': '~에 따라서는 (조건부 가능성)',
-  '〜にわたる': '~에 걸쳐, ~에 미치는 (기간·범위)',
-  '〜しさえすれば': '~하기만 하면 된다 (조건을 하나로 좁힘)',
-  '〜ならでは（の）': '~이기에 가능한, ~만의 독자적인',
-  '〜をおいて（ほかに）ない': '~을 제외하고는 없다, ~밖에 없다 (유일성)',
-  '〜はおろか': '~은 커녕 (더 낮은 것을 예로 들어 그 이상도 해당됨)',
-  '〜ともなると': '~정도 되면, ~에 이르면 (지위·규모가 올라갈수록 당연히)',
-  '〜にもとる': '~에 어긋나다, ~에 반하다 (도리·예의 위반)',
-  '〜ことから': '~라는 것에서, ~이기 때문에 (원인·판단 근거)',
-  '〜であるかのように': '마치 ~인 것처럼 (실제는 아니지만)',
-  '〜というのに': '~인데도, ~라는데 (불만·놀람의 역접)',
-  '〜ずにはおかない（使役形）': '반드시 ~하게 만들다 (강제적·필연적 영향)',
-  '〜からには': '~한 이상은, ~하는 이상은 (당연히 ~해야)',
-  '〜のみで': '~만으로, ~뿐으로 (그것만으로는 불충분)',
-  '〜をおして': '~을 무릅쓰고, ~을 강행하여 (신체적 장애·반대를 무시)',
-  '〜をきっかけに': '~을 계기로, ~을 기회 삼아 (변화의 출발점)',
-  '〜ともあろう者が': '~정도 되는 사람이 (어울리지 않는 행동·비난)',
-  '〜となれば': '~이 되면, ~이라면 (그 상황이 되었을 때 당연히)',
-  '〜に至る': '~에 이르다, ~에 달하다 (긴 과정 끝에 결론·상태에 도달)',
-  '〜から〜まで': '~부터 ~까지 (범위·폭의 넓이)',
-  '〜のあまり': '~한 나머지, ~이 지나쳐서 (감정이 너무 강해 예상치 못한 결과)',
-  '〜以上は': '~한 이상은, ~인 이상 (책임·의무 강조, やや書き言葉)',
-  '〜ほかない / 〜ほかはない': '~할 수밖에 없다, 다른 방법이 없다',
-  '〜を余儀なくされる': '~을 어쩔 수 없이 하게 되다 (원치 않는 상황 강제)',
-  '〜をもって': '~으로써, ~을 가지고 (수단·근거, フォーマル)',
-  '〜ずにはおかない（使役形）': '반드시 ~하게 만든다 (강제적 영향)',
-  '〜際には': '~할 때에는, ~의 경우에는 (격식체)',
-  '〜ことから': '~라는 데서, ~이기 때문에 (특성·사실이 근거)',
-  '〜うえで': '~함에 있어서, ~을 고려하면 (판단·행동의 전제)',
-  '〜もが': '누구나, 어디나 (전체 강조)',
-  '〜とあって': '~이라서, ~이기 때문에 (특별한 상황이 원인)',
-  '〜やいなや': '~하자마자, ~하는 것과 동시에 (동작의 즉각성)',
-  '〜としても': '~로서도, ~라는 역할에서도 (복수 측면)',
-  '〜だけに': '~인 만큼, ~이기 때문에 더욱더 (필연적 결과 강조)',
-};
-
-
-let state = {
-  todayQuestions: [],
-  currentIdx: 0,
-  answered: [],
-  sessionDone: false,
-};
+let state = { todayQuestions:[], currentIdx:0, answered:[], sessionDone:false };
 
 function loadStorage() {
-  try {
-    const saved = localStorage.getItem('jlpt_n1_data');
-    return saved ? JSON.parse(saved) : { history: [], wrongIds: [] };
-  } catch(e) { return { history: [], wrongIds: [] }; }
+  try { const s = localStorage.getItem('jlpt_n1_data'); return s ? JSON.parse(s) : {history:[],wrongIds:[]}; }
+  catch(e) { return {history:[],wrongIds:[]}; }
 }
+function saveStorage(d) { localStorage.setItem('jlpt_n1_data', JSON.stringify(d)); }
+function todayKey() { return new Date().toISOString().slice(0,10); }
 
-function saveStorage(data) {
-  localStorage.setItem('jlpt_n1_data', JSON.stringify(data));
-}
-
-function todayKey() {
-  return new Date().toISOString().slice(0,10);
-}
-
-// 오늘 5문제 선택 (문법3 + 독해2) — 날짜 시드 기반으로 일관성 유지
 function pickTodayQuestions() {
   const db = loadStorage();
   const today = todayKey();
-  const existing = db.history.find(h => h.date === today);
-  if (existing) {
+  const existing = db.history.find(h=>h.date===today);
+  if(existing) {
     const ids = existing.qIds;
     const all = [...QUESTION_BANK.grammar, ...QUESTION_BANK.reading];
-    return ids.map(id => all.find(q => q.id === id)).filter(Boolean);
+    return ids.map(id=>all.find(q=>q.id===id)).filter(Boolean);
   }
-
-  const wrongIds = new Set(db.wrongIds || []);
+  const wrongIds = new Set(db.wrongIds||[]);
   const seed = parseInt(today.replace(/-/g,''));
-  const seededRand = (n) => {
-    let x = Math.sin(seed + n) * 10000;
-    return x - Math.floor(x);
-  };
-  const shuffleSeeded = (arr, offset) => {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(seededRand(i + offset) * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
+  const sr = (n) => { let x=Math.sin(seed+n)*10000; return x-Math.floor(x); };
+  const shuffle = (arr, off) => {
+    const a = [...arr].sort((x,y)=>(wrongIds.has(x.id)?0:1)-(wrongIds.has(y.id)?0:1));
+    for(let i=a.length-1;i>0;i--){const j=Math.floor(sr(i+off)*(i+1));[a[i],a[j]]=[a[j],a[i]];}
     return a;
   };
-  const sortByWrong = (arr) => {
-    return [...arr].sort((a,b) => {
-      const wa = wrongIds.has(a.id) ? 0 : 1;
-      const wb = wrongIds.has(b.id) ? 0 : 1;
-      return wa - wb;
-    });
-  };
-
-  const g = shuffleSeeded(sortByWrong(QUESTION_BANK.grammar), 0).slice(0,3);
-  const r = shuffleSeeded(sortByWrong(QUESTION_BANK.reading), 100).slice(0,2);
-
-  // 문법 → 독해 자연스럽게 배치 (g, g, r, g, r)
-  return [g[0], g[1], r[0], g[2], r[1]];
+  const g = shuffle(QUESTION_BANK.grammar, 0).slice(0,3);
+  const r = shuffle(QUESTION_BANK.reading, 100).slice(0,2);
+  return [g[0], g[1], r[0], g[2], r[1]].filter(Boolean);
 }
 
-// ═══════════════════════════════════════════
-// UI
-// ═══════════════════════════════════════════
 function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-  ['quiz','review','grammar-ref'].forEach(id => {
-    document.getElementById('tab-'+id).style.display = id===tab ? 'block' : 'none';
+  ['quiz','review','grammar-ref'].forEach(id=>{
+    document.getElementById('tab-'+id).style.display = id===tab?'block':'none';
   });
   if(tab==='review') renderReview();
   if(tab==='grammar-ref') renderGrammarRef();
@@ -1379,85 +385,61 @@ function switchTab(tab) {
 
 function updateDashboard() {
   const db = loadStorage();
-  const days = db.history.filter(h => h.done).length;
-  const allAns = db.history.flatMap(h => h.answers || []);
-  const correct = allAns.filter(a => a.correct).length;
-  const rate = allAns.length ? Math.round(correct/allAns.length*100) : null;
-  const today = db.history.find(h => h.date === todayKey());
-
+  const days = db.history.filter(h=>h.done).length;
+  const allAns = db.history.flatMap(h=>h.answers||[]);
+  const rate = allAns.length ? Math.round(allAns.filter(a=>a.correct).length/allAns.length*100) : null;
+  const today = db.history.find(h=>h.date===todayKey());
   document.getElementById('dash-days').innerHTML = `${days}<span class="dash-unit">일</span>`;
-  document.getElementById('dash-rate').innerHTML = rate != null ? `${rate}<span class="dash-unit">%</span>` : `<span style="font-size:20px">-</span>`;
+  document.getElementById('dash-rate').innerHTML = rate!=null ? `${rate}<span class="dash-unit">%</span>` : `<span style="font-size:20px">-</span>`;
   document.getElementById('dash-today').innerHTML = today?.done
     ? `<span style="color:var(--correct)">✓</span>`
     : today?.answers?.length
-    ? `${today.answers.length}<span class="dash-unit">/10</span>`
+    ? `${today.answers.length}<span class="dash-unit">/5</span>`
     : `<span style="font-size:16px;color:var(--muted)">未</span>`;
 }
 
 function renderQuiz() {
   const db = loadStorage();
-  const today = db.history.find(h => h.date === todayKey());
-
+  const today = db.history.find(h=>h.date===todayKey());
   state.todayQuestions = pickTodayQuestions();
-  state.answered = today?.answers || [];
-  state.sessionDone = today?.done || false;
-
-  if(state.sessionDone) {
-    renderResult(true);
-    return;
-  }
-
+  state.answered = today?.answers||[];
+  state.sessionDone = today?.done||false;
+  if(state.sessionDone){ renderResult(true); return; }
   state.currentIdx = state.answered.length;
   renderQuestion();
 }
 
 function renderQuestion() {
   const q = state.todayQuestions[state.currentIdx];
-  if(!q) { renderResult(false); return; }
-
+  if(!q){ renderResult(false); return; }
   const isGrammar = q.id.startsWith('g');
   const total = state.todayQuestions.length;
-  const progress = Math.round((state.currentIdx / total) * 100);
+  const progress = Math.round((state.currentIdx/total)*100);
+  const krMeaning = isGrammar ? (GRAMMAR_KR[q.grammar_point]||'') : '';
 
-  let html = `
-    <div class="question-area">
-      <div class="q-meta">
-        <span class="q-badge ${isGrammar ? 'grammar' : 'reading'}">${isGrammar ? '📝 문법 文法' : '📖 독해 読解'}</span>
-        <span class="q-num">${state.currentIdx + 1} / ${total}</span>
-      </div>
-      <div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div>
-      <div class="card">
-  `;
+  let html = `<div class="question-area">
+    <div class="q-meta">
+      <span class="q-badge ${isGrammar?'grammar':'reading'}">${isGrammar?'📝 문법 文法':'📖 독해 読解'}</span>
+      <span class="q-num">${state.currentIdx+1} / ${total}</span>
+    </div>
+    <div class="q-progress-bar"><div class="q-progress-fill" style="width:${progress}%"></div></div>
+    <div class="card">`;
 
-  if(!isGrammar && q.passage) {
-    html += `
-      <div class="passage">
-        <div class="passage-label">본문 · 本文</div>
-        ${q.passage.replace(/\n/g,'<br>')}
-      </div>
-    `;
+  if(!isGrammar && q.passage){
+    html += `<div class="passage"><div class="passage-label">본문 · 本文</div>${q.passage.replace(/\n/g,'<br>')}</div>`;
   }
-
-  html += `<div class="q-text">${q.text || q.question}</div>`;
-
-  html += `<div class="choices">`;
-  q.choices.forEach((c, i) => {
-    html += `
-      <div class="choice" id="choice-${i}" onclick="selectAnswer(${i})">
-        <span class="choice-num">${i+1}</span>
-        <span>${c}</span>
-      </div>`;
+  html += `<div class="q-text">${q.text||q.question}</div>
+  <div class="choices">`;
+  q.choices.forEach((c,i)=>{
+    html += `<div class="choice" id="choice-${i}" onclick="selectAnswer(${i})"><span class="choice-num">${i+1}</span><span>${c}</span></div>`;
   });
-  html += `</div>`;
-
-  html += `
-    <div class="explanation" id="explanation">
-      <div class="exp-label">해설 · 解説</div>
-      ${isGrammar ? `<div class="exp-grammar">${q.grammar_point}</div>${GRAMMAR_KR[q.grammar_point] ? `<div style="font-size:13px;color:var(--blue);font-weight:600;margin:6px 0 14px;padding:8px 14px;background:#eef3fa;border-left:3px solid var(--blue);line-height:1.6">🇰🇷 ${GRAMMAR_KR[q.grammar_point]}</div>` : ''}<br>` : ''}
-      <div class="exp-text">${q.explanation.replace(/\n/g,'<br>')}</div>
-    </div>
-    <div class="btn-row" id="btn-row">
-    </div>
+  html += `</div>
+  <div class="explanation" id="explanation">
+    <div class="exp-label">해설 · 解説</div>
+    ${isGrammar ? `<div class="exp-grammar">${q.grammar_point}</div>${krMeaning?`<div class="exp-kr">🇰🇷 ${krMeaning}</div>`:''}` : ''}
+    <div class="exp-text">${q.explanation.replace(/\n/g,'<br>')}</div>
+  </div>
+  <div class="btn-row" id="btn-row"></div>
   </div></div>`;
 
   document.getElementById('quiz-area').innerHTML = html;
@@ -1465,189 +447,116 @@ function renderQuestion() {
 
 function selectAnswer(idx) {
   const q = state.todayQuestions[state.currentIdx];
-  const isCorrect = idx === q.answer;
-
-  // 선택지 스타일 적용
-  document.querySelectorAll('.choice').forEach((el, i) => {
+  const isCorrect = idx===q.answer;
+  document.querySelectorAll('.choice').forEach((el,i)=>{
     el.classList.add('disabled');
-    if(i === idx) el.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
-    if(i === q.answer && !isCorrect) el.classList.add('show-correct');
+    if(i===idx) el.classList.add(isCorrect?'selected-correct':'selected-wrong');
+    if(i===q.answer && !isCorrect) el.classList.add('show-correct');
   });
-
-  // 해설 표시
   document.getElementById('explanation').classList.add('show');
+  const isLast = state.currentIdx>=state.todayQuestions.length-1;
+  document.getElementById('btn-row').innerHTML = `<button class="btn btn-primary" onclick="nextQuestion()">${isLast?'결과 보기 →':'다음 문제 →'}</button>`;
 
-  // 다음 버튼
-  const isLast = state.currentIdx >= state.todayQuestions.length - 1;
-  document.getElementById('btn-row').innerHTML = `
-    <button class="btn btn-primary" onclick="nextQuestion()">
-      ${isLast ? '결과 보기 →' : '다음 문제 →'}
-    </button>
-  `;
-
-  // 저장
   const db = loadStorage();
-  let todayRecord = db.history.find(h => h.date === todayKey());
-  if(!todayRecord) {
-    todayRecord = { date: todayKey(), qIds: state.todayQuestions.map(q=>q.id), answers: [], done: false };
-    db.history.push(todayRecord);
-  }
-  todayRecord.answers.push({ qId: q.id, selected: idx, correct: isCorrect });
-
-  if(!isCorrect) {
-    if(!db.wrongIds.includes(q.id)) db.wrongIds.push(q.id);
-  } else {
-    db.wrongIds = db.wrongIds.filter(id => id !== q.id);
-  }
-
-  state.answered.push({ qId: q.id, selected: idx, correct: isCorrect });
-  saveStorage(db);
-  updateDashboard();
+  let rec = db.history.find(h=>h.date===todayKey());
+  if(!rec){ rec={date:todayKey(),qIds:state.todayQuestions.map(q=>q.id),answers:[],done:false}; db.history.push(rec); }
+  rec.answers.push({qId:q.id,selected:idx,correct:isCorrect});
+  if(!isCorrect){ if(!db.wrongIds.includes(q.id)) db.wrongIds.push(q.id); }
+  else { db.wrongIds=db.wrongIds.filter(id=>id!==q.id); }
+  state.answered.push({qId:q.id,selected:idx,correct:isCorrect});
+  saveStorage(db); updateDashboard();
 }
 
 function nextQuestion() {
   state.currentIdx++;
-  if(state.currentIdx >= state.todayQuestions.length) {
-    // 세션 완료 처리
-    const db = loadStorage();
-    const todayRecord = db.history.find(h => h.date === todayKey());
-    if(todayRecord) { todayRecord.done = true; saveStorage(db); }
+  if(state.currentIdx>=state.todayQuestions.length){
+    const db=loadStorage(); const rec=db.history.find(h=>h.date===todayKey());
+    if(rec){rec.done=true;saveStorage(db);}
     renderResult(false);
-  } else {
-    renderQuestion();
-  }
+  } else { renderQuestion(); }
   updateDashboard();
 }
 
 function renderResult(isResumed) {
-  const correct = state.answered.filter(a => a.correct).length;
-  const total = state.answered.length;
+  const correct = state.answered.filter(a=>a.correct).length;
+  const total = state.answered.length||1;
   const pct = Math.round(correct/total*100);
-
-  const gCorrect = state.answered.filter((a,i) => a.correct && state.todayQuestions[i]?.id.startsWith('g')).length;
-  const rCorrect = state.answered.filter((a,i) => a.correct && state.todayQuestions[i]?.id.startsWith('r')).length;
-  const gTotal = state.todayQuestions.filter(q => q?.id.startsWith('g')).length;
-  const rTotal = state.todayQuestions.filter(q => q?.id.startsWith('r')).length;
-
-  let emoji = '🎉', msg = '';
-  if(pct >= 90) { emoji='🏆'; msg='완벽합니다! N1 합격이 눈앞에 있습니다.'; }
-  else if(pct >= 70) { emoji='⭐'; msg='좋은 흐름입니다! 매일 꾸준히 이어가세요.'; }
-  else if(pct >= 50) { emoji='📚'; msg='괜찮아요. 틀린 문제를 반드시 복습하세요.'; }
-  else { emoji='💪'; msg='포기하지 마세요! 실수에서 배우는 것이 실력입니다.'; }
-
-  const html = `
+  const gCorrect = state.answered.filter((a,i)=>a.correct&&state.todayQuestions[i]?.id.startsWith('g')).length;
+  const rCorrect = state.answered.filter((a,i)=>a.correct&&state.todayQuestions[i]?.id.startsWith('r')).length;
+  const gTotal = state.todayQuestions.filter(q=>q?.id.startsWith('g')).length;
+  const rTotal = state.todayQuestions.filter(q=>q?.id.startsWith('r')).length;
+  let emoji='🎉', msg='';
+  if(pct>=100){emoji='🏆';msg='완벽합니다! N1 합격이 눈앞에 있습니다。';}
+  else if(pct>=80){emoji='⭐';msg='좋은 흐름입니다! 매일 꾸준히 이어가세요。';}
+  else if(pct>=60){emoji='📚';msg='괜찮아요. 틀린 문제는 오답 복습에서 확인하세요。';}
+  else{emoji='💪';msg='포기하지 마세요! 실수에서 배우는 것이 실력입니다。';}
+  document.getElementById('quiz-area').innerHTML = `
     <div class="card result-screen">
       <div class="result-emoji">${emoji}</div>
-      <div class="result-circle">
-        <div class="result-score" style="color:${pct>=70?'var(--correct)':'var(--red)'}">${pct}</div>
-        <div class="result-denom">点</div>
-      </div>
-      <div class="result-title">오늘의 결과 ${correct} / ${total}</div>
+      <div class="result-circle"><div class="result-score" style="color:${pct>=60?'var(--correct)':'var(--red)'}">${pct}</div><div class="result-denom">점</div></div>
+      <div class="result-title">오늘의 結果 ${correct}/${total}</div>
       <div class="result-msg">${msg}</div>
       <div class="result-breakdown">
-        <div class="rb-item">
-          <div class="rb-label">문법 文法</div>
-          <div class="rb-val" style="color:var(--blue)">${gCorrect}/${gTotal}</div>
-        </div>
-        <div class="rb-item">
-          <div class="rb-label">독해 読解</div>
-          <div class="rb-val" style="color:var(--red)">${rCorrect}/${rTotal}</div>
-        </div>
+        <div class="rb-item"><div class="rb-label">문법 文法</div><div class="rb-val" style="color:var(--blue)">${gCorrect}/${gTotal}</div></div>
+        <div class="rb-item"><div class="rb-label">독해 読解</div><div class="rb-val" style="color:var(--red)">${rCorrect}/${rTotal}</div></div>
       </div>
       <div class="btn-row" style="justify-content:center;gap:16px">
         <button class="btn btn-outline" onclick="switchTab('review')">오답 복습</button>
         <button class="btn btn-outline" onclick="switchTab('grammar-ref')">문법 사전</button>
       </div>
     </div>`;
-  document.getElementById('quiz-area').innerHTML = html;
 }
 
 function renderReview() {
   const db = loadStorage();
-  const allHistory = db.history.flatMap(h => (h.answers||[]).map(a => ({...a, date: h.date})));
-  const wrongAnswers = allHistory.filter(a => !a.correct);
-  const all = [...QUESTION_BANK.grammar, ...QUESTION_BANK.reading];
-
-  if(!wrongAnswers.length) {
-    document.getElementById('review-area').innerHTML = `
-      <div class="empty-state">
-        <div class="empty-jp">完璧</div>
-        <div class="empty-msg">오답이 없습니다!<br>계속 학습해주세요.</div>
-      </div>`;
-    return;
+  const allAns = db.history.flatMap(h=>(h.answers||[]).map(a=>({...a,date:h.date})));
+  const wrong = allAns.filter(a=>!a.correct);
+  if(!wrong.length){
+    document.getElementById('review-area').innerHTML = `<div class="empty-state"><div class="empty-jp">完璧</div><div class="empty-msg">오답이 없습니다!<br>매일 꾸준히 학습하세요。</div></div>`; return;
   }
-
-  // 최근 오답만 (중복 제거)
-  const seen = new Set();
-  const unique = wrongAnswers.filter(a => {
-    if(seen.has(a.qId)) return false;
-    seen.add(a.qId); return true;
-  }).slice(-20).reverse();
-
-  let html = '<div class="review-list">';
-  unique.forEach(ans => {
-    const q = all.find(q => q.id === ans.qId);
-    if(!q) return;
-    const isGrammar = q.id.startsWith('g');
-    html += `
-      <div class="review-item wrong">
-        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
-          <span class="q-badge ${isGrammar?'grammar':'reading'}" style="font-size:10px;padding:2px 8px">${isGrammar?'文法':'読解'}</span>
-          <span style="font-size:11px;color:var(--muted)">${ans.date}</span>
-        </div>
-        ${!isGrammar && q.passage ? `<div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.7">${q.passage.slice(0,100)}…</div>` : ''}
-        <div class="review-q">${q.text||q.question}</div>
-        <div class="review-ans">
-          내 답: <span class="wrong-ans">❌ ${q.choices[ans.selected]}</span><br>
-          정답: <span class="correct-ans">✅ ${q.choices[q.answer]}</span>
-        </div>
-        ${isGrammar ? `<div style="margin-top:10px;padding:10px;background:var(--washi);font-size:12px;line-height:1.7"><b>${q.grammar_point}</b><br>${q.explanation.split('\n')[0]}</div>` : ''}
-      </div>`;
+  const seen=new Set();
+  const unique=wrong.filter(a=>{if(seen.has(a.qId))return false;seen.add(a.qId);return true;}).slice(-20).reverse();
+  const all=[...QUESTION_BANK.grammar,...QUESTION_BANK.reading];
+  let html='<div class="review-list">';
+  unique.forEach(ans=>{
+    const q=all.find(q=>q.id===ans.qId); if(!q) return;
+    const isG=q.id.startsWith('g');
+    html+=`<div class="review-item wrong">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+        <span class="q-badge ${isG?'grammar':'reading'}" style="font-size:10px;padding:2px 8px">${isG?'문법 文法':'독해 読解'}</span>
+        <span style="font-size:11px;color:var(--muted)">${ans.date}</span>
+      </div>
+      <div class="review-q">${q.text||q.question}</div>
+      <div class="review-ans">내 답: <span class="wrong-ans">❌ ${q.choices[ans.selected]}</span><br>정답: <span class="correct-ans">✅ ${q.choices[q.answer]}</span></div>
+      ${isG?`<div style="margin-top:10px;padding:10px;background:var(--washi);font-size:12px;line-height:1.7"><b>${q.grammar_point}</b>${GRAMMAR_KR[q.grammar_point]?`<br><span style="color:var(--blue)">🇰🇷 ${GRAMMAR_KR[q.grammar_point]}</span>`:''}${q.explanation?`<br><br>${q.explanation.split('\n')[0]}`:''}` : ''}
+    </div>`;
   });
-  html += '</div>';
+  html+='</div>';
   document.getElementById('review-area').innerHTML = html;
 }
 
 function renderGrammarRef() {
-  let html = `<div style="margin-bottom:20px">
-    <input id="grammar-search" type="text" placeholder="문법 검색... (예: をよそに)"
-      oninput="filterGrammar(this.value)"
-      style="width:100%;padding:12px 16px;border:1.5px solid var(--border);background:white;font-size:13px;font-family:inherit;outline:none;border-radius:2px">
-  </div>
-  <div id="grammar-list" class="review-list">`;
-
-  GRAMMAR_REF.forEach(g => {
-    html += `
-      <div class="review-item correct" data-form="${g.form}" data-meaning="${g.meaning}">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-          <span style="font-family:'Shippori Mincho',serif;font-size:16px;font-weight:700;color:var(--ink)">${g.form}</span>
-          <span class="q-badge grammar" style="font-size:10px;padding:2px 8px">${g.level}</span>
-        </div>
-        <div style="font-size:13px;color:var(--muted);margin-bottom:8px">${g.meaning}</div>
-        <div style="font-family:'Noto Serif JP',serif;font-size:13px;color:#3a3220;padding:8px 12px;background:var(--washi);border-left:2px solid var(--gold)">${g.ex}</div>
-      </div>`;
-  });
-  html += '</div>';
+  let html = `<input id="gs" type="text" placeholder="문법 검색... (예: をよそに, 무시)"
+    oninput="filterGrammar(this.value)"
+    style="width:100%;padding:12px 16px;border:1.5px solid var(--border);background:white;font-size:13px;font-family:inherit;outline:none;border-radius:2px;margin-bottom:16px">
+  <div id="gr-list" class="grammar-ref-list"></div>`;
   document.getElementById('grammar-ref-area').innerHTML = html;
+  filterGrammar('');
 }
 
 function filterGrammar(val) {
-  const items = document.querySelectorAll('#grammar-list .review-item');
-  items.forEach(item => {
-    const form = item.dataset.form || '';
-    const meaning = item.dataset.meaning || '';
-    item.style.display = (form+meaning).includes(val) ? 'block' : 'none';
-  });
+  const v = val.toLowerCase();
+  const items = v ? GRAMMAR_REF.filter(g=>g.form.includes(v)||g.meaning.includes(v)||(g.kr||'').includes(v)) : GRAMMAR_REF;
+  document.getElementById('gr-list').innerHTML = items.map(g=>`
+    <div class="gr-item">
+      <div class="gr-form">${g.form} <span style="font-size:11px;padding:2px 8px;background:var(--ink);color:var(--paper);margin-left:8px">${g.level}</span></div>
+      ${g.kr?`<div class="gr-kr">🇰🇷 ${g.kr}</div>`:''}
+      <div class="gr-meaning">${g.meaning}</div>
+      <div class="gr-ex">${g.ex}</div>
+    </div>`).join('')||`<div class="empty-state"><div class="empty-msg">검색 결과가 없습니다。</div></div>`;
 }
 
-// ═══════════════════════════════════════════
-// 초기화
-// ═══════════════════════════════════════════
-function init() {
-  updateDashboard();
-  renderQuiz();
-}
-
+function init() { updateDashboard(); renderQuiz(); }
 init();
 </script>
 </body>
